@@ -7,7 +7,7 @@
             <div class="widget-body">
                 <div class="widget-main no-padding">
                     <form class="form-horizontal" id="update-train-form" method="post">
-                    <input type="hidden" name="train_id" value="<?php echo $trainInfo->id;?>">
+                        <input type="hidden" name="train_id" value="<?php echo $trainInfo->id;?>">
                         <fieldset>
                             <h5 class="header smaller lighter red">
                                 <i class="ace-icon fa fa-bullhorn"></i>
@@ -182,55 +182,54 @@
                                     เพิ่มข้อมูล</a>
                             </h5>
                             <div class="col-lg-12"><span id="success-msg"></span></div>
-                            
-                                <table class="table table-striped table-bordered" style="width:100%"
-                                    id="add_user_field">
-                                    <thead>
-                                        <tr>
-                                            <th width="5%" class="center">ลำดับ</th>    
-                                            <th width="35%">ชื่อผู้ไปราชการ</th>
-                                            <th width="20%">สถานะ</th>
-                                            <th width="20%" class="hidden-768">หมายเหตุ</th>
-                                            <th width="10%" class="center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $no=1; foreach ($userInfo as $user) { ?>
-                                        <tr>
-                                            <td class="center">
-                                                <?php echo $no;?>
-             
-                                            </td>
-                                            <td>
-                                                <?php echo get_instance()->user_model->getUsername($user->hospcode);?>
-             
-                                            </td>
-                                            <td>
-                                                <?php echo get_instance()->plan_model->getUserMission($user->status);?>
-                                                
-                                            </td>
-                                            <td class="hidden-768"> <?php echo $user->doc;?>
-                                            </td>
-                                            <td class="center">
-                                                <a title="ลบ" href="javascript:void(0);"
-                                                    data-getid="<?php echo $user->id;?>" data-toggle="modal"
-                                                    data-target="#del-trainuser"
-                                                    class="del-trainuser-details btn btn-danger btn-xs"><i
-                                                        class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                        <?php $no++;} ?>
-                                    </tbody>
-                                    
-                                    
-                                </table>
-                            
+
+                            <table class="table table-striped table-bordered" style="width:100%" id="add_user_field">
+                                <thead>
+                                    <tr>
+                                        <th width="5%" class="center">ลำดับ</th>
+                                        <th width="35%">ชื่อผู้ไปราชการ</th>
+                                        <th width="20%">สถานะ</th>
+                                        <th width="20%" class="hidden-768">หมายเหตุ</th>
+                                        <th width="10%" class="center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $no=1; foreach ($userInfo as $user) { ?>
+                                    <tr>
+                                        <td class="center">
+                                            <?php echo $no;?>
+
+                                        </td>
+                                        <td>
+                                            <?php echo get_instance()->user_model->getUsername($user->hospcode);?>
+
+                                        </td>
+                                        <td>
+                                            <?php echo get_instance()->plan_model->getUserMission($user->status);?>
+
+                                        </td>
+                                        <td class="hidden-768"> <?php echo $user->doc;?>
+                                        </td>
+                                        <td class="center">
+                                            <a title="ลบ" href="javascript:void(0);"
+                                                data-getid="<?php echo $user->id;?>" data-toggle="modal"
+                                                data-target="#del-trainuser"
+                                                class="del-trainuser-details btn btn-danger btn-xs"><i
+                                                    class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?php $no++;} ?>
+                                </tbody>
+
+
+                            </table>
+
                             <h5 class="header smaller lighter red">
                                 <i class="ace-icon fa fa-bullhorn"></i>
                                 รายละเอียดค่าใช้จ่าย
                             </h5>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right" for="input-train-allowance">
+                                <label class="col-sm-2 control-label no-padding-right" for="allowance">
                                     ค่าเบี้ยเลี้ยง :
                                 </label>
                                 <div class="col-sm-10">
@@ -238,15 +237,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-usd" aria-hidden="true"></i>
                                         </span>
-                                        <input type="number" name="train_allowance"
-                                            class="form-control input-sm input-train-allowance prc"
-                                            id="input-train-allowance" autocomplete="off"
+                                        <input type="text" name="train_allowance" class="form-control input-sm"
+                                            id="allowance" autocomplete="off"
                                             value="<?php echo $expensesInfo->allowance; ?>" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right" for="input-train-hostel">
+                                <label class="col-sm-2 control-label no-padding-right" for="hostel">
                                     ค่าที่พัก :
                                 </label>
                                 <div class="col-sm-10">
@@ -254,14 +252,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-usd" aria-hidden="true"></i>
                                         </span>
-                                        <input type="number" name="train_hostel"
-                                            class="form-control input-sm input-train-hostel prc" id="input-train-hostel"
-                                            autocomplete="off" value="<?php echo $expensesInfo->hostel; ?>" />
+                                        <input type="text" name="train_hostel" class="form-control input-sm"
+                                            id="hostel" autocomplete="off"
+                                            value="<?php echo $expensesInfo->hostel; ?>" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right" for="input-train-traveling">
+                                <label class="col-sm-2 control-label no-padding-right" for="traveling">
                                     ค่าพาหนะ :
                                 </label>
                                 <div class="col-sm-10">
@@ -269,15 +267,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-usd" aria-hidden="true"></i>
                                         </span>
-                                        <input type="number" name="train_traveling"
-                                            class="form-control input-sm input-train-traveling prc"
-                                            id="input-train-traveling" autocomplete="off"
+                                        <input type="text" name="train_traveling"
+                                            class="form-control input-sm" id="traveling" autocomplete="off"
                                             value="<?php echo $expensesInfo->traveling; ?>" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right" for="input-train-oilPrice">
+                                <label class="col-sm-2 control-label no-padding-right" for="oilPrice">
                                     ค่าน้ำมัน :
                                 </label>
                                 <div class="col-sm-10">
@@ -285,15 +282,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-usd" aria-hidden="true"></i>
                                         </span>
-                                        <input type="number" name="train_oilPrice"
-                                            class="form-control input-sm input-train-oilPrice prc"
-                                            id="input-train-oilPrice" autocomplete="off"
+                                        <input type="text" name="train_oilPrice" class="form-control input-sm"
+                                            id="oilPrice" autocomplete="off"
                                             value="<?php echo $expensesInfo->oil; ?>" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right" for="input-train-otherValues">
+                                <label class="col-sm-2 control-label no-padding-right" for="otherValues">
                                     ค่าอื่นๆ :
                                 </label>
                                 <div class="col-sm-10">
@@ -301,20 +297,23 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-usd" aria-hidden="true"></i>
                                         </span>
-                                        <input type="number" name="train_otherValues"
-                                            class="form-control input-sm input-train-otherValues prc"
-                                            id="input-train-otherValues" autocomplete="off"
+                                        <input type="text" name="train_otherValues" class="form-control input-sm"
+                                            id="otherValues" autocomplete="off"
                                             value="<?php echo $expensesInfo->other; ?>" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right"><B>
-                                        รวมทั้งหมด :</B>
+                                <label class="col-sm-2 control-label no-padding-right" for="sum">
+                                    รวมทั้งหมด :
                                 </label>
                                 <div class="col-sm-10">
                                     <div class="input-group">
-                                        <label><B><output id="result"></output></B></label>
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-usd" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="text" name="sum" class="form-control input-sm"
+                                            id="sum" disabled/>
                                     </div>
                                 </div>
                             </div>

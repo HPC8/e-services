@@ -760,16 +760,24 @@ $.validate({
     }
 });
 
-$('.form-group').on('input', '.prc', function () {
-    var totalSum = 0;
-    var text = "";
-    var bath  = " บาท";
-    $('.form-group .prc').each(function () {
-        var inputVal = $(this).val();
-        if ($.isNumeric(inputVal)) {
-            totalSum += parseFloat(inputVal);
-            text = totalSum.toLocaleString()+bath ;
-        } 
+
+$(document).ready(function () {
+    //this calculates values automatically 
+    sum();
+    $("#allowance, #hostel, #traveling, #oilPrice, #otherValues").on("keydown keyup", function () {
+        sum();
     });
-    $('#result').val(text);
 });
+
+function sum() {
+    var num1 = document.getElementById('allowance').value;
+    var num2 = document.getElementById('hostel').value;
+    var num3 = document.getElementById('traveling').value;
+    var num4 = document.getElementById('oilPrice').value;
+    var num5 = document.getElementById('otherValues').value;
+    var result = parseFloat(num1) + parseFloat(num2) + parseFloat(num3) + parseFloat(num4) + parseFloat(num5);
+    var bath  = result.toLocaleString()+"  บาท";
+    document.getElementById('sum').value = bath;
+}
+
+

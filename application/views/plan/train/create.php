@@ -224,7 +224,7 @@
                                 รายละเอียดค่าใช้จ่าย
                             </h5>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right" for="input-train-allowance">
+                                <label class="col-sm-2 control-label no-padding-right" for="allowance">
                                     ค่าเบี้ยเลี้ยง :
                                 </label>
                                 <div class="col-sm-10">
@@ -232,14 +232,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-usd" aria-hidden="true"></i>
                                         </span>
-                                        <input type="number" name="train_allowance"
-                                            class="form-control input-sm input-train-allowance prc"
-                                            id="input-train-allowance" autocomplete="off" value="0" />
+                                        <input type="text" name="train_allowance"
+                                            class="form-control input-sm"
+                                            id="allowance" autocomplete="off" value="0" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right" for="input-train-hostel">
+                                <label class="col-sm-2 control-label no-padding-right" for="hostel">
                                     ค่าที่พัก :
                                 </label>
                                 <div class="col-sm-10">
@@ -247,14 +247,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-usd" aria-hidden="true"></i>
                                         </span>
-                                        <input type="number" name="train_hostel"
-                                            class="form-control input-sm input-train-hostel prc" id="input-train-hostel"
+                                        <input type="text" name="train_hostel"
+                                            class="form-control input-sm" id="hostel"
                                             autocomplete="off" value="0" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right" for="input-train-traveling">
+                                <label class="col-sm-2 control-label no-padding-right" for="traveling">
                                     ค่าพาหนะ :
                                 </label>
                                 <div class="col-sm-10">
@@ -262,14 +262,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-usd" aria-hidden="true"></i>
                                         </span>
-                                        <input type="number" name="train_traveling"
-                                            class="form-control input-sm input-train-traveling prc"
-                                            id="input-train-traveling" autocomplete="off" value="0" />
+                                        <input type="text" name="train_traveling"
+                                            class="form-control input-sm"
+                                            id="traveling" autocomplete="off" value="0" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right" for="input-train-oilPrice">
+                                <label class="col-sm-2 control-label no-padding-right" for="oilPrice">
                                     ค่าน้ำมัน :
                                 </label>
                                 <div class="col-sm-10">
@@ -277,14 +277,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-usd" aria-hidden="true"></i>
                                         </span>
-                                        <input type="number" name="train_oilPrice"
-                                            class="form-control input-sm input-train-oilPrice prc"
-                                            id="input-train-oilPrice" autocomplete="off" value="0" />
+                                        <input type="text" name="train_oilPrice"
+                                            class="form-control input-sm"
+                                            id="oilPrice" autocomplete="off" value="0" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right" for="input-train-otherValues">
+                                <label class="col-sm-2 control-label no-padding-right" for="otherValues">
                                     ค่าอื่นๆ :
                                 </label>
                                 <div class="col-sm-10">
@@ -292,19 +292,23 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-usd" aria-hidden="true"></i>
                                         </span>
-                                        <input type="number" name="train_otherValues"
-                                            class="form-control input-sm input-train-otherValues prc"
-                                            id="input-train-otherValues" autocomplete="off" value="0" />
+                                        <input type="text" name="train_otherValues"
+                                            class="form-control input-sm"
+                                            id="otherValues" autocomplete="off" value="0" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right"><B>
-                                        รวมทั้งหมด :</B>
+                                <label class="col-sm-2 control-label no-padding-right" for="sum">
+                                    รวมทั้งหมด :
                                 </label>
                                 <div class="col-sm-10">
                                     <div class="input-group">
-                                        <label><B><output id="result"></output></B></label>
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-usd" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="text" name="sum" class="form-control input-sm"
+                                            id="sum" disabled/>
                                     </div>
                                 </div>
                             </div>
