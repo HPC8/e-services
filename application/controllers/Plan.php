@@ -24,6 +24,12 @@ class Plan extends CI_Controller {
             );
             $data['breadcrumb']=$breadcrumb;
             $data['mylibrary']=$this->my_library;
+            $data['thaidate']=$this->thaidate;
+            $data['getTrain']=$this->plan_model->getTrain();
+            // echo '<pre>';
+            // print_r($data);
+            // echo '</pre>';
+            // exit; 
             $this->template->load('layout/template', 'plan/train/index', $data);
         }
 
@@ -32,7 +38,7 @@ class Plan extends CI_Controller {
         }
     }
 
-    public function train() {
+    public function trainCreate() {
         $data=array();
 
         if($this->session->userdata('isUserLoggedIn')) {
@@ -91,6 +97,41 @@ class Plan extends CI_Controller {
             redirect('users/login');
         }
     }
+    public function checkPlan($id=null) {
+        $data=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $data['page_title']='ขออนุมัติไปราชการ';
+            $breadcrumb=array("Home"=> "/e-services/",
+                "ไปราชการ-จัดประชุม"=> "/e-services/plan/",
+                "ขออนุมัติไปราชการ"=> ""
+            );
+            $data['breadcrumb']=$breadcrumb;
+            $data['mylibrary']=$this->my_library;
+            $data['amount']=$this->employee_model->list_employee();
+            $this->plan_model->setTrainId($id);
+            $data['trainInfo']=$this->plan_model->tblTrain();
+            $data['userReport']=$this->plan_model->trainReport();
+            $data['userInfo']=$this->plan_model->tblTrainUser();
+            $data['expensesInfo']=$this->plan_model->tblTrainExpenses();
+            $data['statusInfo']=$this->plan_model->tblTrainMission();
+
+            if ( !empty($data['trainInfo'])) {
+                $this->template->load('layout/template', 'plan/train/checkPlan', $data);
+            }
+
+            else {
+                redirect('plan/trainList/');
+            }
+
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+    
 
     public function deleteTrinUser() {
         $data=array();

@@ -221,6 +221,39 @@ class Plan_model extends CI_Model {
         return $query->result();
     }
 
+    public function getTrain() {
+        $this->db->select('*');
+        $this->db->from($this->tblTrain);
+        $this->db->order_by('id', 'DESC');
+        $query=$this->db->get();
+        return $query->result();
+    }
+
+    public function checkStatus($status) {
+        if($status==1) {
+            return $status='<span class="label label-sm label-warning arrowed arrowed-right"><i class="fa fa-spinner"> บันทึกข้อมูล</i></span>';
+        }
+
+        elseif($status==2) {
+            return $status='<span class="label label-sm label-success arrowed arrowed-right"><i class="fa fa-check"> รอตรวจแผน</i></span>';
+        }
+
+        elseif($status==3) {
+            return $status='<span class="label label-sm label-info arrowed arrowed-right"><i class="fa fa-paper-plane-o"> เงินรอตรวจสอบ</i></span>';
+        }
+
+        elseif($status==4) {
+            return $status='<span class="label label-sm label-purple arrowed arrowed-right"><i class="fa fa-repeat"> รออนุมัติ</i></span>';
+        }
+
+        elseif($status==5) {
+            return $status='<span class="label label-sm label-danger arrowed arrowed-right"><i class="fa fa-times"> ไม่อนุมัติ</i></span>';
+        }
+
+        else {
+            return $status='<span class="label label-sm label-pink arrowed arrowed-right"><i class="fa fa-sign-out"> ยกเลิก</i></span>';
+        }
+    }
 
 
 

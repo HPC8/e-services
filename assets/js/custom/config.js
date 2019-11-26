@@ -32,6 +32,7 @@ jQuery(function () {
     jQuery('#date-pro-start').datetimepicker({
         format: 'Y-m-d',           
         lang: 'th',
+        scrollMonth : false,
         onShow: function (ct) {
             this.setOptions({
                 maxDate: jQuery('#date-pro-end').val() ? jQuery('#date-pro-end').val() : false
@@ -42,6 +43,7 @@ jQuery(function () {
     jQuery('#date-pro-end').datetimepicker({
         format: 'Y-m-d',         
         lang: 'th',
+        scrollMonth : false,
         onShow: function (ct) {
             this.setOptions({
                 minDate: jQuery('#date-pro-start').val() ? jQuery('#date-pro-start').val() : false
@@ -55,6 +57,7 @@ jQuery(function () {
     jQuery('#date-mtg-start').datetimepicker({
         format: 'Y-m-d',           
         lang: 'th',
+        scrollMonth : false,
         onShow: function (ct) {
             this.setOptions({
                 maxDate: jQuery('#date-mtg-end').val() ? jQuery('#date-mtg-end').val() : false
@@ -65,6 +68,7 @@ jQuery(function () {
     jQuery('#date-mtg-end').datetimepicker({
         format: 'Y-m-d',         
         lang: 'th',
+        scrollMonth : false,
         onShow: function (ct) {
             this.setOptions({
                 minDate: jQuery('#date-mtg-start').val() ? jQuery('#date-mtg-start').val() : false
@@ -79,6 +83,7 @@ jQuery(function () {
     jQuery('#input-train-start').datetimepicker({
         format: 'Y-m-d',           
         lang: 'th',
+        scrollMonth : false,
         onShow: function (ct) {
             this.setOptions({
                 maxDate: jQuery('#input-train-end').val() ? jQuery('#input-train-end').val() : false
@@ -89,6 +94,7 @@ jQuery(function () {
     jQuery('#input-train-end').datetimepicker({
         format: 'Y-m-d',         
         lang: 'th',
+        scrollMonth : false,
         onShow: function (ct) {
             this.setOptions({
                 minDate: jQuery('#input-train-start').val() ? jQuery('#input-train-start').val() : false
@@ -103,6 +109,7 @@ jQuery(function () {
     jQuery('#input-train-travel-start').datetimepicker({
         format: 'Y-m-d',           
         lang: 'th',
+        scrollMonth : false,
         onShow: function (ct) {
             this.setOptions({
                 maxDate: jQuery('#input-train-travel-end').val() ? jQuery('#input-train-travel-end').val() : false
@@ -113,6 +120,7 @@ jQuery(function () {
     jQuery('#input-train-travel-end').datetimepicker({
         format: 'Y-m-d',         
         lang: 'th',
+        scrollMonth : false,
         onShow: function (ct) {
             this.setOptions({
                 minDate: jQuery('#input-train-travel-start').val() ? jQuery('#input-train-travel-start').val() : false
