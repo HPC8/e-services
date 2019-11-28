@@ -9,7 +9,7 @@ class User_model extends CI_Model {
         $this->userHR='tbl_user_hr';
         $this->tbl_sex='tbl_sex';
         $this->userPlan='tbl_user_plan';
-
+        $this->userPlanTrain='tbl_user_plan_train';
     }
 
     private $_hospcode;
@@ -97,6 +97,11 @@ class User_model extends CI_Model {
         $query=$this->db->get_where($this->userHR, array('hospcode'=> $hospcode));
         return $query->result();
     }
+    public function adminPlanTrain($hospcode) {
+        $query=$this->db->get_where($this->userPlanTrain, array('hospcode'=> $hospcode));
+        return $query->row();
+    }
+    
 
     public function userPlan($hospcode) {
         $query=$this->db->get_where($this->userPlan, array('hospcode'=> $hospcode));

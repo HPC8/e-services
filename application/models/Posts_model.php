@@ -38,7 +38,7 @@ class Posts_model extends CI_Model {
         $this->db->select('*');
         $this->db->from($this->tblPost);
         $this->db->join($this->tblTitle, $this->tblTitle.'.title_id = '.$this->tblPost.'.title_id', 'left');
-        $this->db->order_by('id', 'ASC');
+        $this->db->order_by('id', 'DESC');
         $query=$this->db->get();
         return $query->result();
     }

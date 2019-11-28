@@ -54,10 +54,10 @@
                                         </span>
                                         <input type="text" name="train_hospcode"
                                             class="form-control input-sm input-train-hospcode" id="input-train-hospcode"
-                                            value="<?php echo $user['titlename'].$user['firstname'].' '.$user['lastname']; ?>"
+                                            value="<?php echo get_instance()->user_model->getUsername($trainInfo->hospcode);?>"
                                             disabled>
                                         <input type="hidden" id="hospcode" name="hospcode"
-                                            value="<?php echo $user['hospcode']; ?>">
+                                            value="<?php echo $trainInfo->hospcode; ?>">
                                     </div>
                                 </div>
                             </div>

@@ -97,6 +97,9 @@
         </div>
     </div>
 </div>
-</div><a title="View" href="javascript:void(0);" id="view-welcome-auto" data-geteid="" data-toggle="modal"
-    data-target="#view-welcome"></a><?php $this->load->view('popup');
+
+<a title="View" href="javascript:void(0);" id="view-post-auto" data-getid="<?php echo $postId->id;?>" data-toggle="modal"
+    data-target="#view-post" class="view-post"></a>
+<?php 
+    $this->load->view('postView');
 ?>

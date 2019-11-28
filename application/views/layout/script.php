@@ -78,6 +78,7 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/project/activity.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/project/program.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/posts.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/welcome.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/location.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/emp.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/user.js"></script>
@@ -89,7 +90,7 @@
 
 
 <script type="text/javascript">
-	$($('#view-welcome-auto').click());
+	$($('#view-post-auto').click());
 	$($('#view-alerts-auto').click());
 	$($('#view-success-auto').click());
 	$($('#alerts-tabel-auto').click());

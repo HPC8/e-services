@@ -68,6 +68,7 @@ class Plan extends CI_Controller {
 
         if($this->session->userdata('isUserLoggedIn')) {
             $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $data['admin_level']=$this->user_model->adminPlanTrain($data['user']['hospcode']);
             $data['page_title']='ขออนุมัติไปราชการ';
             $breadcrumb=array("Home"=> "/e-services/",
                 "ไปราชการ-จัดประชุม"=> "/e-services/plan/",
@@ -84,12 +85,37 @@ class Plan extends CI_Controller {
             $data['statusInfo']=$this->plan_model->tblTrainMission();
 
             if ( !empty($data['trainInfo'])) {
-                $this->template->load('layout/template', 'plan/train/edit', $data);
+                if($data['trainInfo']->status=="1") {
+                    if($data['trainInfo']->hospcode==$data['user']['hospcode']) {
+                        $this->template->load('layout/template', 'plan/train/edit', $data);
+                    }
+                    else {
+                        $popup=array('msg'=> 1,
+                            'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        );
+                        $this->session->set_userdata($popup);
+                        redirect('plan/trainList/');
+                    }
+                }
+                elseif($data['trainInfo']->status=="2"){
+                    if($data['admin_level']){
+
+                    }
+                }
+                else {
+                    $popup=array('msg'=> 1,
+                        'detail'=> 'ใบงานนี้อยู่ระหว่างดำเนินการ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                    $this->session->set_userdata($popup);
+                    redirect('plan/trainList/');
+                }
             }
 
             else {
+                
                 redirect('plan/trainList/');
             }
+
 
         }
 
@@ -97,6 +123,7 @@ class Plan extends CI_Controller {
             redirect('users/login');
         }
     }
+
     public function checkPlan($id=null) {
         $data=array();
 
@@ -131,7 +158,7 @@ class Plan extends CI_Controller {
             redirect('users/login');
         }
     }
-    
+
 
     public function deleteTrinUser() {
         $data=array();
