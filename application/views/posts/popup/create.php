@@ -1,5 +1,5 @@
 <div class="modal fade rotate" id="add-post" style="display:none;">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <form id="add-post-form" enctype="multipart/form-data" method="post" accept-charset="utf-8">
             <div class="modal-content panel panel-default">
                 <div class="modal-header panel-heading">
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label><strong>รายละเอียด</strong></label>
@@ -39,6 +39,14 @@
                                     <textarea name="post_content" id="post-content"
                                         class="form-control input-post-content" rows="3"></textarea>
                                 </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label><strong>รายละเอียด</strong></label>
+                                <textarea name="post_content" id="post-content"></textarea>
                             </div>
                         </div>
                     </div>
