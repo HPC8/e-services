@@ -2,6 +2,8 @@ var baseurl = "https://apps.anamai.moph.go.th/e-services/";
 
 //post-content
 tinymce.init({
+    mode : "textareas",
+    theme : "advanced",
     selector: "#post-content",theme: "modern",height: 200,
     plugins: [
          "advlist autolink link image lists charmap print preview hr anchor pagebreak",

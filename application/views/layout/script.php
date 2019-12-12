@@ -71,6 +71,10 @@
 <script>
 	var baseurl = "<?php echo site_url(); ?>";
 </script>
+<!-- plugin tinymce -->
+<script type="text/javascript" src="<?php echo base_url()?>assets/plugin/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/tinymce.js"></script>
+
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/datetimepicker.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/config.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/project/plan.js"></script>
@@ -88,9 +92,7 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/charts/loader.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/charts/chartEmp.js"></script>
 
-<!-- plugin tinymce -->
-<script type="text/javascript" src="<?php echo base_url()?>assets/plugin/tinymce/tinymce.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/tinymce.js"></script>
+
 
 <script type="text/javascript">
 	$($('#view-post-auto').click());

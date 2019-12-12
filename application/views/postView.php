@@ -20,7 +20,7 @@
                                 id="next-post-id">Next <i class="fa fa-angle-double-right"
                                     aria-hidden="true"></i></button>
                             <button type="button" class="btn btn-sm btn-danger btn-round" data-dismiss="modal">
-                                <i class="ace-icon fa fa-times bigger-125"></i>ยกเลิก</button>
+                                <i class="ace-icon fa fa-times bigger-125"></i>Close</button>
                         </div>
                     </div>
                 </div>

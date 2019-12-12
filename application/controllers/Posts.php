@@ -79,6 +79,8 @@ class Posts extends CI_Controller {
                 $json['error']['content']='กรุณากรอกข้อมูล';
             }
 
+           // print_r($post_content);
+
             if(empty($json['error'])) {
                 $this->posts_model->setTitleId($post_title_id);
                 $this->posts_model->setContent($post_content);
@@ -92,16 +94,16 @@ class Posts extends CI_Controller {
                     var_dump($e->getMessage());
                 }
 
-                if ( !empty($last_id) && $last_id > 0) {
-                    $postId=$last_id;
-                    $this->posts_model->setPostId($postId);
-                    $postInfo=$this->posts_model->getPost();
+                // if ( !empty($last_id) && $last_id > 0) {
+                //     $postId=$last_id;
+                //     $this->posts_model->setPostId($postId);
+                //     $postInfo=$this->posts_model->getPost();
 
-                    $json['id']=$postInfo->id;
-                    $json['title_id']=$postInfo->title_id;
-                    $json['content']=$postInfo->content;
-                    //$json['upload']=$postInfo->upload;
-                }
+                //     $json['id']=$postInfo->id;
+                //     $json['title_id']=$postInfo->title_id;
+                //     $json['content']=$postInfo->content;
+                //     //$json['upload']=$postInfo->upload;
+                // }
             }
 
             echo json_encode($json);

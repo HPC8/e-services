@@ -1,8 +1,12 @@
 //Posts Add
 jQuery(document).on('click', 'button#add-post', function() {
+    //var editor='post-content';
+    var content =tinyMCE.activeEditor.getContent();
+   // alert(content);
     var formData = new FormData();
     formData.append('post_title_id', jQuery('form#add-post-form').find('.input-post-title-id').val());
-    formData.append('post_content', jQuery('form#add-post-form').find('.input-post-content').val());
+    formData.append('post_content', content);
+    //formData.append('post_content', jQuery('form#add-post-form').find('.input-post-content').val());
     formData.append('post_uplfile', jQuery('form#add-post-form').find('input.input-post-uplfile')[0].files[0]);
     jQuery.ajax({
         url:baseurl+'posts/savePost',
