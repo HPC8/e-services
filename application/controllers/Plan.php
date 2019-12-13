@@ -89,6 +89,7 @@ class Plan extends CI_Controller {
                     if($data['trainInfo']->hospcode==$data['user']['hospcode']) {
                         $this->template->load('layout/template', 'plan/train/edit', $data);
                     }
+
                     else {
                         $popup=array('msg'=> 1,
                             'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
@@ -97,11 +98,12 @@ class Plan extends CI_Controller {
                         redirect('plan/trainList/');
                     }
                 }
-                elseif($data['trainInfo']->status=="2"){
-                    if($data['admin_level']){
 
-                    }
-                }
+                // elseif($data['trainInfo']->status=="2") {
+                //     echo 'status = '.$data['trainInfo']->status;
+                //     if($data['admin_level']) {}
+                // }
+
                 else {
                     $popup=array('msg'=> 1,
                         'detail'=> 'ใบงานนี้อยู่ระหว่างดำเนินการ กรุณาติดต่อผู้ดูแลระบบครับ!',
@@ -112,7 +114,7 @@ class Plan extends CI_Controller {
             }
 
             else {
-                
+
                 redirect('plan/trainList/');
             }
 
@@ -424,6 +426,32 @@ class Plan extends CI_Controller {
             }
 
             echo json_encode($json);
+
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+
+    public function confirmTrain() {
+        $data=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $train_id=$this->input->post('train_id');
+            
+            $this->plan_model->setTrainId($train_id);
+            $this->plan_model->setHospcode($data['user']['hospcode']);
+
+            $confirm=$this->plan_model->confirmTrain();
+
+            $popup=array('msg'=> 0,
+                'detail'=> 'ระบบทำการยืนยันเรียบร้อย',
+            );
+            $this->session->set_userdata($popup);
+
+            echo json_encode($data);
 
         }
 

@@ -336,6 +336,11 @@
                                     id="update-train"><i
                                         class="ace-icon fa fa-floppy-o bigger-125"></i></i>บันทึก</button>
                             </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-primary btn-round" data-confirmid=""
+                                    id="confirm-train"><i
+                                        class="ace-icon fa fa-check-square-o bigger-125"></i></i>ยืนยัน</button>
+                            </div>
                         </div>
                     </form>
                 </div>

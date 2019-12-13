@@ -85,13 +85,15 @@ class Plan_model extends CI_Model {
     public function setTrainUserId($id) {
         $this->_trainUserId=$id;
     }
+
     public function setUserStatus($userStatus) {
         $this->_userStatus=$userStatus;
     }
+
     public function setUserDoc($userDoc) {
         $this->_userDoc=$userDoc;
     }
-    
+
 
     public function countYear($year) {
         $this->db->select('id');
@@ -120,6 +122,7 @@ class Plan_model extends CI_Model {
         $this->db->insert($this->tblTrain, $data);
         return $this->db->insert_id();
     }
+
     public function updateTrain() {
         $data=array('letter'=> $this->_letter,
             'date_create'=> $this->_create,
@@ -137,6 +140,16 @@ class Plan_model extends CI_Model {
         $this->db->where('id', $this->_trainId);
         $this->db->update($this->tblTrain, $data);
     }
+
+    public function confirmTrain() {
+        $data=array('status'=> '2',
+            'modified'=> date("Y-m-d H:i:s"),
+        );
+        $this->db->where('id', $this->_trainId);
+        $this->db->update($this->tblTrain, $data);
+    }
+
+
     public function updateTrainExpenses($expenses) {
         $this->db->where('train_id', $this->_trainId);
         $this->db->update($this->tblTrainExpenses, $expenses);
@@ -199,6 +212,7 @@ class Plan_model extends CI_Model {
         $this->db->insert($this->tblTrainUser, $data);
         return $this->db->insert_id();
     }
+
     public function checkTrainUser() {
         $this->db->select('*');
         $this->db->from($this->tblTrainUser);
@@ -207,11 +221,13 @@ class Plan_model extends CI_Model {
         $query=$this->db->get();
         return $query->row();
     }
+
     public function getUserMission($id) {
         $query=$this->db->get_where($this->tblTrainMission, array('id'=> $id));
         $data=$query->result();
         return ($data[0]->name);
     }
+
     public function trainReport() {
         $this->db->select('*');
         $this->db->from($this->tblTrainUser);

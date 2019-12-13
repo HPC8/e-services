@@ -154,3 +154,23 @@ jQuery(document).on('click', 'button#update-train', function(){
         }        
     });
 });
+
+//confirm train
+jQuery(document).on('click', 'button#confirm-train', function(){
+    jQuery.ajax({
+        type:'POST',
+        url:baseurl+'plan/confirmTrain',
+        data:jQuery("form#update-train-form").serialize(),
+        dataType:'json',    
+        success: function () {
+            jQuery('#load-processing').modal();
+            setTimeout(function () {
+                window.location.replace(baseurl+'plan/trainList/');
+            }, 1000);
+                                 
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }        
+    });
+});
