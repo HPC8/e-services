@@ -149,7 +149,7 @@
             </ul>
         </li>
         <li <?php 
-			if($page_title=='ขออนุมัติไปราชการ'|| $page_title=='ขออนุมัติจัดอบรมฯ'){
+			if($page_title=='ขออนุมัติไปราชการ'|| $page_title=='ขออนุมัติจัดอบรมฯ'|| $page_title=='ตรวจแผน'){
 			    echo "class='active open'";
 			}else{
 				echo "class=''" ; } 
@@ -175,6 +175,15 @@
                     <a href="<?php echo site_url('plan/meetingList/');?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         ขออนุมัติจัดอบรมฯ
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="<?php echo $page_title  == 'ตรวจแผน' ? 'active' : '' ?>">
+                    <a href="<?php echo site_url('plan/checkPlan/');?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        ตรวจแผน
                     </a>
 
                     <b class="arrow"></b>

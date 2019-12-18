@@ -24,7 +24,7 @@
                                         </span>
                                         <input type="text" name="train_letter"
                                             class="form-control input-sm input-train-letter" id="input-train-letter"
-                                            value="<?php echo $trainInfo->letter; ?>" autocomplete="off" />
+                                            value="<?php echo $trainInfo->letter; ?>" autocomplete="off" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +39,8 @@
                                         </span>
                                         <input class="form-control input-sm input-train-create-date"
                                             id="input-train-create-date" name="train_date_create" type="text"
-                                            value="<?php echo $trainInfo->date_create; ?>" autocomplete="off" />
+                                            value="<?php echo $trainInfo->date_create; ?>" autocomplete="off"
+                                            disabled />
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +74,7 @@
                                         </span>
                                         <select name="report_hospcodet"
                                             class="form-control chosen-select input-train-report-hospcode input-sm"
-                                            id="input-train-report-hospcode">
+                                            id="input-train-report-hospcode" disabled>
                                             <?php 
             			                        foreach($userReport as $rs){ ?>
                                             <option
@@ -97,7 +98,7 @@
                                         </span>
                                         <input type="text" name="train_subject"
                                             class="form-control input-sm input-train-subject" id="input-train-subject"
-                                            autocomplete="off" value="<?php echo $trainInfo->subject; ?>">
+                                            autocomplete="off" value="<?php echo $trainInfo->subject; ?>" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +113,7 @@
                                         </span>
                                         <input type="text" name="train_location"
                                             class="form-control input-sm input-train-location" id="input-train-location"
-                                            autocomplete="off" value="<?php echo $trainInfo->location; ?>">
+                                            autocomplete="off" value="<?php echo $trainInfo->location; ?>" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +128,7 @@
                                         </span>
                                         <input type="text" name="train_form"
                                             class="form-control input-sm input-train-form" id="input-train-form"
-                                            autocomplete="off" value="<?php echo $trainInfo->form; ?>">
+                                            autocomplete="off" value="<?php echo $trainInfo->form; ?>" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -142,13 +143,13 @@
                                         </span>
                                         <input type="text" name="train_start" id="input-train-start"
                                             class="form-control input-train-start input-sm"
-                                            value="<?php echo $trainInfo->date_start; ?>" autocomplete="off">
+                                            value="<?php echo $trainInfo->date_start; ?>" autocomplete="off" disabled>
                                         <span class="input-group-addon">
                                             <i class="fa fa-exchange"></i>
                                         </span>
                                         <input type="text" name="train_end" id="input-train-end"
                                             class="form-control input-sm input-train-end"
-                                            value="<?php echo $trainInfo->date_end; ?>" autocomplete="off">
+                                            value="<?php echo $trainInfo->date_end; ?>" autocomplete="off" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -163,28 +164,24 @@
                                         </span>
                                         <input type="text" name="train_travel_start" id="input-train-travel-start"
                                             class="form-control input-train-travel-start input-sm"
-                                            value="<?php echo $trainInfo->travel_start; ?>" autocomplete="off">
+                                            value="<?php echo $trainInfo->travel_start; ?>" autocomplete="off" disabled>
                                         <span class="input-group-addon">
                                             <i class="fa fa-exchange"></i>
                                         </span>
                                         <input type="text" name="train_travel_end" id="input-train-travel-end"
                                             class="form-control input-sm input-train-travel-end"
-                                            value="<?php echo $trainInfo->travel_end; ?>" autocomplete="off">
+                                            value="<?php echo $trainInfo->travel_end; ?>" autocomplete="off" disabled>
                                     </div>
                                 </div>
                             </div>
 
                             <h5 class="header smaller lighter red">
                                 <i class="ace-icon fa fa-bullhorn"></i>
-                                รายชื่อผู้ไปราชการ 
+                                รายชื่อผู้ไปราชการ
                             </h5>
-                            <div class="col-lg-12"><span id="success-msg"></span></div>
                             <div class="row">
-                                <div class="col-md-2 col-sm-2"><a href="javascript:void(0);" data-toggle="modal"
-                                    data-target="#add-user" class="pull-right btn btn-sm btn-success btn-round"><i
-                                        class="fa fa-plus-circle" aria-hidden="true"></i>
-                                    เพิ่มข้อมูล</a></div>
-                                <div class="col-md-10 col-sm-12">
+                                <div class="col-sm-1"></div>
+                                <div class="col-md-11 col-sm-12">
                                     <table id="tbl-layout-25"
                                         class="table table-striped table-bordered table-hover display nowrap"
                                         style="width:100%">
@@ -194,7 +191,6 @@
                                                 <th width="30%">ชื่อผู้ไปราชการ</th>
                                                 <th width="20%">สถานะ</th>
                                                 <th width="20%" class="hidden-768">หมายเหตุ</th>
-                                                <th width="10%" class="center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -214,23 +210,12 @@
                                                 </td>
                                                 <td class="hidden-768"> <?php echo $user->doc;?>
                                                 </td>
-                                                <td class="center">
-                                                    <a title="ลบ" href="javascript:void(0);"
-                                                        data-getid="<?php echo $user->id;?>" data-toggle="modal"
-                                                        data-target="#del-trainuser"
-                                                        class="del-trainuser-details btn btn-danger btn-xs"><i
-                                                            class="fa fa-trash"></i></a>
-                                                </td>
                                             </tr>
                                             <?php $no++;} ?>
                                         </tbody>
-
-
                                     </table>
                                 </div>
                             </div>
-
-
 
                             <h5 class="header smaller lighter red">
                                 <i class="ace-icon fa fa-bullhorn"></i>
@@ -323,6 +308,63 @@
                                     </div>
                                 </div>
                             </div>
+                            <h5 class="header smaller lighter red">
+                                <i class="ace-icon fa fa-bullhorn"></i>
+                                โครงการ ประเภทงบประมาณ หมวดเงิน แผนงาน
+                            </h5>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="allowance">
+                                    แผนงาน :
+                                </label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-usd" aria-hidden="true"></i>
+                                        </span>
+                                        <select class="form-control input-checkPlan-planid"
+                                            name="checkPlan_planid" id="checkPlan-planid">
+                                            <option value="">--กรุณาเลือก--</option>
+                                            <?php
+                                            foreach ($planInfo as $key => $row) {
+                                                echo '<option value="'.$row->plan_id.'">'.$row->plan_name.'</option>';
+                                            }
+                                        ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="allowance">
+                                    ผลผลิต :
+                                </label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-usd" aria-hidden="true"></i>
+                                        </span>
+                                        <select name="checkPlan_productid"
+                                            class="form-control input-checkPlan-productid" id="checkPlan-productid">
+                                            <option value="">--กรุณาเลือก--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="allowance">
+                                    กิจกรรม :
+                                </label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-usd" aria-hidden="true"></i>
+                                        </span>
+                                        <select name="checkPlan_activityid"
+                                            class="form-control input-checkPlan-activityid" id="checkPlan-activityid">
+                                            <option value="">--กรุณาเลือก--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </fieldset>
                         <div class="form-actions center">
                             <div class="btn-group">
@@ -362,6 +404,6 @@
     </div>
 </div>
 <?php
-    $this->load->view('plan/train/popup/addUser');
-    $this->load->view('plan/train/popup/delete');
+    //$this->load->view('plan/train/popup/addUser');
+    //$this->load->view('plan/train/popup/delete');
 ?>

@@ -288,6 +288,25 @@ class Thaidate {
 		return $wan;
 	}
 	
+	function fiscal_year($datetime) {
+        list($Y,$m) = explode('-',$datetime); // แยกวันเป็น ปี เดือน วัน
+        //$Y = $Y+543; // เปลี่ยน ค.ศ. เป็น พ.ศ.
+        switch($m) {        
+            case "01": $Y = $Y+543; break;	
+            case "02": $Y = $Y+543; break;
+            case "03": $Y = $Y+543; break;
+            case "04": $Y = $Y+543; break;
+            case "05": $Y = $Y+543; break;
+            case "06": $Y = $Y+543; break;
+            case "07": $Y = $Y+543; break;	
+            case "08": $Y = $Y+543; break;
+            case "09": $Y = $Y+543; break;
+            case "10": $Y = $Y+544; break;
+            case "11": $Y = $Y+544; break;
+            case "12": $Y = $Y+544; break;
+        }
+        return $Y;
+	}
 
 
 

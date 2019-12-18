@@ -88,6 +88,7 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/user.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/products.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/plan/train.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/plan.js"></script>
 <!-- google chart -->
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/charts/loader.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/charts/chartEmp.js"></script>

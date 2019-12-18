@@ -10,7 +10,7 @@ class Plan extends CI_Controller {
         // Load helper
         $this->load->helper(array('url', 'html', 'form'));
         // Load model
-        $this->load->model(array('user_model', 'employee_model', 'plan_model'));
+        $this->load->model(array('user_model', 'employee_model', 'plan_model', 'project_model'));
     }
 
     public function trainList() {
@@ -131,10 +131,10 @@ class Plan extends CI_Controller {
 
         if($this->session->userdata('isUserLoggedIn')) {
             $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
-            $data['page_title']='ขออนุมัติไปราชการ';
+            $data['page_title']='ตรวจแผน';
             $breadcrumb=array("Home"=> "/e-services/",
                 "ไปราชการ-จัดประชุม"=> "/e-services/plan/",
-                "ขออนุมัติไปราชการ"=> ""
+                "ตรวจแผน"=> ""
             );
             $data['breadcrumb']=$breadcrumb;
             $data['mylibrary']=$this->my_library;
@@ -145,7 +145,14 @@ class Plan extends CI_Controller {
             $data['userInfo']=$this->plan_model->tblTrainUser();
             $data['expensesInfo']=$this->plan_model->tblTrainExpenses();
             $data['statusInfo']=$this->plan_model->tblTrainMission();
+            $year=$this->thaidate->fiscal_year(date("Y-m-d H:i:s"));
+            $data['planInfo']=$this->project_model->getPlanList($year);
 
+
+            // echo '<pre>';
+            // print_r($data['planInfo']);
+            // echo '</pre>';
+            // exit; 
             if ( !empty($data['trainInfo'])) {
                 $this->template->load('layout/template', 'plan/train/checkPlan', $data);
             }
@@ -161,6 +168,22 @@ class Plan extends CI_Controller {
         }
     }
 
+    public function getProduct() {
+        $json=array();
+        $this->project_model->setPlanId($this->input->post('planID'));
+        $year=$this->thaidate->fiscal_year(date("Y-m-d H:i:s"));
+        $json=$this->project_model->getProductListID($year); 
+        header('Content-Type: application/json');
+        echo json_encode($json);
+    }
+    public function getActivity() {
+        $json=array();
+        $this->project_model->setProductId($this->input->post('productID'));
+        $year=$this->thaidate->fiscal_year(date("Y-m-d H:i:s"));
+        $json=$this->project_model->getActivityListID($year); 
+        header('Content-Type: application/json');
+        echo json_encode($json);
+    }
 
     public function deleteTrinUser() {
         $data=array();

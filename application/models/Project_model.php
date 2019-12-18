@@ -375,6 +375,25 @@ class Project_model extends CI_Model {
             return "";
         }
     }
-
+    public function getProductListID($year) {
+        $this->db->select('*');
+        $this->db->from($this->tblProduct);
+        $this->db->where('product_year', $year);
+        $this->db->where('product_status', '1');
+        $this->db->where('plan_id', $this->_planId);
+        $this->db->order_by('product_id', 'ASC');
+        $query=$this->db->get();
+        return $query->result();
+    }
+    public function getActivityListID($year) {
+        $this->db->select('*');
+        $this->db->from($this->tblActivity);
+        $this->db->where('activity_year', $year);
+        $this->db->where('activity_status', '1');
+        $this->db->where('product_id', $this->_productId);
+        $this->db->order_by('activity_id', 'ASC');
+        $query=$this->db->get();
+        return $query->result();
+    }
 
 }
