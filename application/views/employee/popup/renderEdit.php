@@ -481,3 +481,11 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label><strong><U>หมายเหตุ</U></strong></label>
+            <textarea name="edit_note" id="emp-edit-note" class="form-control input-edit-note" ><?php echo $codeInfo->note;?></textarea>
+        </div>
+    </div>
+</div>

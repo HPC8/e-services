@@ -38,6 +38,7 @@ jQuery(function () {
                 maxDate: jQuery('#date-pro-end').val() ? jQuery('#date-pro-end').val() : false
             })
         },
+        minDate:0, // today
         timepicker: false
     });
     jQuery('#date-pro-end').datetimepicker({
@@ -63,6 +64,7 @@ jQuery(function () {
                 maxDate: jQuery('#date-mtg-end').val() ? jQuery('#date-mtg-end').val() : false
             })
         },
+        minDate:0, // today
         timepicker: false
     });
     jQuery('#date-mtg-end').datetimepicker({

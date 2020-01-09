@@ -273,7 +273,6 @@
     public function saveEmp() {
         $data=array();
         $json=array();
-
         if($this->session->userdata('isUserLoggedIn')) {
             $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
             $data['admin_level']=$this->user_model->getUser_hr($data['user']['hospcode']);
@@ -309,6 +308,7 @@
                     $emp_level=$this->input->post('emp_level');
                     $emp_department=$this->input->post('emp_department');
                     $emp_section=$this->input->post('emp_section');
+                    $emp_note=$this->input->post('emp_note');
 
                     if(empty(trim($emp_titlename))) {
                         $json['error']['titlename']='ระบุคำนำหน้าชื่อ';
@@ -429,7 +429,7 @@
                         $this->employee_model->empLevel($emp_level);
                         $this->employee_model->empDepartment($emp_department);
                         $this->employee_model->empSection($emp_section);
-
+                        $this->employee_model->empNote($emp_note);
                         $this->upload_photo($emp_hospcode);
 
                         try {
@@ -559,6 +559,7 @@
                     $emp_level=$this->input->post('edit_level');
                     $emp_department=$this->input->post('edit_department');
                     $emp_section=$this->input->post('edit_section');
+                    $emp_note=$this->input->post('edit_note');
 
                     if(empty(trim($emp_titlename))) {
                         $json['error']['titlename']='ระบุคำนำหน้าชื่อ';
@@ -680,6 +681,7 @@
                         $this->employee_model->empLevel($emp_level);
                         $this->employee_model->empDepartment($emp_department);
                         $this->employee_model->empSection($emp_section);
+                        $this->employee_model->empNote($emp_note);
 
                         if( !empty($_FILES['emp_uplfile'])) {
                             $this->edit_photo($emp_hospcode);

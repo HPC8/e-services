@@ -61,7 +61,8 @@
     $_discardRetire,
     $_discardDate,
     $_discardDetail,
-    $_discardDoc;
+    $_discardDoc,
+    $_notec;
 
     public function setEmpId($empId) {
         $this->_empId=$empId;
@@ -214,6 +215,9 @@
     public function empDiscardDoc($discardDoc) {
         $this->_discardDoc=$discardDoc;
     }
+    public function empNote($emp_note) {
+        $this->_note=$emp_note;
+    }
 
 
     public function createEmp() {
@@ -246,6 +250,7 @@
             'level_id'=> $this->_level,
             'department_id'=> $this->_department,
             'section_id'=> $this->_section,
+            'note'=> $this->_note,
             'passwd'=> hash("sha256", $this->_hospcode),
             'add_by'=> $this->_addby,
             'add_ip'=> $this->input->ip_address(),
@@ -295,6 +300,7 @@
             'level_id'=> $this->_level,
             'department_id'=> $this->_department,
             'section_id'=> $this->_section,
+            'note'=> $this->_note,
             'add_by'=> $this->_addby,
             'add_ip'=> $this->input->ip_address(),
             'add_date'=> date("Y-m-d H:i:s"),

@@ -23,6 +23,7 @@ jQuery(document).on('click', 'a.view-emp', function () {
 
 // Add emp
 jQuery(document).on('click', 'button#add-emp', function () {
+    var emp_note =tinyMCE.activeEditor.getContent();
     var formData = new FormData();
     formData.append('emp_hospcode', jQuery('form#add-emp-form').find('.input-emp-hospcode').val());
     formData.append('emp_sex', jQuery('form#add-emp-form').find('input[name=emp_sex]:checked').val());
@@ -54,6 +55,7 @@ jQuery(document).on('click', 'button#add-emp', function () {
     formData.append('emp_department', jQuery('form#add-emp-form').find('.input-emp-department').val());
     formData.append('emp_section', jQuery('form#add-emp-form').find('.input-emp-section').val());
     formData.append('emp_uplfile', jQuery('form#add-emp-form').find('input.input-emp-uplfile')[0].files[0]);
+    formData.append('emp_note', emp_note);
     jQuery.ajax({
         url: baseurl + 'employee/saveEmp',
         type: 'post',
@@ -119,6 +121,28 @@ jQuery(document).on('click', 'a.update-emp-details', function () {
         },
         success: function (html) {
             jQuery('#render-update-emp').html(html);
+            tinymce.init({
+                mode: "textareas",
+                theme: "advanced",
+                selector: "#emp-edit-note",theme: "modern",height: 150,
+                plugins: [
+                    "advlist autolink link image lists charmap print preview hr anchor pagebreak",
+                    "searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
+                    "table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
+                ],
+                toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
+                toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
+                image_advtab: true,
+
+                external_filemanager_path: baseurl + "assets/plugin/filemanager/",
+                filemanager_title: "Responsive Filemanager",
+                external_plugins: {
+                    "filemanager": "../filemanager/plugin.min.js"
+                },
+                relative_urls: false,
+                remove_script_host: false,
+                document_base_url: baseurl
+            });
             $("#edit-birthday").datetimepicker({
                 timepicker: false,
                 format: 'Y-m-d', // กำหนดรูปแบบวันที่ ที่ใช้ เป็น 00-00-0000            
@@ -246,6 +270,7 @@ jQuery(document).on('click', 'a.update-emp-details', function () {
                     }
                 });
             }
+
         },
         error: function (xhr, ajaxOptions, thrownError) {
             console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -255,6 +280,7 @@ jQuery(document).on('click', 'a.update-emp-details', function () {
 
 // Update emp
 jQuery(document).on('click', 'button#update-emp', function () {
+    var edit_note =tinyMCE.activeEditor.getContent();
     var formData = new FormData();
     formData.append('edit_hospcode', jQuery('form#update-emp-form').find('.input-edit-hospcode').val());
     formData.append('edit_sex', jQuery('form#update-emp-form').find('input[name=edit_sex]:checked').val());
@@ -286,6 +312,7 @@ jQuery(document).on('click', 'button#update-emp', function () {
     formData.append('edit_department', jQuery('form#update-emp-form').find('.input-edit-department').val());
     formData.append('edit_section', jQuery('form#update-emp-form').find('.input-edit-section').val());
     formData.append('emp_uplfile', jQuery('form#update-emp-form').find('input.input-edit-uplfile')[0].files[0]);
+    formData.append('edit_note', edit_note);
     jQuery.ajax({
         url: baseurl + 'employee/updateEmp',
         type: 'post',

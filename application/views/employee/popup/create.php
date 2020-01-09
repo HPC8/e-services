@@ -15,7 +15,8 @@
                                     <label for="emp-hospcode">
                                         <?php echo "<B>".get_instance()->employee_model->hospcodeLast()."</B>";?>
                                     </label>
-                                    <input type="hidden" id="emp-hospcode" class="form-control input-emp-hospcode"name="emp_hospcode"
+                                    <input type="hidden" id="emp-hospcode" class="form-control input-emp-hospcode"
+                                        name="emp_hospcode"
                                         value="<?php echo get_instance()->employee_model->hospcodeLast();?>">
                                 </div>
                             </div>
@@ -29,11 +30,11 @@
                                         <label for="sexRadio1"> ชาย </label>
                                     </div>
                                     <div class="radio radio-primary radio-inline">
-                                        <input type="radio" id="sexRadio2" value="2" name="emp_sex" >
+                                        <input type="radio" id="sexRadio2" value="2" name="emp_sex">
                                         <label for="sexRadio2"> หญิง </label>
                                     </div>
                                     <div class="radio radio-primary radio-inline">
-                                        <input type="radio" id="sexRadio3" value="3" name="emp_sex" >
+                                        <input type="radio" id="sexRadio3" value="3" name="emp_sex">
                                         <label for="sexRadio3"> อื่นๆ </label>
                                     </div>
                                 </div>
@@ -48,23 +49,23 @@
                                         <label for="maritalRadio1"> โสด </label>
                                     </div>
                                     <div class="radio radio-primary radio-inline">
-                                        <input type="radio" id="maritalRadio2" value="2" name="emp_marital" >
+                                        <input type="radio" id="maritalRadio2" value="2" name="emp_marital">
                                         <label for="maritalRadio2"> คู่ </label>
                                     </div>
                                     <div class="radio radio-primary radio-inline">
-                                        <input type="radio" id="maritalRadio3" value="3" name="emp_marital" >
+                                        <input type="radio" id="maritalRadio3" value="3" name="emp_marital">
                                         <label for="maritalRadio3"> หม้าย </label>
                                     </div>
                                     <div class="radio radio-primary radio-inline">
-                                        <input type="radio" id="maritalRadio4" value="4" name="emp_marital" >
+                                        <input type="radio" id="maritalRadio4" value="4" name="emp_marital">
                                         <label for="maritalRadio4"> หย่า </label>
                                     </div>
                                     <div class="radio radio-primary radio-inline">
-                                        <input type="radio" id="maritalRadio5" value="5" name="emp_marital" >
+                                        <input type="radio" id="maritalRadio5" value="5" name="emp_marital">
                                         <label for="maritalRadio5"> แยก </label>
                                     </div>
                                     <div class="radio radio-primary radio-inline">
-                                        <input type="radio" id="maritalRadio6" value="6" name="emp_marital" >
+                                        <input type="radio" id="maritalRadio6" value="6" name="emp_marital">
                                         <label for="maritalRadio6"> ไม่เปิดเผย </label>
                                     </div>
                                 </div>
@@ -289,8 +290,7 @@
                                         <i class="fa fa-calendar bigger-110"></i>
                                     </span>
                                     <input class="form-control input-emp-startdate" id="emp-startdate"
-                                        name="emp_startdate"  type="text"
-                                        value="<?php echo date("Y-m-d"); ?>" />
+                                        name="emp_startdate" type="text" value="<?php echo date("Y-m-d"); ?>" />
                                 </div>
                             </div>
                         </div>
@@ -301,8 +301,8 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-calendar bigger-110"></i>
                                     </span>
-                                    <input class="form-control input-emp-stopdate" id="emp-stopdate"
-                                        name="emp_stopdate" type="text" />
+                                    <input class="form-control input-emp-stopdate" id="emp-stopdate" name="emp_stopdate"
+                                        type="text" />
                                 </div>
                             </div>
                         </div>
@@ -473,7 +473,17 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label><strong><U>ภาพประจำตัว</U></strong></label>
-                                <input type="file" name="emp_uplfile" class="form-control input-emp-uplfile" id="input-emp-uplfile">
+                                <input type="file" name="emp_uplfile" class="form-control input-emp-uplfile"
+                                    id="input-emp-uplfile">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label><strong><U>หมายเหตุ</U></strong></label>
+                                <textarea name="emp_note" id="emp-note"
+                                    class="form-control input-edit-note"></textarea>
                             </div>
                         </div>
                     </div>
