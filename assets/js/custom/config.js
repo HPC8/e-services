@@ -30,21 +30,21 @@ $($('#confirm_query').click());
 //datetimepicker products
 jQuery(function () {
     jQuery('#date-pro-start').datetimepicker({
-        format: 'Y-m-d',           
+        format: 'Y-m-d',
         lang: 'th',
-        scrollMonth : false,
+        scrollMonth: false,
         onShow: function (ct) {
             this.setOptions({
                 maxDate: jQuery('#date-pro-end').val() ? jQuery('#date-pro-end').val() : false
             })
         },
-        minDate:0, // today
+        minDate: 0, // today
         timepicker: false
     });
     jQuery('#date-pro-end').datetimepicker({
-        format: 'Y-m-d',         
+        format: 'Y-m-d',
         lang: 'th',
-        scrollMonth : false,
+        scrollMonth: false,
         onShow: function (ct) {
             this.setOptions({
                 minDate: jQuery('#date-pro-start').val() ? jQuery('#date-pro-start').val() : false
@@ -56,21 +56,21 @@ jQuery(function () {
 //datetimepicker meeting
 jQuery(function () {
     jQuery('#date-mtg-start').datetimepicker({
-        format: 'Y-m-d',           
+        format: 'Y-m-d',
         lang: 'th',
-        scrollMonth : false,
+        scrollMonth: false,
         onShow: function (ct) {
             this.setOptions({
                 maxDate: jQuery('#date-mtg-end').val() ? jQuery('#date-mtg-end').val() : false
             })
         },
-        minDate:0, // today
+        minDate: 0, // today
         timepicker: false
     });
     jQuery('#date-mtg-end').datetimepicker({
-        format: 'Y-m-d',         
+        format: 'Y-m-d',
         lang: 'th',
-        scrollMonth : false,
+        scrollMonth: false,
         onShow: function (ct) {
             this.setOptions({
                 minDate: jQuery('#date-mtg-start').val() ? jQuery('#date-mtg-start').val() : false
@@ -83,9 +83,9 @@ jQuery(function () {
 //datetimepicker train Range Picker
 jQuery(function () {
     jQuery('#input-train-start').datetimepicker({
-        format: 'Y-m-d',           
+        format: 'Y-m-d',
         lang: 'th',
-        scrollMonth : false,
+        scrollMonth: false,
         onShow: function (ct) {
             this.setOptions({
                 maxDate: jQuery('#input-train-end').val() ? jQuery('#input-train-end').val() : false
@@ -94,9 +94,9 @@ jQuery(function () {
         timepicker: false
     });
     jQuery('#input-train-end').datetimepicker({
-        format: 'Y-m-d',         
+        format: 'Y-m-d',
         lang: 'th',
-        scrollMonth : false,
+        scrollMonth: false,
         onShow: function (ct) {
             this.setOptions({
                 minDate: jQuery('#input-train-start').val() ? jQuery('#input-train-start').val() : false
@@ -109,9 +109,9 @@ jQuery(function () {
 //datetimepicker train travel Range Picker
 jQuery(function () {
     jQuery('#input-train-travel-start').datetimepicker({
-        format: 'Y-m-d',           
+        format: 'Y-m-d',
         lang: 'th',
-        scrollMonth : false,
+        scrollMonth: false,
         onShow: function (ct) {
             this.setOptions({
                 maxDate: jQuery('#input-train-travel-end').val() ? jQuery('#input-train-travel-end').val() : false
@@ -120,9 +120,9 @@ jQuery(function () {
         timepicker: false
     });
     jQuery('#input-train-travel-end').datetimepicker({
-        format: 'Y-m-d',         
+        format: 'Y-m-d',
         lang: 'th',
-        scrollMonth : false,
+        scrollMonth: false,
         onShow: function (ct) {
             this.setOptions({
                 minDate: jQuery('#input-train-travel-start').val() ? jQuery('#input-train-travel-start').val() : false
@@ -780,14 +780,15 @@ $(document).ready(function () {
 });
 
 function sum() {
-    var num1 = document.getElementById('allowance').value;
-    var num2 = document.getElementById('hostel').value;
-    var num3 = document.getElementById('traveling').value;
-    var num4 = document.getElementById('oilPrice').value;
-    var num5 = document.getElementById('otherValues').value;
-    var result = parseFloat(num1) + parseFloat(num2) + parseFloat(num3) + parseFloat(num4) + parseFloat(num5);
-    var bath  = result.toLocaleString()+"  บาท";
-    document.getElementById('sum').value = bath;
+    element = document.getElementById('allowance');
+    if (element != null) {
+        var num1 = document.getElementById('allowance').value;
+        var num2 = document.getElementById('hostel').value;
+        var num3 = document.getElementById('traveling').value;
+        var num4 = document.getElementById('oilPrice').value;
+        var num5 = document.getElementById('otherValues').value;
+        var result = parseFloat(num1) + parseFloat(num2) + parseFloat(num3) + parseFloat(num4) + parseFloat(num5);
+        var bath = result.toLocaleString() + "  บาท";
+        document.getElementById('sum').value = bath;
+    }
 }
-
-

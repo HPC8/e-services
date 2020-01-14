@@ -159,7 +159,7 @@
                             </div>
                         </div>
                         <div class="profile-info-row">
-                            <div class="profile-info-name"><font color="red"> หมายเหตุ </font></div>
+                            <div class="profile-info-name"> หมายเหตุ </div>
                             <div class="profile-info-value">
                                 <span><?php echo $codeInfo->note;?></span>
                             </div>

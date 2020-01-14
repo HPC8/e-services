@@ -25,7 +25,7 @@
                                 class="ace-icon fa fa-edit bigger-110"></i>
                             <span class="bigger-110">แก้ไข</span> </a>
 
-                            <a title="Password" href="javascript:void(0);" data-getcode="<?php echo $userInfo->hospcode;?>"
+                        <a title="Password" href="javascript:void(0);" data-getcode="<?php echo $userInfo->hospcode;?>"
                             data-toggle="modal" data-target="#passwd-user"
                             class="btn btn-sm btn-block btn-success passwd-user-details"><i
                                 class="ace-icon fa fa-lock bigger-110"></i>
@@ -166,10 +166,16 @@
                                 </div>
                             </div>
                             <div class="profile-info-row">
-                                <div class="profile-info-name"> สถานะ </div>
+                                <div class="profile-info-name"> สถานะการปฏิบัติงาน </div>
 
                                 <div class="profile-info-value">
                                     <span><?php echo get_instance()->user_model->status($userInfo->status);?></span>
+                                </div>
+                            </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> หมายเหตุ </div>
+                                <div class="profile-info-value">
+                                    <span><?php echo $userInfo->note;?></span>
                                 </div>
                             </div>
                             <div class="profile-info-row">
