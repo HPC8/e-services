@@ -38,6 +38,47 @@ class Plan extends CI_Controller {
         }
     }
 
+    public function checkList() {
+        $data=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $data['page_title']='ตรวจแผนไปราชการ';
+            $breadcrumb=array("Home"=> "/e-services/",
+                "ไปราชการ-จัดประชุม"=> ""
+            );
+            $data['breadcrumb']=$breadcrumb;
+            $data['mylibrary']=$this->my_library;
+            $data['thaidate']=$this->thaidate;
+            $data['checkList']=$this->plan_model->checkList();
+            $data['admin_level']=$this->user_model->uCheckPlan($data['user']['hospcode']);
+
+            if ( !empty($data['admin_level'])) {
+                if($data['admin_level'][0]->level==1 || $data['admin_level'][0]->level==2) {
+                    $this->template->load('layout/template', 'plan/train/checkList', $data);
+                }
+                else {
+                    $popup=array('msg'=> 1,
+                            'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        );
+                        $this->session->set_userdata($popup);
+                        redirect('plan/trainList/');
+                }
+            }
+            else {
+                $popup=array('msg'=> 1,
+                        'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                $this->session->set_userdata($popup);
+                redirect('plan/trainList/');
+            }
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+
     public function trainCreate() {
         $data=array();
 
@@ -106,7 +147,7 @@ class Plan extends CI_Controller {
 
                 else {
                     $popup=array('msg'=> 1,
-                        'detail'=> 'ใบงานนี้อยู่ระหว่างดำเนินการ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        'detail'=> 'ใบงานนี้อยู่ระหว่างรอดำเนินการ กรุณาติดต่อผู้ดูแลระบบครับ!',
                     );
                     $this->session->set_userdata($popup);
                     redirect('plan/trainList/');
@@ -131,10 +172,11 @@ class Plan extends CI_Controller {
 
         if($this->session->userdata('isUserLoggedIn')) {
             $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
-            $data['page_title']='ตรวจแผน';
+            $data['page_title']='ตรวจแผนไปราชการ';
             $breadcrumb=array("Home"=> "/e-services/",
                 "ไปราชการ-จัดประชุม"=> "/e-services/plan/",
-                "ตรวจแผน"=> ""
+                "ตรวจแผนไปราชการ"=> "/e-services/plan/checkList/",
+                "รายละเอียด"=> ""
             );
             $data['breadcrumb']=$breadcrumb;
             $data['mylibrary']=$this->my_library;
@@ -147,14 +189,26 @@ class Plan extends CI_Controller {
             $data['statusInfo']=$this->plan_model->tblTrainMission();
             $year=$this->thaidate->fiscal_year(date("Y-m-d H:i:s"));
             $data['planInfo']=$this->project_model->getPlanList($year);
+            $data['uCheckPlan']=$this->user_model->uCheckPlan($data['user']['hospcode']);
 
 
-            // echo '<pre>';
-            // print_r($data['planInfo']);
-            // echo '</pre>';
-            // exit; 
+            echo '<pre>';
+            print_r($data['uCheckPlan']);
+            echo '</pre>';
+            exit;
+
             if ( !empty($data['trainInfo'])) {
-                $this->template->load('layout/template', 'plan/train/checkPlan', $data);
+                if($data['trainInfo']->status==2) {
+                    $this->template->load('layout/template', 'plan/train/checkPlan', $data);
+                }
+
+                else {
+                    $popup=array('msg'=> 1,
+                        'detail'=> 'ใบงานนี้อยู่ระหว่างรอดำเนินการ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                    $this->session->set_userdata($popup);
+                    redirect('plan/trainList/');
+                }
             }
 
             else {
@@ -172,15 +226,16 @@ class Plan extends CI_Controller {
         $json=array();
         $this->project_model->setPlanId($this->input->post('planID'));
         $year=$this->thaidate->fiscal_year(date("Y-m-d H:i:s"));
-        $json=$this->project_model->getProductListID($year); 
+        $json=$this->project_model->getProductListID($year);
         header('Content-Type: application/json');
         echo json_encode($json);
     }
+
     public function getActivity() {
         $json=array();
         $this->project_model->setProductId($this->input->post('productID'));
         $year=$this->thaidate->fiscal_year(date("Y-m-d H:i:s"));
-        $json=$this->project_model->getActivityListID($year); 
+        $json=$this->project_model->getActivityListID($year);
         header('Content-Type: application/json');
         echo json_encode($json);
     }
@@ -463,14 +518,14 @@ class Plan extends CI_Controller {
         if($this->session->userdata('isUserLoggedIn')) {
             $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
             $train_id=$this->input->post('train_id');
-            
+
             $this->plan_model->setTrainId($train_id);
             $this->plan_model->setHospcode($data['user']['hospcode']);
 
             $confirm=$this->plan_model->confirmTrain();
 
             $popup=array('msg'=> 0,
-                'detail'=> 'ระบบทำการยืนยันเรียบร้อย',
+                'detail'=> 'ระบบทำการยืนยันข้อมูลเรียบร้อย',
             );
             $this->session->set_userdata($popup);
 

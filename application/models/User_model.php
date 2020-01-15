@@ -102,8 +102,7 @@ class User_model extends CI_Model {
         return $query->row();
     }
     
-
-    public function userPlan($hospcode) {
+    public function uCheckPlan($hospcode) {
         $query=$this->db->get_where($this->userPlan, array('hospcode'=> $hospcode));
         return $query->result();
     }

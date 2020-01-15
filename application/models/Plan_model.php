@@ -244,6 +244,14 @@ class Plan_model extends CI_Model {
         $query=$this->db->get();
         return $query->result();
     }
+    public function checkList() {
+        $this->db->select('*');
+        $this->db->from($this->tblTrain);
+        $this->db->where('status', 2);
+        $this->db->order_by('modified', 'DESC');
+        $query=$this->db->get();
+        return $query->result();
+    }
 
     public function checkStatus($status) {
         if($status==1) {

@@ -232,7 +232,7 @@
                                         </span>
                                         <input type="text" name="train_allowance" class="form-control input-sm"
                                             id="allowance" autocomplete="off"
-                                            value="<?php echo $expensesInfo->allowance; ?>" />
+                                            value="<?php echo $expensesInfo->allowance; ?>" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -246,7 +246,7 @@
                                             <i class="fa fa-usd" aria-hidden="true"></i>
                                         </span>
                                         <input type="text" name="train_hostel" class="form-control input-sm" id="hostel"
-                                            autocomplete="off" value="<?php echo $expensesInfo->hostel; ?>" />
+                                            autocomplete="off" value="<?php echo $expensesInfo->hostel; ?>" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -261,7 +261,7 @@
                                         </span>
                                         <input type="text" name="train_traveling" class="form-control input-sm"
                                             id="traveling" autocomplete="off"
-                                            value="<?php echo $expensesInfo->traveling; ?>" />
+                                            value="<?php echo $expensesInfo->traveling; ?>" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -276,7 +276,7 @@
                                         </span>
                                         <input type="text" name="train_oilPrice" class="form-control input-sm"
                                             id="oilPrice" autocomplete="off"
-                                            value="<?php echo $expensesInfo->oil; ?>" />
+                                            value="<?php echo $expensesInfo->oil; ?>" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -291,7 +291,7 @@
                                         </span>
                                         <input type="text" name="train_otherValues" class="form-control input-sm"
                                             id="otherValues" autocomplete="off"
-                                            value="<?php echo $expensesInfo->other; ?>" />
+                                            value="<?php echo $expensesInfo->other; ?>" disabled/>
                                     </div>
                                 </div>
                             </div>
