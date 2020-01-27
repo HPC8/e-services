@@ -131,10 +131,14 @@ class Product_model extends CI_Model {
         }
 
         elseif($status==4) {
-            return $status='<span class="label label-sm label-purple arrowed arrowed-right"><i class="fa fa-repeat"> รับคืน</i></span>';
+            return $status='<span class="label label-sm label-grey arrowed arrowed-right"><i class="fa fa-spinner"> กำลังส่งคืน</i></span>';
         }
 
         elseif($status==5) {
+            return $status='<span class="label label-sm label-purple arrowed arrowed-right"><i class="fa fa-repeat"> รับคืน</i></span>';
+        }
+
+        elseif($status==6) {
             return $status='<span class="label label-sm label-danger arrowed arrowed-right"><i class="fa fa-times"> ไม่อนุมัติ</i></span>';
         }
 

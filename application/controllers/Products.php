@@ -484,38 +484,12 @@ class Products extends CI_Controller {
             $data['status']=$this->product_model->getStatus();
             $data['serial_no']=$this->product_model->getSerial();
 
-            if ( !empty($data['admin_level'])) {
+
+            // if ( !empty($data['admin_level'])) {
+            if($data['detailInfo'][0]->status=="1") {
                 if($data['admin_level'][0]->level==2) {
-                    if($data['detailInfo'][0]->status=="1") {
-                        $this->output->set_header('Content-Type: application/json');
-                        $this->load->view('products/popup/renderApprovers', $data);
-                    }
-
-                    else {
-                        $popup=array('msg'=> 1,
-                            'detail'=> 'ใบงานนี้อยู่ระหว่างดำเนินการ กรุณาติดต่อผู้ดูแลระบบครับ!',
-                        );
-                        $this->session->set_userdata($popup);
-                    }
-                }
-
-                elseif($data['admin_level'][0]->level==1) {
-                    if($data['detailInfo'][0]->status=="2") {
-                        $this->output->set_header('Content-Type: application/json');
-                        $this->load->view('products/popup/renderSending', $data);
-                    }
-
-                    elseif($data['detailInfo'][0]->status=="3") {
-                        $this->output->set_header('Content-Type: application/json');
-                        $this->load->view('products/popup/renderReceiving', $data);
-                    }
-
-                    else {
-                        $popup=array('msg'=> 1,
-                            'detail'=> 'ใบงานนี้อยู่ระหว่างดำเนินการ กรุณาติดต่อผู้ดูแลระบบครับ!',
-                        );
-                        $this->session->set_userdata($popup);
-                    }
+                    $this->output->set_header('Content-Type: application/json');
+                    $this->load->view('products/popup/renderApprovers', $data);
                 }
 
                 else {
@@ -524,15 +498,65 @@ class Products extends CI_Controller {
                     );
                     $this->session->set_userdata($popup);
                 }
+            }
 
+            elseif($data['detailInfo'][0]->status=="2") {
+                if($data['admin_level'][0]->level==1) {
+                    $this->output->set_header('Content-Type: application/json');
+                    $this->load->view('products/popup/renderSending', $data);
+                }
+
+                else {
+                    $popup=array('msg'=> 1,
+                        'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                    $this->session->set_userdata($popup);
+                }
+            }
+
+            elseif($data['detailInfo'][0]->status=="4") {
+                if($data['admin_level'][0]->level==1) {
+                    $this->output->set_header('Content-Type: application/json');
+                    $this->load->view('products/popup/renderReceiving', $data);
+                }
+
+                else {
+                    $popup=array('msg'=> 1,
+                        'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                    $this->session->set_userdata($popup);
+                }
+            }
+
+            elseif($data['detailInfo'][0]->status=="3") {
+                if($data['detailInfo'][0]->hospcode==$data['user']['hospcode']) {
+                    $this->output->set_header('Content-Type: application/json');
+                    $this->load->view('products/popup/renderReturning', $data);
+                }
+
+                else {
+                    $popup=array('msg'=> 1,
+                        'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                    $this->session->set_userdata($popup);
+                }
             }
 
             else {
                 $popup=array('msg'=> 1,
-                    'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    'detail'=> 'ใบงานนี้อยู่ระหว่างดำเนินการ กรุณาติดต่อผู้ดูแลระบบครับ!',
                 );
                 $this->session->set_userdata($popup);
             }
+
+            //}
+
+            // else {
+            //     $popup=array('msg'=> 1,
+            //         'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+            //     );
+            //     $this->session->set_userdata($popup);
+            // }
         }
 
         else {
@@ -561,7 +585,12 @@ class Products extends CI_Controller {
                 'send_id'=> $data['user']['hospcode'],
                 'send_date'=> date("Y-m-d H:i:s"),
             );
-            $data['receiving']=array('status'=> '4',
+            $data['returning']=array('status'=> '4',
+                'modified'=> date("Y-m-d H:i:s"),
+                'returning_id'=> $data['user']['hospcode'],
+                'returning_date'=> date("Y-m-d H:i:s"),
+            );
+            $data['receiving']=array('status'=> '5',
                 'modified'=> date("Y-m-d H:i:s"),
                 'receive_id'=> $data['user']['hospcode'],
                 'receive_date'=> date("Y-m-d H:i:s"),
@@ -569,7 +598,7 @@ class Products extends CI_Controller {
             );
 
             if($data['detailInfo'][0]->status=="1") {
-                if($inputstatus=="5"|| $inputstatus=="6") {
+                if($inputstatus=="6"|| $inputstatus=="7") {
                     $product=$this->update_product($data['items']);
 
                     if($product) {
@@ -606,12 +635,13 @@ class Products extends CI_Controller {
 
                 else {
                     $serial=$this->insert_serial($data['serial_no'], $id);
+
                     if($serial) {
                         $this->db->where('id', $id);
                         $this->db->update('tbl_product_orders', $data['sending']);
                         redirect('email/product/'.$id.'/'.$sms=3);
                     }
-    
+
                     else {
                         $popup=array('msg'=> 1,
                             'detail'=> 'ระบบไม่สามารถอัพเดทข้อมูลได้ กรุณาติดต่อผู้ดูแลระบบครับ!',
@@ -620,10 +650,16 @@ class Products extends CI_Controller {
                     }
                 }
 
-                
+
             }
 
             elseif($data['detailInfo'][0]->status=="3") {
+                $this->db->where('id', $id);
+                $this->db->update('tbl_product_orders', $data['returning']);
+                redirect('email/product/'.$id.'/'.$sms=4);
+            }
+
+            elseif($data['detailInfo'][0]->status=="4") {
                 if(date("Y-m-d H:i:s") <=$data['detailInfo'][0]->order_expire) {
 
                     $serial=$this->update_serial($data['items']);
@@ -632,7 +668,7 @@ class Products extends CI_Controller {
                     if($product) {
                         $this->db->where('id', $id);
                         $this->db->update('tbl_product_orders', $data['receiving']);
-                        redirect('email/product/'.$id.'/'.$sms=4);
+                        redirect('email/product/'.$id.'/'.$sms=5);
                     }
 
                     else {

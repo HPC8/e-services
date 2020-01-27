@@ -155,7 +155,7 @@ class Email extends CI_Controller {
         
         // Add cc or bcc
         if($data['detail'][0]->status==1) {
-            $data['user']=$this->user_model->admin_mtg();
+            $data['user']=$this->user_model->userProd();
             foreach($data['user'] as $user) {
                 if($user->level==2) {
                     $this->user_model->setHospcode($user->hospcode);
@@ -165,7 +165,7 @@ class Email extends CI_Controller {
             }
         }
         elseif($data['detail'][0]->status==2) {
-            $data['user']=$this->user_model->admin_mtg();
+            $data['user']=$this->user_model->userProd();
             foreach($data['user'] as $user) {
                 if($user->level==1) {
                     $this->user_model->setHospcode($user->hospcode);
@@ -194,10 +194,14 @@ class Email extends CI_Controller {
         }
 
         elseif($data['detail'][0]->status==4) {
-            $mail->Subject='แจ้งเตือน การรับคืนครุภัณฑ์ผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['detail'][0]->order_doc;
+            $mail->Subject='แจ้งเตือน การยืนยันการคืนครุภัณฑ์ผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['detail'][0]->order_doc;
         }
 
         elseif($data['detail'][0]->status==5) {
+            $mail->Subject='แจ้งเตือน การรับคืนครุภัณฑ์ผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['detail'][0]->order_doc;
+        }
+
+        elseif($data['detail'][0]->status==6) {
             $mail->Subject='แจ้งเตือน การไม่อนุมัติใบงานผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['detail'][0]->order_doc;
         }
 
@@ -232,7 +236,7 @@ class Email extends CI_Controller {
             redirect('products/view/');
         }
 
-        elseif($sms==2||$sms==3||$sms==4||$sms==5) {
+        elseif($sms==2||$sms==3||$sms==4||$sms==5||$sms==6) {
             $popup=array('msg'=> 0,
                 'detail'=> 'ระบบทำการอัพเดทข้อมูลสำเร็จ พร้อมได้ส่งข้อความแจ้งเตือนไปที่ E-Mail '.get_instance()->user_model->getEmail($data['detail'][0]->hospcode).' เรียบร้อยแล้ว',
             );

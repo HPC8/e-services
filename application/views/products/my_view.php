@@ -65,8 +65,9 @@
                         <a title="Edit" href="javascript:void(0);" data-getcode="<?php echo $rs->id;?>"
                             data-toggle="modal" data-target="#update-products"
                             class="update-products-details btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
-                        <a title="Cancel" href="<?php echo site_url('products/cancel/').$rs->id.'/'.$status="6"?>"
-                            class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        <a title="Cancel" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                            data-toggle="modal" data-target="#delete-products"
+                            class="delete-products-details btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                     </div>
 
                     <div class="hidden-sm hidden-md hidden-lg">
@@ -87,14 +88,14 @@
                                     <a title="Edit" href="javascript:void(0);" data-getcode="<?php echo $rs->id;?>"
                                         data-toggle="modal" data-target="#update-products"
                                         class="update-products-details btn btn-success btn-xs"><i
-                                            class="fa fa-edit"></i>
-                                    </a>
+                                            class="fa fa-edit"></i> </a>
                                 </li>
 
                                 <li>
-                                    <a title="Cancel"
-                                        href="<?php echo site_url('products/cancel/').$rs->id.'/'.$status="6"?>"
-                                        class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                    <a title="Cancel" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                                        data-toggle="modal" data-target="#delete-products"
+                                        class="delete-products-details btn btn-danger btn-xs"><i
+                                            class="fa fa-trash"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -123,4 +124,5 @@
     $this->load->view('products/alerts');
     $this->load->view('products/popup/view');
     $this->load->view('products/popup/edit');
+    $this->load->view('products/popup/delete');
 ?>
