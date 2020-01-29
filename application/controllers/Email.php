@@ -155,7 +155,7 @@ class Email extends CI_Controller {
         
         // Add cc or bcc
         if($data['detail'][0]->status==1) {
-            $data['user']=$this->user_model->userProd();
+            $data['user']=$this->user_model->admin_prod();
             foreach($data['user'] as $user) {
                 if($user->level==2) {
                     $this->user_model->setHospcode($user->hospcode);
@@ -165,7 +165,7 @@ class Email extends CI_Controller {
             }
         }
         elseif($data['detail'][0]->status==2) {
-            $data['user']=$this->user_model->userProd();
+            $data['user']=$this->user_model->admin_prod();
             foreach($data['user'] as $user) {
                 if($user->level==1) {
                     $this->user_model->setHospcode($user->hospcode);

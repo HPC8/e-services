@@ -346,7 +346,7 @@ class Products extends CI_Controller {
         $data['detail']=$this->product_model->getDetail($id);
         $data['items']=$this->product_model->getItems($id);
         $data['cancel']=array('id'=> $id,
-            'status'=> '6',
+            'status'=> '7',
             'modified'=> date("Y-m-d H:i:s"),
         );
 

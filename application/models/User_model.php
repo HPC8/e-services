@@ -87,6 +87,10 @@ class User_model extends CI_Model {
         $query=$this->db->get($this->userMtg);
         return $query->result();
     }
+    public function admin_prod() {
+        $query=$this->db->get($this->userProd);
+        return $query->result();
+    }
 
     public function getUser_prod($data) {
         $query=$this->db->get_where($this->userProd, array('hospcode'=> $data));
