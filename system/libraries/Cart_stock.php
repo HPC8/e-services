@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link		https://codeigniter.com/user_guide/libraries/cart.html
  * @deprecated	3.0.0	This class is too specific for CI.
  */
-class CI_Cart {
+class CI_Cart_Stock {
 
 	/**
 	 * These are the regular expression rules that we use to validate the product ID and product name
@@ -87,7 +87,7 @@ class CI_Cart {
 	 *
 	 * @var array
 	 */
-	protected $_cart_contents = array();
+	protected $_cart_contents_stock = array();
 
 	/**
 	 * Shopping Class Constructor
@@ -109,11 +109,11 @@ class CI_Cart {
 		$this->CI->load->driver('session', $config);
 
 		// Grab the shopping cart array from the session table
-		$this->_cart_contents = $this->CI->session->userdata('cart_contents');
-		if ($this->_cart_contents === NULL)
+		$this->_cart_contents_stock = $this->CI->session->userdata('cart_contents_stock');
+		if ($this->_cart_contents_stock === NULL)
 		{
 			// No cart exists so we'll set some base values
-			$this->_cart_contents = array('cart_total' => 0, 'total_items' => 0);
+			$this->_cart_contents_stock = array('cart_total' => 0, 'total_items' => 0);
 		}
 
 		log_message('info', 'Cart Class Initialized');
@@ -262,12 +262,12 @@ class CI_Cart {
 
 		// Now that we have our unique "row ID", we'll add our cart items to the master array
 		// grab quantity if it's already there and add it on
-		$old_quantity = isset($this->_cart_contents[$rowid]['qty']) ? (int) $this->_cart_contents[$rowid]['qty'] : 0;
+		$old_quantity = isset($this->_cart_contents_stock[$rowid]['qty']) ? (int) $this->_cart_contents_stock[$rowid]['qty'] : 0;
 
 		// Re-create the entry, just to make sure our index contains only the data from this submission
 		$items['rowid'] = $rowid;
 		$items['qty'] += $old_quantity;
-		$this->_cart_contents[$rowid] = $items;
+		$this->_cart_contents_stock[$rowid] = $items;
 
 		return $rowid;
 	}
@@ -345,7 +345,7 @@ class CI_Cart {
 	protected function _update($items = array())
 	{
 		// Without these array indexes there is nothing we can do
-		if ( ! isset($items['rowid'], $this->_cart_contents[$items['rowid']]))
+		if ( ! isset($items['rowid'], $this->_cart_contents_stock[$items['rowid']]))
 		{
 			return FALSE;
 		}
@@ -358,13 +358,13 @@ class CI_Cart {
 			// If the quantity is greater than zero we are updating
 			if ($items['qty'] == 0)
 			{
-				unset($this->_cart_contents[$items['rowid']]);
+				unset($this->_cart_contents_stock[$items['rowid']]);
 				return TRUE;
 			}
 		}
 
 		// find updatable keys
-		$keys = array_intersect(array_keys($this->_cart_contents[$items['rowid']]), array_keys($items));
+		$keys = array_intersect(array_keys($this->_cart_contents_stock[$items['rowid']]), array_keys($items));
 		// if a price was passed, make sure it contains valid data
 		if (isset($items['price']))
 		{
@@ -374,7 +374,7 @@ class CI_Cart {
 		// product id & name shouldn't be changed
 		foreach (array_diff($keys, array('id', 'name')) as $key)
 		{
-			$this->_cart_contents[$items['rowid']][$key] = $items[$key];
+			$this->_cart_contents_stock[$items['rowid']][$key] = $items[$key];
 		}
 
 		return TRUE;
@@ -390,8 +390,8 @@ class CI_Cart {
 	protected function _save_cart()
 	{
 		// Let's add up the individual prices and set the cart sub-total
-		$this->_cart_contents['total_items'] = $this->_cart_contents['cart_total'] = 0;
-		foreach ($this->_cart_contents as $key => $val)
+		$this->_cart_contents_stock['total_items'] = $this->_cart_contents_stock['cart_total'] = 0;
+		foreach ($this->_cart_contents_stock as $key => $val)
 		{
 			// We make sure the array contains the proper indexes
 			if ( ! is_array($val) OR ! isset($val['price'], $val['qty']))
@@ -399,15 +399,15 @@ class CI_Cart {
 				continue;
 			}
 
-			$this->_cart_contents['cart_total'] += ($val['price'] * $val['qty']);
-			$this->_cart_contents['total_items'] += $val['qty'];
-			$this->_cart_contents[$key]['subtotal'] = ($this->_cart_contents[$key]['price'] * $this->_cart_contents[$key]['qty']);
+			$this->_cart_contents_stock['cart_total'] += ($val['price'] * $val['qty']);
+			$this->_cart_contents_stock['total_items'] += $val['qty'];
+			$this->_cart_contents_stock[$key]['subtotal'] = ($this->_cart_contents_stock[$key]['price'] * $this->_cart_contents_stock[$key]['qty']);
 		}
 
 		// Is our cart empty? If so we delete it from the session
-		if (count($this->_cart_contents) <= 2)
+		if (count($this->_cart_contents_stock) <= 2)
 		{
-			$this->CI->session->unset_userdata('cart_contents');
+			$this->CI->session->unset_userdata('cart_contents_stock');
 
 			// Nothing more to do... coffee time!
 			return FALSE;
@@ -415,7 +415,7 @@ class CI_Cart {
 
 		// If we made it this far it means that our cart has data.
 		// Let's pass it to the Session class so it can be stored
-		$this->CI->session->set_userdata(array('cart_contents' => $this->_cart_contents));
+		$this->CI->session->set_userdata(array('cart_contents_stock' => $this->_cart_contents_stock));
 
 		// Woot!
 		return TRUE;
@@ -430,7 +430,7 @@ class CI_Cart {
 	 */
 	public function total()
 	{
-		return $this->_cart_contents['cart_total'];
+		return $this->_cart_contents_stock['cart_total'];
 	}
 
 	// --------------------------------------------------------------------
@@ -446,7 +446,7 @@ class CI_Cart {
 	 public function remove($rowid)
 	 {
 		// unset & save
-		unset($this->_cart_contents[$rowid]);
+		unset($this->_cart_contents_stock[$rowid]);
 		$this->_save_cart();
 		return TRUE;
 	 }
@@ -462,7 +462,7 @@ class CI_Cart {
 	 */
 	public function total_items()
 	{
-		return $this->_cart_contents['total_items'];
+		return $this->_cart_contents_stock['total_items'];
 	}
 
 	// --------------------------------------------------------------------
@@ -478,7 +478,7 @@ class CI_Cart {
 	public function contents($newest_first = FALSE)
 	{
 		// do we want the newest first?
-		$cart = ($newest_first) ? array_reverse($this->_cart_contents) : $this->_cart_contents;
+		$cart = ($newest_first) ? array_reverse($this->_cart_contents_stock) : $this->_cart_contents_stock;
 
 		// Remove these so they don't create a problem when showing the cart table
 		unset($cart['total_items']);
@@ -499,9 +499,9 @@ class CI_Cart {
 	 */
 	public function get_item($row_id)
 	{
-		return (in_array($row_id, array('total_items', 'cart_total'), TRUE) OR ! isset($this->_cart_contents[$row_id]))
+		return (in_array($row_id, array('total_items', 'cart_total'), TRUE) OR ! isset($this->_cart_contents_stock[$row_id]))
 			? FALSE
-			: $this->_cart_contents[$row_id];
+			: $this->_cart_contents_stock[$row_id];
 	}
 
 	// --------------------------------------------------------------------
@@ -517,7 +517,7 @@ class CI_Cart {
 	 */
 	public function has_options($row_id = '')
 	{
-		return (isset($this->_cart_contents[$row_id]['options']) && count($this->_cart_contents[$row_id]['options']) !== 0);
+		return (isset($this->_cart_contents_stock[$row_id]['options']) && count($this->_cart_contents_stock[$row_id]['options']) !== 0);
 	}
 
 	// --------------------------------------------------------------------
@@ -532,7 +532,7 @@ class CI_Cart {
 	 */
 	public function product_options($row_id = '')
 	{
-		return isset($this->_cart_contents[$row_id]['options']) ? $this->_cart_contents[$row_id]['options'] : array();
+		return isset($this->_cart_contents_stock[$row_id]['options']) ? $this->_cart_contents_stock[$row_id]['options'] : array();
 	}
 
 	// --------------------------------------------------------------------
@@ -561,8 +561,8 @@ class CI_Cart {
 	 */
 	public function destroy()
 	{
-		$this->_cart_contents = array('cart_total' => 0, 'total_items' => 0);
-		$this->CI->session->unset_userdata('cart_contents');
+		$this->_cart_contents_stock = array('cart_total' => 0, 'total_items' => 0);
+		$this->CI->session->unset_userdata('cart_contents_stock');
 	}
 
 }

@@ -101,6 +101,10 @@ class User_model extends CI_Model {
         $query=$this->db->get_where($this->userHR, array('hospcode'=> $hospcode));
         return $query->result();
     }
+    public function userPlan($hospcode) {
+        $query=$this->db->get_where($this->userPlan, array('hospcode'=> $hospcode));
+        return $query->result();
+    }
     public function adminPlanTrain($hospcode) {
         $query=$this->db->get_where($this->userPlanTrain, array('hospcode'=> $hospcode));
         return $query->row();

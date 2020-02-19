@@ -289,7 +289,7 @@
             <a href="#" class="dropdown-toggle">
                 <i class="menu-icon fa fa-calendar"></i>
                 <span class="menu-text">
-                    ระบบห้องประชุม
+                    ระบบจองห้องประชุม
                 </span>
                 <b class="arrow fa fa-angle-down"></b>
             </a>
@@ -359,6 +359,66 @@
                     <a href="<?php echo site_url('products/view/');?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         รายการขอยืมครุภัณฑ์ทั้งหมด
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="<?php echo $page_title  == 'คู่มือการใช้งานระบบครุภัณฑ์' ? 'active' : '' ?>">
+                    <a href="<?php echo site_url('assets/uploads/source/file.pdf');?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        คู่มือการใช้งาน
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+        <li <?php 
+			if($page_title=='รายการของฉัน'|| $page_title=='เบิกวัสดุ'|| $page_title=='รายการเบิกวัสดุ'){
+			    echo "class='active open'";
+			}else{
+				echo "class=''" ; } 
+		    ?>>
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-cube"></i>
+                <span class="menu-text">
+                    ระบบเบิกวัสดุ
+                </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="<?php echo $page_title  == 'รายการของฉัน' ? 'active' : '' ?>">
+                    <a href="<?php echo site_url('stock/my_view/');?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        รายการของฉัน
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="<?php echo $page_title  == 'เบิกวัสดุ' ? 'active' : '' ?>">
+                    <a href="<?php echo site_url('stock/');?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        เบิกวัสดุ
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="<?php echo $page_title  == 'รายการเบิกวัสดุ' ? 'active' : '' ?>">
+                    <a href="<?php echo site_url('stock/view/');?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        รายการเบิกวัสดุทั้งหมด
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="<?php echo $page_title  == 'คู่มือการใช้งาน' ? 'active' : '' ?>">
+                    <a href="<?php echo site_url('assets/uploads/source/file.pdf');?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        คู่มือการใช้งาน
                     </a>
 
                     <b class="arrow"></b>

@@ -14,6 +14,19 @@ function updateCartItem(obj, rowid) {
     });
 }
 
+function updateCartStockItem(obj, rowid) {
+    $.get(baseurl + 'stock/updateItemQty', {
+        rowid: rowid,
+        qty: obj.value
+    }, function (resp) {
+        if (resp == 'ok') {
+            location.reload();
+        } else {
+            alert('ไม่สามารถอัดเดทข้อมูลได้กรุณาระบุจำนวนมากว่า 0');
+        }
+    });
+}
+
 
 $('.clockpicker').clockpicker({
     placement: 'top',
