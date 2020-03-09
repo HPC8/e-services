@@ -19,7 +19,7 @@
                     วันที่ใช้งาน
                 </th>
                 <th width="13%" class="center">สถานะ</th>
-                <th width="12%" class="center">Action</th>
+                <th width="12%" class="center">Option</th>
             </tr>
         </thead>
         <tbody>

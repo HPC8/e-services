@@ -27,7 +27,6 @@ class Stock extends CI_Controller {
             $data['mylibrary']=$this->my_library;
             $data['stock']=$this->stock_model->getRows();
 
-
             $this->template->load('layout/template', 'stock/index', $data);
 
         }
@@ -104,6 +103,7 @@ class Stock extends CI_Controller {
         $this->cart_stock->destroy();
         redirect('stock/cart/');
     }
+
     function checkout() {
         $data=array();
 
@@ -203,45 +203,46 @@ class Stock extends CI_Controller {
         );
 
 
-            $insertOrder=$this->stock_model->insertOrder($ordData);
+        $insertOrder=$this->stock_model->insertOrder($ordData);
 
-            if($insertOrder) {
-                // Retrieve cart data from the session
-                $cartItems=$this->cart_stock->contents();
-                // Cart items
-                $ordItemData=array();
-                $i=0;
-                $temp=0;
+        if($insertOrder) {
+            // Retrieve cart data from the session
+            $cartItems=$this->cart_stock->contents();
+            // Cart items
+            $ordItemData=array();
+            $i=0;
+            $temp=0;
 
-                foreach($cartItems as $item) {
-                    $ordItemData[$i]['order_id']=$insertOrder;
-                    $ordItemData[$i]['stock_id']=$item['id'];
-                    $ordItemData[$i]['quantity']=$item['qty'];
+            foreach($cartItems as $item) {
+                $ordItemData[$i]['order_id']=$insertOrder;
+                $ordItemData[$i]['stock_id']=$item['id'];
+                $ordItemData[$i]['quantity']=$item['qty'];
 
-                    // Update quantity to tbl_products
-                    $data['getStock']=$this->stock_model->getStock($item['id']);
-                    $temp=$data['getStock'][0]->quantity-$item['qty'];
-                    $data=array('quantity'=> $temp,
-                        'modified'=> date("Y-m-d H:i:s"));
-                    $this->db->where('id', $item['id']);
-                    $this->db->update('tbl_stock', $data);
-                    $i++;
-                }
+                // Update quantity to tbl_products
+                $data['getStock']=$this->stock_model->getStock($item['id']);
+                $temp=$data['getStock'][0]->quantity-$item['qty'];
+                $data=array('quantity'=> $temp,
+                    'modified'=> date("Y-m-d H:i:s"));
+                $this->db->where('id', $item['id']);
+                $this->db->update('tbl_stock', $data);
+                $i++;
+            }
 
-                if( !empty($ordItemData)) {
-                    // Insert order items
-                    $insertOrderItems=$this->stock_model->insertOrderItems($ordItemData);
+            if( !empty($ordItemData)) {
+                // Insert order items
+                $insertOrderItems=$this->stock_model->insertOrderItems($ordItemData);
 
-                    if($insertOrderItems) {
-                        // Remove items from the cart
-                        $this->cart_stock->destroy();
+                if($insertOrderItems) {
+                    // Remove items from the cart
+                    $this->cart_stock->destroy();
 
-                        // Return order ID
-                        return $insertOrder;
-                    }
+                    // Return order ID
+                    return $insertOrder;
                 }
             }
-            return false;
+        }
+
+        return false;
     }
 
     public function view() {
@@ -260,6 +261,89 @@ class Stock extends CI_Controller {
             $data['query']=$this->stock_model->getOrders();
 
             $this->template->load('layout/template', 'stock/view', $data);
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+
+    public function setting() {
+        $data=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $data['mylibrary']=$this->my_library;
+            $data['page_title']='ตั้งค่ารายการวัสดุ';
+            $breadcrumb=array("Home"=> "/e-services/",
+                "ระบบเบิกวัสดุ"=> "/e-services/stock/",
+                "ตั้งค่ารายการวัสดุ"=> ""
+            );
+            $data['breadcrumb']=$breadcrumb;
+            $data['thaidate']=$this->thaidate;
+            $data['stock']=$this->stock_model->getStockList();
+            $data['group']=$this->stock_model->getGroup();
+            $data['category']=$this->stock_model->getCategory();
+            $data['admin_level']=$this->user_model->userStock($data['user']['hospcode']);
+
+            $this->template->load('layout/template', 'stock/setting', $data);
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+
+    public function saveStock() {
+        $data=array();
+        $json=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $name=$this->input->post('stock_name');
+            $qty=$this->input->post('stock_qty');
+            $unit=$this->input->post('stock_unit');
+            $group=$this->input->post('stock_group');
+            $category=$this->input->post('stock_category');
+            $this->stock_model->setHospcode($data['user']['hospcode']);
+
+            
+            if(empty(trim($name))) {
+                $json['error']['name']='กรุณากรอกชื่อพัสดุ';
+            }
+            if(empty(trim($qty))) {
+                $json['error']['qty']='กรุณากรอกจำนวน';
+            }
+            if(empty(trim($unit))) {
+                $json['error']['unit']='กรุณากรอกหน่วยนับ';
+            }
+            if(empty(trim($group))) {
+                $json['error']['group']='กรุณาเลือกหมวด';
+            }
+            if(empty(trim($category))) {
+                $json['error']['category']='กรุณาเลือกประเภท';
+            }
+
+            if(empty($json['error'])) {
+                $this->stock_model->setNmae($name);
+                $this->stock_model->setQty($qty);
+                $this->stock_model->setUnit($unit);
+                $this->stock_model->setGroup($group);
+                $this->stock_model->setCategory($category);
+
+
+                try {
+                   $last_id=$this->stock_model->createStock();
+                }
+
+                catch (Exception $e) {
+                    var_dump($e->getMessage());
+                }
+            }
+            
+
+            echo json_encode($json);
+
         }
 
         else {

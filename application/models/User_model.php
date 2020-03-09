@@ -10,6 +10,7 @@ class User_model extends CI_Model {
         $this->tbl_sex='tbl_sex';
         $this->userPlan='tbl_user_plan';
         $this->userPlanTrain='tbl_user_plan_train';
+        $this->userSto='tbl_user_stock';
     }
 
     private $_hospcode;
@@ -108,6 +109,10 @@ class User_model extends CI_Model {
     public function adminPlanTrain($hospcode) {
         $query=$this->db->get_where($this->userPlanTrain, array('hospcode'=> $hospcode));
         return $query->row();
+    }
+    public function userStock($hospcode) {
+        $query=$this->db->get_where($this->userSto, array('hospcode'=> $hospcode));
+        return $query->result();
     }
     
     public function uCheckPlan($hospcode) {

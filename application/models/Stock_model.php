@@ -7,21 +7,65 @@ class Stock_model extends CI_Model {
         $this->custTable='view_employee';
         $this->ordTable='tbl_stock_orders';
         $this->ordItemsTable='tbl_stock_order_items';
-        $this->statusProd='tbl_status_prod';
-        $this->viewItem='view_product_items';
-        $this->serialNo='tbl_serial_number';
-        $this->upointTable='tbl_product_upoint';
+        $this->stoGroup='tbl_stock_group';
+        $this->stoCategory='tbl_stock_category';
     }
 
-    /*
-     * Fetch products data from the database
-     * @param id returns a single record if specified, otherwise all records
-     */
+    private $_name,
+    $_qty,
+    $_unit,
+    $_group,
+    $_category,
+    $_hospcode;
+    
+    public function setHospcode($hospcode) {
+        $this->_hospcode=$hospcode;
+    }
+    public function setNmae($name) {
+        $this->_name=$name;
+    }
+    public function setQty($qty) {
+        $this->_qty=$qty;
+    }
+    public function setUnit($unit) {
+        $this->_unit=$unit;
+    }
+    public function setGroup($group) {
+        $this->_group=$group;
+    }
+    public function setCategory($category) {
+        $this->_category=$category;
+    }
+
+    
     public function getRows($id='') {
         $this->db->select('*');
         $this->db->from($this->stoTable);
         $this->db->where('quantity >', 0);
         $this->db->where('status', '1');
+
+        if($id) {
+            $this->db->where('id', $id);
+            $query=$this->db->get();
+            $result=$query->row_array();
+        }
+
+        else {
+            $this->db->order_by('name', 'asc');
+            $query=$this->db->get();
+            $result=$query->result();
+        }
+
+        // Return fetched data
+        return !empty($result)?$result:false;
+    }
+
+    public function getStockList($id='') {
+        $this->db->select('*');
+        $this->db->from($this->stoTable);
+        // $this->db->join($this->stoGroup, $this->stoGroup.'.id = '.$this->stoTable.'.group', 'left');
+        // $this->db->where('quantity >', 0);
+        // $this->db->where('status', '1');
 
         if($id) {
             $this->db->where('id', $id);
@@ -149,20 +193,6 @@ class Stock_model extends CI_Model {
         return $query->result();
     }
 
-    public function getItems($id) {
-        $query=$this->db->get_where($this->viewItem, array('order_id'=> $id));
-        return $query->result();
-    }
-
-    public function getStatus() {
-        $query=$this->db->get_where($this->statusProd, array('status'=> '1'));
-        return $query->result();
-    }
-
-    public function getSerial() {
-        $query=$this->db->get_where($this->serialNo, array('status'=> '1'));
-        return $query->result();
-    }
 
     public function getOrdItem($id, $product_id) {
         $query=$this->db->get_where($this->ordItemsTable, array('order_id'=> $id, 'product_id'=> $product_id));
@@ -174,10 +204,6 @@ class Stock_model extends CI_Model {
         return $query->result();
     }
 
-    public function getUpoint($hospcode) {
-        $query=$this->db->get_where($this->upointTable, array('hospcode'=> $hospcode));
-        return $query->result();
-    }
 
     public function countQuantity($id) {
         $this->db->select_sum('quantity');
@@ -187,4 +213,57 @@ class Stock_model extends CI_Model {
         $data=$query->result();
         return ($data[0]->quantity);
     }
+
+    public function returnGroup($id) {
+        if($id !='') {
+            $query=$this->db->get_where($this->stoGroup, array('id'=> $id));
+            $data=$query->result();
+            return ($data[0]->name);
+        }
+        else {
+            return "";
+        }
+    }
+
+    public function returnCategory($id) {
+        if($id !='') {
+            $query=$this->db->get_where($this->stoCategory, array('id'=> $id));
+            $data=$query->result();
+            return ($data[0]->name);
+        }
+        else {
+            return "";
+        }
+    }
+
+    public function getGroup() {
+        $this->db->select('*');
+        $this->db->from($this->stoGroup);
+        $this->db->order_by('name', 'ASC');
+        $query=$this->db->get();
+        return $query->result();
+    }
+
+    public function getCategory() {
+        $this->db->select('*');
+        $this->db->from($this->stoCategory);
+        $this->db->order_by('name', 'ASC');
+        $query=$this->db->get();
+        return $query->result();
+    }
+
+    public function createStock() {
+        $data=array('name'=> $this->_name,
+            'quantity'=> $this->_qty,
+            'unit'=> $this->_unit,
+            'group'=> $this->_group,
+            'category'=> $this->_category,
+            'created'=> date("Y-m-d H:i:s"),
+            'add_by'=> $this->_hospcode,
+        );
+        $this->db->insert($this->stoTable, $data);
+        return $this->db->insert_id();
+    }
+    
+    
 }

@@ -374,7 +374,7 @@
             </ul>
         </li>
         <li <?php 
-			if($page_title=='รายการของฉัน'|| $page_title=='เบิกวัสดุ'|| $page_title=='รายการเบิกวัสดุ'){
+			if($page_title=='รายการของฉัน'|| $page_title=='เบิกวัสดุ'|| $page_title=='รายการเบิกวัสดุทั้งหมด'|| $page_title=='ตั้งค่ารายการวัสดุ'){
 			    echo "class='active open'";
 			}else{
 				echo "class=''" ; } 
@@ -407,7 +407,7 @@
 
                     <b class="arrow"></b>
                 </li>
-                <li class="<?php echo $page_title  == 'รายการเบิกวัสดุ' ? 'active' : '' ?>">
+                <li class="<?php echo $page_title  == 'รายการเบิกวัสดุทั้งหมด' ? 'active' : '' ?>">
                     <a href="<?php echo site_url('stock/view/');?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         รายการเบิกวัสดุทั้งหมด
@@ -415,16 +415,44 @@
 
                     <b class="arrow"></b>
                 </li>
-                <li class="<?php echo $page_title  == 'คู่มือการใช้งาน' ? 'active' : '' ?>">
-                    <a href="<?php echo site_url('assets/uploads/source/file.pdf');?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        คู่มือการใช้งาน
+                <li <?php 
+			        if($page_title=='ตั้งค่ารายการวัสดุ'){
+			            echo "class='active open'";
+			        }else{
+				        echo "class=''" ; } 
+		        ?>>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+
+                        สำหรับเจ้าหน้าที่
+                        <b class="arrow fa fa-angle-down"></b>
                     </a>
 
                     <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="#">
+                                <i class="fa fa-plus purple" aria-hidden="true"></i>
+                                ตั้งค่ารายการวัสดุ
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="<?php echo $page_title  == 'ตั้งค่ารายการวัสดุ' ? 'active' : '' ?>">
+                            <a href="<?php echo site_url('stock/setting/');?>">
+                                <i class="fa fa-pencil-square-o pink" aria-hidden="true"></i>
+                                ตั้งค่ารายการวัสดุ
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </li>
+
         <!-- <li <?php 
 			if($uriMethod=="random"||$uriMethod=="randomProgress"){
 			    echo "class='active open'";
