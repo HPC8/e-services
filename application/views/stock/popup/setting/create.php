@@ -94,12 +94,24 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label><strong>รูปภาพ gif, png, jpg, jpeg</strong></label>
-                                <input type="file" name="stock_uplfile" class="form-control input-stock-uplfile" id="input-stock-uplfile">
+                                <label><strong>รูปภาพ </strong>
+                                    <font size="2" color="red">png, jpg, jpeg, ขนาดไม่เกิน 3MB</font>
+                                </label>
+                                <input type="file" name="stock_uplfile" class="form-control input-stock-uplfile"
+                                    id="stock-uplfile">
+                                <input type="hidden" name="stock_err" class="form-control input-stock-err"
+                                    id="stock-err">
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <img class="editable img-responsive" id="stock-uplfile-tag"
+                                    style="max-width:180px;width:100%" />
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="modal-footer panel-footer">

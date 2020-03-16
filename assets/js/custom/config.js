@@ -331,15 +331,15 @@ jQuery(function ($) {
         //
     });
 
-    $('#input-stock-uplfile').ace_file_input({
+    $('#stock-uplfile').ace_file_input({
         no_file: 'No File ...',
         btn_choose: 'Choose',
         btn_change: 'Change',
         droppable: false,
         onchange: null,
         thumbnail: false, //| true | large
-        whitelist: 'gif|png|jpg|jpeg'
-        //blacklist:'exe|php'
+        whitelist: 'png|jpg|jpeg',
+        blacklist:'exe|php'
         //onchange:''
         //
     });
@@ -818,3 +818,17 @@ function sum() {
         document.getElementById('sum').value = bath;
     }
 }
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function (e) {
+            $('#stock-uplfile-tag').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#stock-uplfile").change(function(){
+    readURL(this);
+});

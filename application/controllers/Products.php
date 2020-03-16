@@ -54,10 +54,10 @@ class Products extends CI_Controller {
         if($this->session->userdata('isUserLoggedIn')) {
             $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
             $data['mylibrary']=$this->my_library;
-            $data['page_title']='รายการของฉัน';
+            $data['page_title']='รายการยืมของฉัน';
             $breadcrumb=array("Home"=> "/e-services/",
                 "ระบบยืมคืนครุภัณฑ์"=> "/e-services/products/",
-                "รายการของฉัน"=> ""
+                "รายการยืมของฉัน"=> ""
             );
             $data['thaidate']=$this->thaidate;
             $data['breadcrumb']=$breadcrumb;

@@ -322,7 +322,7 @@
             </ul>
         </li>
         <li <?php 
-			if($page_title=='รายการของฉัน'|| $page_title=='ยืมครุภัณฑ์'|| $page_title=='รายการขอยืมครุภัณฑ์'){
+			if($page_title=='รายการยืมของฉัน'|| $page_title=='ยืมครุภัณฑ์'|| $page_title=='รายการขอยืมครุภัณฑ์'){
 			    echo "class='active open'";
 			}else{
 				echo "class=''" ; } 
@@ -339,10 +339,10 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
-                <li class="<?php echo $page_title  == 'รายการของฉัน' ? 'active' : '' ?>">
+                <li class="<?php echo $page_title  == 'รายการยืมของฉัน' ? 'active' : '' ?>">
                     <a href="<?php echo site_url('products/my_view/');?>">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        รายการของฉัน
+                        รายการยืมของฉัน
                     </a>
                     <b class="arrow"></b>
                 </li>
@@ -358,7 +358,7 @@
                 <li class="<?php echo $page_title  == 'รายการขอยืมครุภัณฑ์' ? 'active' : '' ?>">
                     <a href="<?php echo site_url('products/view/');?>">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        รายการขอยืมครุภัณฑ์ทั้งหมด
+                        รายการขอยืมครุภัณฑ์
                     </a>
 
                     <b class="arrow"></b>
@@ -374,7 +374,7 @@
             </ul>
         </li>
         <li <?php 
-			if($page_title=='รายการของฉัน'|| $page_title=='เบิกวัสดุ'|| $page_title=='รายการเบิกวัสดุทั้งหมด'|| $page_title=='ตั้งค่ารายการวัสดุ'){
+			if($page_title=='รายการเบิกของฉัน'|| $page_title=='เบิกวัสดุ'|| $page_title=='รายการเบิกวัสดุทั้งหมด'|| $page_title=='ตั้งค่ารายการวัสดุ'){
 			    echo "class='active open'";
 			}else{
 				echo "class=''" ; } 
@@ -391,10 +391,10 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
-                <li class="<?php echo $page_title  == 'รายการของฉัน' ? 'active' : '' ?>">
+                <li class="<?php echo $page_title  == 'รายการเบิกของฉัน' ? 'active' : '' ?>">
                     <a href="<?php echo site_url('stock/my_view/');?>">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        รายการของฉัน
+                        รายการเบิกของฉัน
                     </a>
                     <b class="arrow"></b>
                 </li>

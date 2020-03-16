@@ -6,7 +6,7 @@ class Stock extends CI_Controller {
         parent::__construct();
         $this->load->database();
         // Load library
-        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart_stock'));
+        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart_stock', 'upload'));
         // Load helper
         $this->load->helper(array('url', 'html', 'form'));
         // Load model
@@ -294,6 +294,35 @@ class Stock extends CI_Controller {
         }
     }
 
+    function upload_photo() {
+        $path='/assets/uploads/source/stock/';
+
+        if( !empty($_FILES['stock_uplfile'])) {
+            $config['upload_path']='./assets/uploads/source/stock/';
+            $config['allowed_types']='jpg|jpeg|png';
+            $config['max_size']=1024*3;
+            $config['encrypt_name']=TRUE;
+
+            $this->upload->initialize($config);
+
+            if ( !$this->upload->do_upload('stock_uplfile')) {
+                $error=$this->upload->display_errors();
+                return $error;
+            }
+
+            else {
+                $data=$this->upload->data();
+                $this->stock_model->setPath($path);
+                $this->stock_model->setUpload($data['file_name']);
+            }
+        }
+
+        else {
+            $this->stock_model->setPath($path);
+        }
+
+    }
+
     public function saveStock() {
         $data=array();
         $json=array();
@@ -305,23 +334,39 @@ class Stock extends CI_Controller {
             $unit=$this->input->post('stock_unit');
             $group=$this->input->post('stock_group');
             $category=$this->input->post('stock_category');
+
             $this->stock_model->setHospcode($data['user']['hospcode']);
 
-            
+
+
             if(empty(trim($name))) {
                 $json['error']['name']='กรุณากรอกชื่อพัสดุ';
             }
+
             if(empty(trim($qty))) {
                 $json['error']['qty']='กรุณากรอกจำนวน';
             }
+
             if(empty(trim($unit))) {
                 $json['error']['unit']='กรุณากรอกหน่วยนับ';
             }
+
             if(empty(trim($group))) {
                 $json['error']['group']='กรุณาเลือกหมวด';
             }
+
             if(empty(trim($category))) {
                 $json['error']['category']='กรุณาเลือกประเภท';
+            }
+
+            if(empty($_FILES["stock_uplfile"]["type"])) {
+                $json['error']['err']='กรุณาเลือกรูปภาพ';
+            }
+
+            $file=$this->upload_photo();
+
+            if($file !=null) {
+                $json['error']['err']=$file;
             }
 
             if(empty($json['error'])) {
@@ -331,16 +376,15 @@ class Stock extends CI_Controller {
                 $this->stock_model->setGroup($group);
                 $this->stock_model->setCategory($category);
 
-
                 try {
-                   $last_id=$this->stock_model->createStock();
+                    $last_id=$this->stock_model->createStock();
                 }
 
                 catch (Exception $e) {
                     var_dump($e->getMessage());
                 }
             }
-            
+
 
             echo json_encode($json);
 
@@ -349,6 +393,19 @@ class Stock extends CI_Controller {
         else {
             redirect('users/login');
         }
+    }
+
+    // activity edit
+    public function editStock() {
+        $data=array();
+        $id=$this->input->post('id');
+        $this->stock_model->setStockId($id);
+        $data['stockInfo']=$this->stock_model->stockInfo();
+        $data['group']=$this->stock_model->getGroup();
+        $data['category']=$this->stock_model->getCategory();
+        $this->output->set_header('Content-Type: application/json');
+        $this->load->view('stock/popup/setting/renderEdit', $data);
+
     }
 
     // echo '<pre>';
