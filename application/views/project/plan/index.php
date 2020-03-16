@@ -60,7 +60,7 @@ else { ?>
                         <div class="progress-bar progress-bar-striped active" role="progressbar"
                             aria-valuenow="<?php echo number_format((get_instance()->project_model->chargePlan($rs->plan_id)*100)/get_instance()->project_model->moneyPlan($rs->plan_id),2);?>"
                             aria-valuemin="0" aria-valuemax="100"
-                            style="width:<?php echo number_format((get_instance()->project_model->chargePlan($rs->plan_id)*100)/get_instance()->project_model->moneyPlan($rs->plan_id),2);?>%">
+                            style="width:<?php echo number_format((get_instance()->project_model->chargePlan($rs->plan_id)*100)/get_instance()->project_model->moneyPlan($rs->plan_id),2)."%";?>">
                             <?php echo number_format((get_instance()->project_model->chargePlan($rs->plan_id)*100)/get_instance()->project_model->moneyPlan($rs->plan_id),2);?>%
                         </div>
                     </div>

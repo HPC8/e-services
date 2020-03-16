@@ -59,7 +59,7 @@ else { ?>
                         <div class="progress-bar progress-bar-striped active" role="progressbar"
                             aria-valuenow="<?php echo number_format(($rs->activity_charge*100)/$rs->activity_money,2);?>"
                             aria-valuemin="0" aria-valuemax="100"
-                            style="width:<?php echo number_format(($rs->activity_charge*100)/$rs->activity_money,2);?>%">
+                            style="width:<?php echo number_format(($rs->activity_charge*100)/$rs->activity_money,2)."%";?>">
                             <?php echo number_format(($rs->activity_charge*100)/$rs->activity_money,2);?>%
                         </div>
                     </div>
