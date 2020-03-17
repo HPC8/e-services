@@ -281,12 +281,34 @@ class Stock extends CI_Controller {
             );
             $data['breadcrumb']=$breadcrumb;
             $data['thaidate']=$this->thaidate;
+            $data['adminLevel']=$this->user_model->userStock($data['user']['hospcode']);
             $data['stock']=$this->stock_model->getStockList();
             $data['group']=$this->stock_model->getGroup();
             $data['category']=$this->stock_model->getCategory();
-            $data['admin_level']=$this->user_model->userStock($data['user']['hospcode']);
 
-            $this->template->load('layout/template', 'stock/setting', $data);
+
+            if ( !empty($data['adminLevel'])) {
+                if($data['adminLevel'][0]->level==1 || $data['adminLevel'][0]->level==2) {
+                    $this->template->load('layout/template', 'stock/setting', $data);
+                }
+
+                else {
+                    $popup=array('msg'=> 1,
+                        'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                    $this->session->set_userdata($popup);
+                    redirect('stock');
+                }
+            }
+
+            else {
+                $popup=array('msg'=> 1,
+                    'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                );
+                $this->session->set_userdata($popup);
+                redirect('stock');
+            }
+
         }
 
         else {
@@ -395,7 +417,7 @@ class Stock extends CI_Controller {
         }
     }
 
-    // activity edit
+    // edit srock
     public function editStock() {
         $data=array();
         $id=$this->input->post('id');
@@ -406,6 +428,37 @@ class Stock extends CI_Controller {
         $this->output->set_header('Content-Type: application/json');
         $this->load->view('stock/popup/setting/renderEdit', $data);
 
+    }
+
+    // view srock
+    public function viewStock() {
+        $data=array();
+        $id=$this->input->post('id');
+        $this->stock_model->setStockId($id);
+        $data['thaidate']=$this->thaidate;
+        $data['stockInfo']=$this->stock_model->stockInfo();
+        $data['group']=$this->stock_model->getGroup();
+        $data['category']=$this->stock_model->getCategory();
+        $this->output->set_header('Content-Type: application/json');
+        $this->load->view('stock/popup/setting/renderView', $data);
+
+    }
+
+    // Product Delete method
+    public function delStock() {
+        $data=array();
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $id=$this->input->post('id');
+            $this->stock_model->setHospcode($data['user']['hospcode']);
+            $this->stock_model->setStockId($id);
+            $this->stock_model->delStock();
+            $this->output->set_header('Content-Type: application/json');
+            echo json_encode($data);
+        }
+        else {
+            redirect('users/login');
+        }
     }
 
     // echo '<pre>';

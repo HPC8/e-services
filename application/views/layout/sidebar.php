@@ -431,15 +431,6 @@
                     <b class="arrow"></b>
 
                     <ul class="submenu">
-                        <li class="">
-                            <a href="#">
-                                <i class="fa fa-plus purple" aria-hidden="true"></i>
-                                ตั้งค่ารายการวัสดุ
-                            </a>
-
-                            <b class="arrow"></b>
-                        </li>
-
                         <li class="<?php echo $page_title  == 'ตั้งค่ารายการวัสดุ' ? 'active' : '' ?>">
                             <a href="<?php echo site_url('stock/setting/');?>">
                                 <i class="fa fa-pencil-square-o pink" aria-hidden="true"></i>

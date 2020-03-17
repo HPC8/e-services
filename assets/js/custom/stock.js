@@ -105,3 +105,55 @@ jQuery(document).on('click', 'a.update-stock-details', function () {
         }
     });
 });
+
+// view stock setting
+jQuery(document).on('click', 'a.view-stock', function () {
+    var id = jQuery(this).data('getid');
+    jQuery.ajax({
+        type: 'POST',
+        url: baseurl + 'stock/viewStock',
+        data: {
+            id: id
+        },
+        dataType: 'html',
+        beforeSend: function () {
+            jQuery('#render-view-stock').html('<div class="text-center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
+        },
+        success: function (html) {
+            jQuery('#render-view-stock').html(html);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+// set id stock for delete 
+jQuery(document).on('click', 'a.delete-stock-details', function(){
+    var id = jQuery(this).data('getid');
+    jQuery('button#delete-stock-id').data('deleteid', id);
+
+});
+// delete stock
+jQuery(document).on('click', 'button#delete-stock-id', function(){
+    var id = jQuery(this).data('deleteid');
+    jQuery.ajax({
+        type:'POST',
+        url:baseurl+'stock/delStock',
+        data:{id: id},
+        dataType:'html',         
+        complete: function () {           
+            jQuery('#delete-stock').modal('hide');
+        }, 
+        success: function () {
+            jQuery('span#success-msg').html('<div class="alert alert-success">ลบข้อมูลสำเร็จ</div>');
+            setTimeout(function () {
+                window.location.reload(true);
+            }, 1000);
+                                 
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }        
+    });
+});

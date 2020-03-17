@@ -1,5 +1,5 @@
 <?php
-if(!empty($admin_level)){ ?>
+if(!empty($adminLevel)){ ?>
 <div class="row">
     <div class="col-lg-12">
         <a href="javascript:void(0);" data-toggle="modal" data-target="#add-stock"
@@ -47,18 +47,20 @@ else { ?>
                     <?php echo $no;?>
                 </td>
                 <td class="center">
-                    <img data-toggle="modal" data-target="#icon<?php echo $row->id;?>" src="<?php echo base_url($row->path.$row->image); ?>"
-                        title="<?php echo $row->name;?>" width="32" height="32" />
+                    <img data-toggle="modal" data-target="#icon<?php echo $row->id;?>"
+                        src="<?php echo base_url($row->path.$row->image); ?>" title="<?php echo $row->name;?>"
+                        width="32" height="32" />
                 </td>
                 <td class="hidden-1024"><?php echo $row->name;?></td>
                 <td class="hidden-768 center"><?php echo get_instance()->stock_model->returnGroup($row->group);?></td>
-                <td class="hidden-768 center"><?php echo get_instance()->stock_model->returnCategory($row->category);?></td>
+                <td class="hidden-768 center"><?php echo get_instance()->stock_model->returnCategory($row->category);?>
+                </td>
                 <td class="hidden-768 center"><?php echo $row->quantity;?></td>
                 <td class="center">
                     <div class="hidden-xs btn-group">
-                        <a title="View" href="javascript:void(0);" data-getcode="<?php echo $row->id;?>"
-                            data-toggle="modal" data-target="#view-stock"
-                            class="view-stock btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
+                        <a title="View" href="javascript:void(0);" data-getid="<?php echo $row->id;?>"
+                            data-toggle="modal" data-target="#view-stock" class="view-stock btn btn-primary btn-xs"><i
+                                class="fa fa-eye"></i> </a>
                         <a title="Edit" href="javascript:void(0);" data-getid="<?php echo $row->id;?>"
                             data-toggle="modal" data-target="#update-stock"
                             class="update-stock-details btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
@@ -76,16 +78,15 @@ else { ?>
                             <ul
                                 class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                 <li>
-                                    <a title="View" href="javascript:void(0);" data-getcode="<?php echo $row->id;?>"
+                                    <a title="View" href="javascript:void(0);" data-getid="<?php echo $row->id;?>"
                                         data-toggle="modal" data-target="#view-stock"
                                         class="view-stock btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
                                 </li>
 
                                 <li>
-                                    <a title="Edit" href="javascript:void(0);" data-getcode="<?php echo $row->id;?>"
+                                    <a title="Edit" href="javascript:void(0);" data-getid="<?php echo $row->id;?>"
                                         data-toggle="modal" data-target="#update-stock"
-                                        class="update-stock-details btn btn-success btn-xs"><i
-                                            class="fa fa-edit"></i>
+                                        class="update-stock-details btn btn-success btn-xs"><i class="fa fa-edit"></i>
                                     </a>
                                 </li>
 
@@ -135,6 +136,7 @@ else { ?>
 <?php
     $this->load->view('stock/alerts');
     $this->load->view('stock/popup/setting/create');
+    $this->load->view('stock/popup/setting/view');
     $this->load->view('stock/popup/setting/edit');
-    // $this->load->view('project/plan/popup/delete');
+    $this->load->view('stock/popup/setting/delete');
 ?>

@@ -85,7 +85,7 @@ class Stock_model extends CI_Model {
         $this->db->from($this->stoTable);
         // $this->db->join($this->stoGroup, $this->stoGroup.'.id = '.$this->stoTable.'.group', 'left');
         // $this->db->where('quantity >', 0);
-        // $this->db->where('status', '1');
+        $this->db->where('status', '1');
 
         if($id) {
             $this->db->where('id', $id);
@@ -302,6 +302,16 @@ class Stock_model extends CI_Model {
         $this->db->where('id', $this->_StockId);
         $query=$this->db->get();
         return $query->row();
+    }
+
+    // delete Stock
+    function delStock() {
+        $data=array('status'=> '0',
+            'modified'=> date("Y-m-d H:i:s"),
+            'edit_by'=> $this->_hospcode,
+        );
+        $this->db->where('id', $this->_StockId);
+        $this->db->update($this->stoTable, $data);
     }
 
 

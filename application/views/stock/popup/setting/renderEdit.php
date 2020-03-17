@@ -87,7 +87,7 @@
         <div class="form-group">
             <img class="editable img-responsive" alt="ประเภทไฟล์ไม่ถูกต้อง" id="edit-stock-uplfile-tag"
                 src="<?php echo base_url(); echo $stockInfo->path.$stockInfo->image;?>"
-                style="max-width:200px;width:100%" />
+                style="max-width:180px;width:100%" />
         </div>
     </div>
 </div>
