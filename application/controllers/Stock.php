@@ -286,7 +286,6 @@ class Stock extends CI_Controller {
             $data['group']=$this->stock_model->getGroup();
             $data['category']=$this->stock_model->getCategory();
 
-
             if ( !empty($data['adminLevel'])) {
                 if($data['adminLevel'][0]->level==1 || $data['adminLevel'][0]->level==2) {
                     $this->template->load('layout/template', 'stock/setting', $data);
@@ -308,7 +307,6 @@ class Stock extends CI_Controller {
                 $this->session->set_userdata($popup);
                 redirect('stock');
             }
-
         }
 
         else {
@@ -358,8 +356,6 @@ class Stock extends CI_Controller {
             $category=$this->input->post('stock_category');
 
             $this->stock_model->setHospcode($data['user']['hospcode']);
-
-
 
             if(empty(trim($name))) {
                 $json['error']['name']='กรุณากรอกชื่อพัสดุ';
@@ -447,6 +443,7 @@ class Stock extends CI_Controller {
     // Product Delete method
     public function delStock() {
         $data=array();
+
         if($this->session->userdata('isUserLoggedIn')) {
             $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
             $id=$this->input->post('id');
@@ -456,9 +453,22 @@ class Stock extends CI_Controller {
             $this->output->set_header('Content-Type: application/json');
             echo json_encode($data);
         }
+
         else {
             redirect('users/login');
         }
+    }
+
+    // view srock order
+    public function viewStockOrder() {
+        $data=array();
+        $id=$this->input->post('id');
+        $data['thaidate']=$this->thaidate;
+        $data['orderInfo']=$this->stock_model->orderInfo($id);
+        $data['orderItems']=$this->stock_model->orderItems($id);
+        $this->output->set_header('Content-Type: application/json');
+        $this->load->view('stock/popup/order/renderView', $data);
+
     }
 
     // echo '<pre>';

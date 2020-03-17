@@ -82,16 +82,28 @@
                     <div class="profile-info-row">
                         <div class="profile-info-name"> อัพเดท </div>
                         <div class="profile-info-value">
-                            <span><?= $thaidate->thai_date_and_time($data->modified);?>
-                                <?php if($data->approvers_id!=''&& $data->send_id==''){
-                                echo 'โดย'.get_instance()->user_model->getUsername($data->approvers_id);
-                            }elseif($data->send_id!=''&& $data->receive_id==''){
-                                echo 'โดย'.get_instance()->user_model->getUsername($data->send_id);
-                            }elseif($data->receive_id!=''){
-                                echo 'โดย'.get_instance()->user_model->getUsername($data->receive_id);
-                            }
+                        <?php 
+                                if ( !empty($data->created)) {
+                                    echo '<span class="badge badge-warning">1</span> '.$thaidate->thai_date_and_time($data->created);
+                                    echo 'โดย'.get_instance()->user_model->getUsername($data->hospcode);
+                                }
+                                if ( !empty($data->approvers_id)) {  
+                                    echo '<br><span class="badge badge-success">2</span> '.$thaidate->thai_date_and_time($data->approvers_date);
+                                    echo 'โดย'.get_instance()->user_model->getUsername($data->approvers_id);
+                                }
+                                if ( !empty($data->send_id)) {  
+                                    echo '<br><span class="badge badge-info">3</span> '.$thaidate->thai_date_and_time($data->send_date);
+                                    echo 'โดย'.get_instance()->user_model->getUsername($data->send_id);
+                                }
+                                if ( !empty($data->returning_id)) {  
+                                    echo '<br><span class="badge">4</span> '.$thaidate->thai_date_and_time($data->returning_date);
+                                    echo 'โดย'.get_instance()->user_model->getUsername($data->returning_id);
+                                }
+                                if ( !empty($data->receive_id)) {  
+                                    echo '<br><span class="badge badge-purple">5</span> '.$thaidate->thai_date_and_time($data->receive_date);
+                                    echo 'โดย'.get_instance()->user_model->getUsername($data->receive_id);
+                                }
                             ?>
-                            </span>
                         </div>
                     </div>
                     <div class="profile-info-row">

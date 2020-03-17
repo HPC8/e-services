@@ -29,8 +29,8 @@
                     <?php echo $no;?>
                 </td>
                 <td class="center">
-                    <a title="View" href="javascript:void(0);" data-getcode="<?php echo $rs->id;?>" data-toggle="modal"
-                        data-target="#view-products" class="view-products"><?php echo $rs->order_doc;?> </a>
+                    <a title="View" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>" data-toggle="modal"
+                        data-target="#view-stock-order" class="view-stock-order"><?php echo $rs->order_doc;?> </a>
                 </td>
                 <td class="hidden-1024"><?php echo get_instance()->user_model->getUsername($rs->hospcode);?></td>
                 <td class="hidden-768"><?php echo mb_substr($rs->description,0,100, "UTF-8");?></td>
@@ -38,15 +38,15 @@
                 <td class="center"><?php echo get_instance()->stock_model->checkStatus($rs->status);?></td>
                 <td class="center">
                     <div class="hidden-xs btn-group">
-                        <a title="View" href="javascript:void(0);" data-getcode="<?php echo $rs->id;?>"
-                            data-toggle="modal" data-target="#view-products"
-                            class="view-products btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
-                        <a title="Edit" href="javascript:void(0);" data-getcode="<?php echo $rs->id;?>"
-                            data-toggle="modal" data-target="#update-products"
-                            class="update-products-details btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
+                        <a title="View" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                            data-toggle="modal" data-target="#view-stock-order"
+                            class="view-stock-order btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
+                        <a title="Edit" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                            data-toggle="modal" data-target="#update-stock-order"
+                            class="update-stock-order-details btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
                         <a title="Cancel" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
-                            data-toggle="modal" data-target="#delete-products"
-                            class="delete-products-details btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                            data-toggle="modal" data-target="#delete-stock-order"
+                            class="delete-stock-order-details btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                     </div>
 
                     <div class="hidden-sm hidden-md hidden-lg">
@@ -58,23 +58,23 @@
                             <ul
                                 class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                 <li>
-                                    <a title="View" href="javascript:void(0);" data-getcode="<?php echo $rs->id;?>"
-                                        data-toggle="modal" data-target="#view-products"
-                                        class="view-products btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
+                                    <a title="View" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                                        data-toggle="modal" data-target="#view-stock-order"
+                                        class="view-stock-order btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
                                 </li>
 
                                 <li>
-                                    <a title="Edit" href="javascript:void(0);" data-getcode="<?php echo $rs->id;?>"
-                                        data-toggle="modal" data-target="#update-products"
-                                        class="update-products-details btn btn-success btn-xs"><i
+                                    <a title="Edit" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                                        data-toggle="modal" data-target="#update-stock-order"
+                                        class="update-stock-order-details btn btn-success btn-xs"><i
                                             class="fa fa-edit"></i>
                                     </a>
                                 </li>
 
                                 <li>
                                     <a title="Cancel" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
-                                        data-toggle="modal" data-target="#delete-products"
-                                        class="delete-products-details btn btn-danger btn-xs"><i
+                                        data-toggle="modal" data-target="#delete-stock-order"
+                                        class="delete-stock-order-details btn btn-danger btn-xs"><i
                                             class="fa fa-trash"></i></a>
                                 </li>
                             </ul>
@@ -101,8 +101,6 @@
 ?>
 
 <?php
-    $this->load->view('products/alerts');
-    $this->load->view('products/popup/view');
-    $this->load->view('products/popup/edit');
-    $this->load->view('products/popup/delete');
+    $this->load->view('stock/alerts');
+    $this->load->view('stock/popup/order/view');
 ?>

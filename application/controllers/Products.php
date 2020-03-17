@@ -345,18 +345,43 @@ class Products extends CI_Controller {
         $id=$this->input->post('id');
         $data['detail']=$this->product_model->getDetail($id);
         $data['items']=$this->product_model->getItems($id);
+        $data['adminLevel']=$this->user_model->getUser_prod($data['user']['hospcode']);
         $data['cancel']=array('id'=> $id,
             'status'=> '7',
             'modified'=> date("Y-m-d H:i:s"),
         );
+        $data['cancelAdd']=array('id'=> $id,
+            'status'=> '7',
+            'cancel_id'=> $data['user']['hospcode'],
+            'cancel_date'=> date("Y-m-d H:i:s"),
+        );
 
-        if($data['detail'][0]->hospcode==$data['user']['hospcode']) {
+        if($data['detail'][0]->hospcode==$data['user']['hospcode'] || $data['adminLevel'][0]->level==1) {
             if($data['detail'][0]->status=="1") {
                 $product=$this->update_product($data['items']);
 
                 if($product) {
                     $this->db->where('id', $id);
                     $this->db->update('tbl_product_orders', $data['cancel']);
+                    $popup=array('msg'=> 0,
+                        'detail'=> 'ระบบทำการอัพเดทข้อมูลเรียบร้อย...',
+                    );
+                    $this->session->set_userdata($popup);
+                }
+
+                else {
+                    $popup=array('msg'=> 1,
+                        'detail'=> 'คุณไม่สามารถยกเลิกใบงานได้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                    $this->session->set_userdata($popup);
+                }
+            }
+            if($data['detail'][0]->status=="2") {
+                $product=$this->update_product($data['items']);
+
+                if($product) {
+                    $this->db->where('id', $id);
+                    $this->db->update('tbl_product_orders', $data['cancelAdd']);
                     $popup=array('msg'=> 0,
                         'detail'=> 'ระบบทำการอัพเดทข้อมูลเรียบร้อย...',
                     );
@@ -378,7 +403,6 @@ class Products extends CI_Controller {
                 $this->session->set_userdata($popup);
             }
         }
-
         else {
             $popup=array('msg'=> 1,
                 'detail'=> 'คุณไม่สามารถยกเลิกใบงานได้ กรุณาติดต่อผู้ดูแลระบบครับ!',

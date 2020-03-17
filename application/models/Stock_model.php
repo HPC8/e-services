@@ -9,6 +9,7 @@ class Stock_model extends CI_Model {
         $this->ordItemsTable='tbl_stock_order_items';
         $this->stoGroup='tbl_stock_group';
         $this->stoCategory='tbl_stock_category';
+        $this->viewItem='view_tbl_stock_item';
     }
 
     private $_name,
@@ -313,7 +314,14 @@ class Stock_model extends CI_Model {
         $this->db->where('id', $this->_StockId);
         $this->db->update($this->stoTable, $data);
     }
-
+    public function orderInfo($id) {
+        $query=$this->db->get_where($this->ordTable, array('id'=> $id));
+        return $query->result();
+    }
+    public function orderItems($id) {
+        $query=$this->db->get_where($this->viewItem, array('order_id'=> $id));
+        return $query->result();
+    }
 
 
 }
