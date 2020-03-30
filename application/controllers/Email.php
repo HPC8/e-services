@@ -260,4 +260,221 @@ class Email extends CI_Controller {
         //$this->session->set_userdata($popup);
         //redirect('products/view/');
     }
+    public function stock($id, $sms) {
+        $data=array();
+        
+        $data['mylibrary']=$this->my_library;
+        $data['mydate']=$this->thaidate;
+        $data['orderInfo']=$this->stock_model->orderInfo($id);
+        $data['orderItems']=$this->stock_model->orderItems($id);
+        $data['user']=$this->user_model->getRowsUser($data['orderInfo'][0]->hospcode);
+
+        // PHPMailer object
+        $mail=$this->phpmailer_lib->load();
+        $mail->CharSet="utf-8";
+        // SMTP configuration
+        $mail->isSMTP();
+        $mail->Host='smtp.gmail.com';
+        $mail->SMTPAuth=true;
+        $mail->Username='ict.hpc8@gmail.com';
+        $mail->Password='anamai#hpc8';
+        $mail->SMTPSecure='ssl';
+        $mail->Port=465;
+
+        $mail->setFrom('ict.hpc8@gmail.com', 'e-Services Online');
+        $mail->addReplyTo('ict.hpc8@gmail.com', 'e-Services Online');
+
+        // Add a recipient getEmail
+        $mail->addAddress(get_instance()->user_model->getEmail($data['orderInfo'][0]->hospcode));
+        
+        // Add cc or bcc
+        if($data['orderInfo'][0]->status==1) {
+            $data['userHead']=$this->user_model->adminDepStock();
+            foreach($data['userHead'] as $userHead) {
+                if($userHead->level == 3 and $userHead->hospcode == $data['user']->department_head) {
+                    $this->user_model->setHospcode($userHead->hospcode);
+                    $data['admin']=$this->user_model->getHospcode();
+                    //echo $data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname;
+                    $mail->addCC($data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname);
+                }
+            }
+        }
+        elseif($data['orderInfo'][0]->status==2) {
+            $data['userHead']=$this->user_model->adminDepStock();
+            foreach($data['userHead'] as $userHead) {
+                if($userHead->level == 4) {
+                    $this->user_model->setHospcode($userHead->hospcode);
+                    $data['admin']=$this->user_model->getHospcode();
+                    echo $data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname;
+                    //$mail->addCC($data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname);
+                }
+            }
+        }
+        elseif($data['orderInfo'][0]->status==3) {
+            $data['userHead']=$this->user_model->adminDepStock();
+            foreach($data['userHead'] as $userHead) {
+                if($userHead->level == 2) {
+                    $this->user_model->setHospcode($userHead->hospcode);
+                    $data['admin']=$this->user_model->getHospcode();
+                    echo $data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname;
+                    //$mail->addCC($data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname);
+                }
+            }
+        }
+        else {
+            // Add cc or bcc 
+            //$mail->addCC('ict.hpc8@gmail.com');
+            //$mail->addBCC('bcc@example.com');
+        }
+
+        //Check status 
+        if($data['orderInfo'][0]->status==1) {
+            $mail->Subject='แจ้งเตือน การขอเบิกวัสดุผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['orderInfo'][0]->order_doc;
+        }
+
+        elseif($data['orderInfo'][0]->status==2) {
+            $mail->Subject='แจ้งเตือน หัวหน้ากลุ่มอนุมัติการขอเบิกวัสดุผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['orderInfo'][0]->order_doc;
+        }
+
+        elseif($data['orderInfo'][0]->status==3) {
+            $mail->Subject='แจ้งเตือน หัวหน้าหน่วยพัสดุอนุมัติการขอเบิกวัสดุผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['orderInfo'][0]->order_doc;
+        }
+
+        elseif($data['orderInfo'][0]->status==4) {
+            $mail->Subject='แจ้งเตือน เจ้าหน้าที่พัสดุนำจ่ายแล้วผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['orderInfo'][0]->order_doc;
+        }
+
+        elseif($data['orderInfo'][0]->status==5) {
+            $mail->Subject='แจ้งเตือน ผู้ใช้งานได้วัสดุแล้วผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['orderInfo'][0]->order_doc;
+        }
+
+        elseif($data['orderInfo'][0]->status==6) {
+            $mail->Subject='แจ้งเตือน หัวหน้ากลุ่มไม่อนุมัติใบงานผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['orderInfo'][0]->order_doc;
+        }
+        elseif($data['orderInfo'][0]->status==7){
+            $mail->Subject='แจ้งเตือน หัวหน้าหน่วยพัสดุไม่อนุมัติใบงานผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['orderInfo'][0]->order_doc;
+        }
+
+        else {
+            $mail->Subject='แจ้งเตือน การยกเลิกใบงานผ่านระบบ e-Services Online เลขที่เอกสาร : '.$data['orderInfo'][0]->order_doc;
+        }
+
+        // Set email format to HTML
+        $mail->isHTML(true);
+
+        // Email body content
+        $mailContent =
+        "<html>
+        <head>
+        </head>
+        <body>
+            <div
+                style='border: 1px dashed #cccccc; background-color: #ffffff; padding: 20px; font-size: 12px; color: #666666; font-family: tahoma; line-height: 20px;'>
+                <div style='border-bottom: dashed #eeeeee 1px; text-align: left;'><img
+                        src=https://lh6.googleusercontent.com/9JPAzQDCFOmov7CQyGogUgjjM024KZuhP_KuLmNIOK2rXRUxR4_wMQPQqhz_bOxtkWVlu24DmLX3LBzwrGw01FgxA93ktnAVWfPHvole9OFuzUD4gQHkq9PDRkVqQeKdjmgpHqh2 />
+                </div>
+                <p>
+                    <div><span style='padding-top: 5px; padding-bottom: 0px; margin: 0px; font-weight: bold;'>เรียน
+                            คุณ".get_instance()->user_model->getUser($data['orderInfo'][0]->hospcode)."</span>
+                        ตามที่ท่านได้แจ้งความประสงค์ที่จะขอเบิกพัสดุ ผ่านช่องทางระบบ e-Services Online
+                        โดยมีรายละเอียดรายการตามนี้</div>
+                    <div style='padding-top: 10px;'>
+                        <table width='100%' cellspacing='1' cellpadding='5' bgcolor='#CCCCCC'>
+                            <tbody>
+                                <tr>
+                                    <td style='font-weight: bold; background-color: #eeeeee; width: 99.3548%; text-align: left;'
+                                        colspan='2' align='center'>รายละเอียดการขอgเบิกพัสดุ</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>เลขที่เอกสาร
+                                    </td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'>".$data['orderInfo'][0]->order_doc."</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>
+                                        ชื่อผู้ขอใช้บริการ</td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'>
+                                        ".get_instance()->user_model->getUsername($data['orderInfo'][0]->hospcode)."</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>วันที่ใช้งาน
+                                    </td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'>".$data['orderInfo'][0]->created."</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>
+                                        เรื่อง/เหตุผล</td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'>".$data['orderInfo'][0]->description."</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>
+                                        รายละเอียดพัสดุ</td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'>";
+        
+                                        $no=1; foreach ($data['orderItems'] as $item) {
+                                        $mailContent .= $no.'. '.$item->name.' จำนวน '.$item->quantity.' '.$item->unit.'<br>';
+                                        $no++;
+                                        }
+                                        $mailContent .= "</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>สถานะ</td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'><a
+                                            href='http://apps.anamai.moph.go.th/e-services/stock/view/ '
+                                            target='_blank'>".get_instance()->stock_model->checkStatus($data['orderInfo'][0]->status).
+                                            "</a></td>
+                                </tr>
+                            </tbody>
+                        </table></br>
+                    </div>
+            </div>
+            <div style='padding-top: 10px;'>All Right Reserved. Powered By <strong>e-Services Online </strong>© ICT
+                ศูนย์อนามัยที่ 8 อุดรธานี</div>
+            </div>
+        </body>
+        </html>";
+
+        $mail->Body=$mailContent;
+
+        // Send email
+        if( !$mail->send()) {
+            $popup=array('msg'=> 1,
+                'detail'=> 'ระบบไม่สามารถส่ง E-Mail แจ้งเตือนได้กรุณาติดต่อผู้ดูแลระบบครับ Error '.$mail->ErrorInfo,
+            );
+            $this->session->set_userdata($popup);
+            //redirect('stock/view/');
+        }
+
+        if($sms==1) {
+            $popup=array('msg'=> 0,
+                'detail'=> 'ระบบทำการบันทึกข้อมูลสำเร็จ พร้อมได้ส่งข้อความแจ้งเตือนไปที่ E-Mail '.get_instance()->user_model->getEmail($data['orderInfo'][0]->hospcode).' ของท่านเรียบร้อยแล้ว',
+            );
+            $this->session->set_userdata($popup);
+            redirect('stock/view/');
+        }
+
+        elseif($sms==2||$sms==3||$sms==4||$sms==5||$sms==6) {
+            $popup=array('msg'=> 0,
+                'detail'=> 'ระบบทำการอัพเดทข้อมูลสำเร็จ พร้อมได้ส่งข้อความแจ้งเตือนไปที่ E-Mail '.get_instance()->user_model->getEmail($data['orderInfo'][0]->hospcode).' เรียบร้อยแล้ว',
+            );
+            $this->session->set_userdata($popup);
+        }
+
+        elseif($sms==7) {
+            $popup=array('msg'=> 0,
+                'detail'=> 'ระบบทำการแก้ไขข้อมูลสำเร็จ พร้อมได้ส่งข้อความแจ้งเตือนไปที่ E-Mail '.get_instance()->user_model->getEmail($data['orderInfo'][0]->hospcode).' ของท่านเรียบร้อยแล้ว',
+            );
+            $this->session->set_userdata($popup);
+        }
+
+        else {
+            $popup=array('msg'=> 0,
+                'detail'=> 'ระบบทำการยกเลิกใบงานสำเร็จ พร้อมได้ส่งข้อความแจ้งเตือนไปที่ E-Mail '.get_instance()->user_model->getEmail($data['orderInfo'][0]->hospcode).' ของท่านเรียบร้อยแล้ว',
+            );
+            $this->session->set_userdata($popup);
+        }
+
+        //$this->session->set_userdata($popup);
+        //redirect('stock/view/');
+    }
 }
