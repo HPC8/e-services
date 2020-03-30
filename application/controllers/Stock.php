@@ -6,7 +6,7 @@ class Stock extends CI_Controller {
         parent::__construct();
         $this->load->database();
         // Load library
-        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart_stock', 'upload'));
+        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart_stock', 'upload', 'Pdf'));
         // Load helper
         $this->load->helper(array('url', 'html', 'form'));
         // Load model
@@ -496,7 +496,8 @@ class Stock extends CI_Controller {
                 $this->stock_model->setPath($path);
                 $this->stock_model->setUpload($image);
             }
-            if(!empty($_FILES["stock_uplfile"]["type"])) {
+
+            if( !empty($_FILES["stock_uplfile"]["type"])) {
                 $file=$this->update_photo();
 
                 if($file !=null) {
@@ -799,6 +800,68 @@ class Stock extends CI_Controller {
         }
 
         return true;
+    }
+
+
+    // create pdf file 
+    public function createPDF() {
+        $pdf=new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8');
+
+        // กำหนดคุณสมบัติของไฟล์ PDF เช่น ผู้สร้างไฟล์ หัวข้อไฟล์ คำค้น 
+        $pdf->SetCreator('stock');
+        $pdf->SetAuthor('stock');
+        $pdf->SetTitle('หนังสือขอเบิกวัสดุ');
+        $pdf->SetSubject('stock');
+        $pdf->SetKeywords('stock');
+
+        // กำหนดรายละเอียดของหัวกระดาษ สีข้อความและสีของเส้นใต้
+        // PDF_HEADER_LOGO = ไฟล์รูปภาพโลโก้
+        // PDF_HEADER_LOGO_WIDTH = ขนาดความกว้างของโลโก้
+        $pdf->SetHeaderData();
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        // กำหนดรายละเอียดของท้ายกระดาษ สีข้อความและสีของเส้น
+        $pdf->setFooterData(array (0, 64, 0), array (0, 64, 128));
+
+        // กำหนดตัวอักษร รูปแบบและขนาดของตัวอักษร (ตัวอักษรดูได้จากโฟลเดอร์ fonts)
+        // PDF_FONT_NAME_MAIN = ชื่อตัวอักษร helvetica
+        // PDF_FONT_SIZE_MAIN = ขนาดตัวอักษร 10
+        $pdf->setHeaderFont(Array (PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array (PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        // กำหนดระยะขอบกระดาษ
+        // PDF_MARGIN_LEFT = ขอบกระดาษด้านซ้าย 15mm
+        // PDF_MARGIN_TOP = ขอบกระดาษด้านบน 27mm
+        // PDF_MARGIN_RIGHT = ขอบกระดาษด้านขวา 15mm
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+
+        // กำหนดระยะห่างจากขอบกระดาษด้านบนมาที่ส่วนหัวกระดาษ
+        // PDF_MARGIN_HEADER = 5mm
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        // กำหนดระยะห่างจากขอบกระดาษด้านล่างมาที่ส่วนท้ายกระดาษ
+        // PDF_MARGIN_FOOTER = 10mm
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // กำหนดให้ขึ้นหน้าใหม่แบบอัตโนมัติ เมื่อเนื้อหาเกินระยะที่กำหนด
+        // PDF_MARGIN_BOTTOM = 25mm นับจากขอบล่าง
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        // กำหนดตัวอักษรสำหรับส่วนเนื้อหา ชื่อตัวอักษร รูปแบบและขนาดตัวอักษร
+        $pdf->SetFont('thsarabunity', '', 16);
+
+        // กำหนดให้สร้างหน้าเอกสาร
+        $pdf->AddPage();
+
+        // ข้อมูลที่จะแสดงในเนื้อหา
+        $html="บันทึกข้อความ 2563</b>";
+
+        // กำหนดการแสดงข้อมูลแบบ HTML 
+        // สามารถกำหนดความกว้างความสูงของกรอบข้อความ 
+        // กำหนดตำแหน่งที่จะแสดงเป็นพิกัด x กับ y ซึ่ง x คือแนวนอนนับจากซ้าย ส่วน y คือแนวตั้งนับจากด้านล่าง
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+
+        // กำหนดการชื่อเอกสาร และรูปแบบการแสดงผล
+        $pdf->Output('stock-'.date("Y-m-d H:i:s").'.pdf', 'F');
     }
 
     // echo '<pre>';
