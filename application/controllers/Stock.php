@@ -176,8 +176,7 @@ class Stock extends CI_Controller {
 
                 // If the order submission is successful
                 if($order) {
-                    echo "Ok";
-                    //redirect('email/stock/'.$order.'/'.$sms=1);
+                    redirect('email/stock/'.$order.'/'.$sms=1);
                 }
 
                 else {
@@ -287,7 +286,7 @@ class Stock extends CI_Controller {
             $data['category']=$this->stock_model->getCategory();
 
             if ( !empty($data['adminLevel'])) {
-                if($data['adminLevel'][0]->level==1 || $data['adminLevel'][0]->level==2) {
+                if($data['adminLevel'][0]->level==1 or $data['adminLevel'][0]->level==2) {
                     $this->template->load('layout/template', 'stock/setting', $data);
                 }
 
@@ -469,6 +468,229 @@ class Stock extends CI_Controller {
         $this->output->set_header('Content-Type: application/json');
         $this->load->view('stock/popup/order/renderView', $data);
 
+    }
+
+    // view srock order
+    public function editStockOrder() {
+        $data=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $data['adminLevel']=$this->user_model->userStock($data['user']['hospcode']);
+            $id=$this->input->post('id');
+            $data['thaidate']=$this->thaidate;
+            $data['orderInfo']=$this->stock_model->orderInfo($id);
+            $data['orderItems']=$this->stock_model->orderItems($id);
+            $data['userOrder']=$this->user_model->getRowsUser($data['orderInfo'][0]->hospcode);
+            $this->output->set_header('Content-Type: application/json');
+
+
+
+            if ( !empty($data['adminLevel'])) {
+                if($data['orderInfo'][0]->status==1) {
+                    if($data['adminLevel'][0]->hospcode==$data['user']['department_head'] and $data['adminLevel'][0]->hospcode==$data['userOrder']->department_head) {
+
+                        $this->load->view('stock/popup/order/renderApprove', $data);
+                    }
+
+                    elseif($data['adminLevel'][0]->level==1) {
+
+                        $this->load->view('stock/popup/order/renderApprove', $data);
+                    }
+
+                    else {
+                        $popup=array('msg'=> 1,
+                            'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        );
+                        $this->session->set_userdata($popup);
+                    }
+                }
+
+                elseif($data['orderInfo'][0]->status==2 and $data['adminLevel'][0]->level==4) {
+                    $this->load->view('stock/popup/order/renderSupplies', $data);
+                }
+                elseif($data['orderInfo'][0]->status==3 and $data['adminLevel'][0]->level==2) {
+                    $this->load->view('stock/popup/order/renderSend', $data);
+                }
+                elseif($data['orderInfo'][0]->status==4 and $data['orderInfo'][0]->hospcode==$data['user']['hospcode']) {
+                    $this->load->view('stock/popup/order/renderReceive', $data);
+                }
+
+                else {
+                    $popup=array('msg'=> 1,
+                        'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                    $this->session->set_userdata($popup);
+                }
+
+            }
+
+            else {
+                $popup=array('msg'=> 1,
+                    'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!3',
+                );
+                $this->session->set_userdata($popup);
+                redirect('stock/view/');
+            }
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+
+    // view srock order
+    public function updateStockOrder() {
+        $data=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $id=$this->input->post('orderId');
+            $inputstatus=$this->input->post('inputstatus');
+            $data['orderInfo']=$this->stock_model->orderInfo($id);
+            $data['orderItems']=$this->stock_model->orderItems($id);
+
+            $data['approve']=array('status'=> $inputstatus,
+                'approve_id'=> $data['user']['hospcode'],
+                'approve_date'=> date("Y-m-d H:i:s"),
+            );
+            $data['supplies']=array('status'=> $inputstatus,
+                'supplies_id'=> $data['user']['hospcode'],
+                'supplies_date'=> date("Y-m-d H:i:s"),
+            );
+            $data['send']=array('status'=> $inputstatus,
+                'send_id'=> $data['user']['hospcode'],
+                'send_date'=> date("Y-m-d H:i:s"),
+            );
+            $data['receive']=array('status'=> $inputstatus,
+                'receive_id'=> $data['user']['hospcode'],
+                'receive_date'=> date("Y-m-d H:i:s"),
+            );
+
+            if($data['orderInfo'][0]->status==1) {
+                if($inputstatus==6 or $inputstatus==8) {
+                    $stock=$this->update_stock($data['orderItems']);
+
+                    if($stock) {
+                        $this->db->where('id', $id);
+                        $this->db->update('tbl_stock_orders', $data['approve']);
+                        redirect('email/stock/'.$id.'/'.$sms=6);
+                    }
+
+                    else {
+                        $popup=array('msg'=> 1,
+                            'detail'=> 'ระบบไม่สามารถอัพเดทข้อมูลได้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        );
+                        $this->session->set_userdata($popup);
+                    }
+                }
+
+                else {
+                    $this->db->where('id', $id);
+                    $this->db->update('tbl_stock_orders', $data['approve']);
+                    redirect('email/stock/'.$id.'/'.$sms=2);
+                }
+            }
+
+            elseif ($data['orderInfo'][0]->status==2) {
+                if($inputstatus==7) {
+                    $stock=$this->update_stock($data['orderItems']);
+
+                    if($stock) {
+                        $this->db->where('id', $id);
+                        $this->db->update('tbl_stock_orders', $data['supplies']);
+                        redirect('email/stock/'.$id.'/'.$sms=7);
+                    }
+
+                    else {
+                        $popup=array('msg'=> 1,
+                            'detail'=> 'ระบบไม่สามารถอัพเดทข้อมูลได้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        );
+                        $this->session->set_userdata($popup);
+                    }
+                }
+
+                else {
+                    $this->db->where('id', $id);
+                    $this->db->update('tbl_stock_orders', $data['supplies']);
+                    redirect('email/stock/'.$id.'/'.$sms=3);
+                }
+            }
+
+            elseif ($data['orderInfo'][0]->status==3) {
+                if($inputstatus==8) {
+                    $stock=$this->update_stock($data['orderItems']);
+
+                    if($stock) {
+                        $this->db->where('id', $id);
+                        $this->db->update('tbl_stock_orders', $data['send']);
+                        redirect('email/stock/'.$id.'/'.$sms=8);
+                    }
+
+                    else {
+                        $popup=array('msg'=> 1,
+                            'detail'=> 'ระบบไม่สามารถอัพเดทข้อมูลได้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        );
+                        $this->session->set_userdata($popup);
+                    }
+                }
+
+                else {
+                    $this->db->where('id', $id);
+                    $this->db->update('tbl_stock_orders', $data['send']);
+                    redirect('email/stock/'.$id.'/'.$sms=4);
+                }
+            }
+
+            elseif ($data['orderInfo'][0]->status==4) {
+                if($inputstatus==5) {
+                    $this->db->where('id', $id);
+                    $this->db->update('tbl_stock_orders', $data['receive']);
+                    redirect('email/stock/'.$id.'/'.$sms=5);
+                }
+
+                else {
+                    $popup=array('msg'=> 1,
+                            'detail'=> 'ระบบไม่สามารถอัพเดทข้อมูลได้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        );
+                        $this->session->set_userdata($popup);
+                }
+            }
+
+            else {
+                $popup=array('msg'=> 1,
+                    'detail'=> 'ใบงานนี้อยู่ระหว่างดำเนินการ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                );
+                $this->session->set_userdata($popup);
+            }
+
+
+
+
+
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+
+    public function update_stock($items) {
+        $data=array();
+        $i=0;
+        $temp=0;
+
+        foreach($items as $item) {
+            $data['getStock']=$this->stock_model->getStock($item->stock_id);
+            $temp=$data['getStock'][0]->quantity+$item->quantity;
+            $data=array('quantity'=> $temp,
+                'update'=> date("Y-m-d H:i:s"));
+            $this->db->where('id', $item->stock_id);
+            $this->db->update('tbl_stock', $data);
+            $i++;
+        }
+
+        return true;
     }
 
     // echo '<pre>';

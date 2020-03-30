@@ -6,7 +6,8 @@
     <div class="col-sm-12">
         <div class="widget-box widget-color-blue">
             <div class="widget-header">
-                <h5 class="widget-title lighter smaller">รายละเอียดการขอเบิกวัสดุ</h5>
+                <h5 class="widget-title lighter smaller">รายละเอียดการขอเบิกวัสดุ</h5> 
+                <span class="label label-sm label-success arrowed arrowed-right"><i class="fa fa-check"> รับของแล้ว</i></span>
             </div>
             <div class="row">
                 <div class="profile-user-info profile-user-info-striped">
@@ -14,6 +15,9 @@
                         <div class="profile-info-name"> เลขที่เอกสาร </div>
                         <div class="profile-info-value">
                             <span class="editable" id="hospcode"><?php echo $data->order_doc;?></span>
+                            <input type="hidden" id="orderId" class="form-control"
+                                name="orderId" value="<?php echo $data->id;?>">
+                            <input type="hidden" class="form-control" name="inputstatus" value="5">
                         </div>
                     </div>
                     <div class="profile-info-row">
@@ -103,7 +107,7 @@
                             <td><?php echo $item->name; ?></td>
                             <td class="center"><?php echo $item->quantity; ?></td>
                             <td class="center"><?php echo $item->unit; ?></td>
-
+                            
                         </tr>
                         <?php $no++;} ?>
                     </tbody>

@@ -14,7 +14,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             <label><strong><U>เพศ</U></strong></label>
-            <div >
+            <div>
                 <div class="radio radio-primary radio-inline">
                     <input type="radio" id="sexEdit1" value="1" name="edit_sex"
                         <?php if($codeInfo->sex==1){ echo 'checked'; }?> disabled>
@@ -317,7 +317,8 @@
                 <span class="input-group-addon">
                     <i class="ace-icon fa fa-tags"></i>
                 </span>
-                <select class="form-control chosen-select input-edit-education" name="edit_education" id="edit-education" disabled>
+                <select class="form-control chosen-select input-edit-education" name="edit_education"
+                    id="edit-education" disabled>
                     <option value="">--กรุณาเลือก--</option>
                     <?php 
                         foreach($Education as $row){ ?>
@@ -336,7 +337,8 @@
                 <span class="input-group-addon">
                     <i class="ace-icon fa fa-tags"></i>
                 </span>
-                <select class="form-control chosen-select input-edit-degree" name="edit_degree" id="edit-degree" disabled>
+                <select class="form-control chosen-select input-edit-degree" name="edit_degree" id="edit-degree"
+                    disabled>
                     <option value="">--กรุณาเลือก--</option>
                     <?php 
                         foreach($Degree as $row){ ?>
@@ -381,7 +383,8 @@
                 <span class="input-group-addon">
                     <i class="ace-icon fa fa-tags"></i>
                 </span>
-                <select class="form-control chosen-select input-edit-category" name="edit_category" id="edit-category" disabled>
+                <select class="form-control chosen-select input-edit-category" name="edit_category" id="edit-category"
+                    disabled>
                     <option value="">--กรุณาเลือก--</option>
                     <?php 
                         foreach($Category as $row){ ?>
@@ -400,7 +403,8 @@
                 <span class="input-group-addon">
                     <i class="ace-icon fa fa-tags"></i>
                 </span>
-                <select class="form-control chosen-select input-edit-position" name="edit_position" id="edit-position" disabled>
+                <select class="form-control chosen-select input-edit-position" name="edit_position" id="edit-position"
+                    disabled>
                     <option value="">--กรุณาเลือก--</option>
                     <?php 
                         foreach($Position as $row){ ?>
@@ -460,7 +464,8 @@
                 <span class="input-group-addon">
                     <i class="ace-icon fa fa-sitemap"></i>
                 </span>
-                <select class="chosen-select form-control input-edit-section" name="edit_section" id="edit-section" disabled>
+                <select class="chosen-select form-control input-edit-section" name="edit_section" id="edit-section"
+                    disabled>
                     <option value="">--กรุณาเลือก--</option>
                     <?php 
                         foreach($Section as $row){ ?>
@@ -476,8 +481,18 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="form-group">
-            <label><strong><U>ภาพประจำตัว</U></strong></label>
+            <label><strong><U>ภาพประจำตัว</U></strong>
+                <font size="2" color="red"> png, jpg, jpeg, ขนาดไม่เกิน 3MB</font>
+            </label>
             <input type="file" name="emp_uplfile" class="form-control input-edit-uplfile" id="input-edit-uplfile">
+            <input type="hidden" name="emp_err" class="form-control input-emp-err" id="emp-err">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <img class="editable img-responsive" id="input-edit-uplfiletag" style="max-width:180px;width:100%" />
         </div>
     </div>
 </div>

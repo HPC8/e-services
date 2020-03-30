@@ -92,6 +92,10 @@ class User_model extends CI_Model {
         $query=$this->db->get($this->userProd);
         return $query->result();
     }
+    public function adminDepStock() {
+        $query=$this->db->get($this->userSto);
+        return $query->result();
+    }
 
     public function getUser_prod($data) {
         $query=$this->db->get_where($this->userProd, array('hospcode'=> $data));
@@ -108,6 +112,10 @@ class User_model extends CI_Model {
     }
     public function adminPlanTrain($hospcode) {
         $query=$this->db->get_where($this->userPlanTrain, array('hospcode'=> $hospcode));
+        return $query->row();
+    }
+    public function getRowsUser($hospcode) {
+        $query=$this->db->get_where($this->employee, array('hospcode'=> $hospcode));
         return $query->row();
     }
     public function userStock($hospcode) {

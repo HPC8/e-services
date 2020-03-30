@@ -472,9 +472,12 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label><strong><U>ภาพประจำตัว</U></strong></label>
+                                <label><strong><U>ภาพประจำตัว</U></strong>
+                                    <font size="2" color="red"> png, jpg, jpeg, ขนาดไม่เกิน 3MB</font>
+                                </label>
                                 <input type="file" name="emp_uplfile" class="form-control input-emp-uplfile"
                                     id="input-emp-uplfile">
+                                    <input type="hidden" name="emp_err" class="form-control input-emp-err" id="emp-err">
                             </div>
                         </div>
                     </div>
@@ -482,8 +485,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label><strong><U>หมายเหตุ</U></strong></label>
-                                <textarea name="emp_note" id="emp-note"
-                                    class="form-control input-edit-note"></textarea>
+                                <textarea name="emp_note" id="emp-note" class="form-control input-edit-note"></textarea>
                             </div>
                         </div>
                     </div>

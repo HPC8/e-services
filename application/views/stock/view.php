@@ -42,8 +42,8 @@
                             data-toggle="modal" data-target="#view-stock-order"
                             class="view-stock-order btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
                         <a title="Edit" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
-                            data-toggle="modal" data-target="#update-stock-order"
-                            class="update-stock-order-details btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
+                            data-toggle="modal" data-target="#edit-stock-order"
+                            class="edit-stock-order-details btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
                         <a title="Cancel" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
                             data-toggle="modal" data-target="#delete-stock-order"
                             class="delete-stock-order-details btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
@@ -103,4 +103,5 @@
 <?php
     $this->load->view('stock/alerts');
     $this->load->view('stock/popup/order/view');
+    $this->load->view('stock/popup/order/edit');
 ?>

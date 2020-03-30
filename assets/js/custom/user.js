@@ -71,6 +71,20 @@ jQuery(document).on('click', 'a.update-user-details', function () {
                 });
             }
 
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#input-edit-uplfiletag').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#input-edit-uplfile").change(function () {
+                readURL(this);
+            });
+
             // function get All district
             function getDistrictList(amphurID) {
                 $.ajax({

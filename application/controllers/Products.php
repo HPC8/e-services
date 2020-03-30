@@ -124,7 +124,7 @@ class Products extends CI_Controller {
         $qty=$this->input->get('qty');
 
         // Update item in the cart
-        if( !empty($rowid) && !empty($qty)) {
+        if( !empty($rowid) and !empty($qty)) {
             $data=array('rowid'=> $rowid,
                 'qty'=> $qty);
             $update=$this->cart->update($data);
@@ -356,7 +356,7 @@ class Products extends CI_Controller {
             'cancel_date'=> date("Y-m-d H:i:s"),
         );
 
-        if($data['detail'][0]->hospcode==$data['user']['hospcode'] || $data['adminLevel'][0]->level==1) {
+        if($data['detail'][0]->hospcode==$data['user']['hospcode'] or $data['adminLevel'][0]->level==1) {
             if($data['detail'][0]->status=="1") {
                 $product=$this->update_product($data['items']);
 
@@ -622,7 +622,7 @@ class Products extends CI_Controller {
             );
 
             if($data['detailInfo'][0]->status=="1") {
-                if($inputstatus=="6"|| $inputstatus=="7") {
+                if($inputstatus=="6" or $inputstatus=="7") {
                     $product=$this->update_product($data['items']);
 
                     if($product) {

@@ -236,7 +236,12 @@
 
             $this->upload->initialize($config);
 
-            if ( !$this->upload->do_upload('emp_uplfile')) {}
+            // if ( !$this->upload->do_upload('emp_uplfile')) {}
+            
+            if ( !$this->upload->do_upload('emp_uplfile')) {
+                $error=$this->upload->display_errors();
+                return $error;
+            }
 
             else {
                 $data=$this->upload->data();
@@ -258,7 +263,13 @@
 
         $this->upload->initialize($config);
 
-        if ( !$this->upload->do_upload('emp_uplfile')) {}
+        //if ( !$this->upload->do_upload('emp_uplfile')) {}
+
+        if ( !$this->upload->do_upload('emp_uplfile')) {
+            $error=$this->upload->display_errors();
+            return $error;
+        }
+        
 
         else {
             $data=$this->upload->data();

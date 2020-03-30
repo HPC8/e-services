@@ -5,15 +5,15 @@ class Email extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->database();
-        $this->load->library(array('session', 'my_library', 'my_date', 'phpmailer_lib'));
+        $this->load->library(array('session', 'my_library', 'thaidate', 'phpmailer_lib'));
         $this->load->helper(array('url', 'html', 'form'));
-        $this->load->model(array('user_model', 'employee_model', 'meeting_model', 'product_model'));
+        $this->load->model(array('user_model', 'employee_model', 'meeting_model', 'product_model', 'stock_model'));
     }
 
     public function meeting($id, $sms) {
         $data=array();
         $data['mylibrary']=$this->my_library;
-        $data['mydate']=$this->my_date;
+        $data['mydate']=$this->thaidate;
         $data['detail']=$this->meeting_model->getDetail($id);
 
         // PHPMailer object
@@ -131,7 +131,7 @@ class Email extends CI_Controller {
     public function product($id, $sms) {
         $data=array();
         $data['mylibrary']=$this->my_library;
-        $data['mydate']=$this->my_date;
+        $data['mydate']=$this->thaidate;
         $data['detail']=$this->product_model->getDetail($id);
         $data['items']=$this->product_model->getItems($id);
 
@@ -213,9 +213,78 @@ class Email extends CI_Controller {
         $mail->isHTML(true);
 
         // Email body content
-        $mailContent="<div style='border: 1px dashed #cccccc; background-color: #ffffff; padding: 20px; font-size: 12px; color: #666666; font-family: tahoma; line-height: 20px;'>
-<div style='border-bottom: dashed #eeeeee 1px; text-align: left;'><img src=https://lh6.googleusercontent.com/9JPAzQDCFOmov7CQyGogUgjjM024KZuhP_KuLmNIOK2rXRUxR4_wMQPQqhz_bOxtkWVlu24DmLX3LBzwrGw01FgxA93ktnAVWfPHvole9OFuzUD4gQHkq9PDRkVqQeKdjmgpHqh2 /></div><p>
-        <div><span style='padding-top: 5px; padding-bottom: 0px; margin: 0px; font-weight: bold;'>เรียน คุณ".get_instance()->user_model->getUser($data['detail'][0]->hospcode)."</span> ตามที่ท่านได้แจ้งความประสงค์ที่จะขอยืมครุภัณฑ์ ผ่านช่องทางระบบ e-Services Online โดยมีรายละเอียดรายการตามนี้</div><div style='padding-top: 10px;'><table width='100%'cellspacing='1'cellpadding='5'bgcolor='#CCCCCC'><tbody><tr><td style='font-weight: bold; background-color: #eeeeee; width: 99.3548%; text-align: left;'colspan='2'align='center'>รายละเอียดการขอยืมครุภัณฑ์</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>เลขที่เอกสาร</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->order_doc."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>ชื่อผู้ขอใช้บริการ</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".get_instance()->user_model->getUsername($data['detail'][0]->hospcode)."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>วันที่ใช้งาน</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->start_date."- ".$data['detail'][0]->end_date."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>เรื่อง/เหตุผล</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->description."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>สถานะ</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'><a href='http://apps.anamai.moph.go.th/e-services/products/view/ 'target='_blank'>".get_instance()->product_model->checkStatus($data['detail'][0]->status). "</a></td></tr></tbody></table></br></div></div><div style='padding-top: 10px;'>All Right Reserved. Powered By <strong>e-Services Online </strong>© ICT ศูนย์อนามัยที่ 8 อุดรธานี</div></div>";
+        $mailContent =
+        "<html>
+        <head>
+        </head>
+        <body>
+            <div
+                style='border: 1px dashed #cccccc; background-color: #ffffff; padding: 20px; font-size: 12px; color: #666666; font-family: tahoma; line-height: 20px;'>
+                <div style='border-bottom: dashed #eeeeee 1px; text-align: left;'><img
+                        src=https://lh6.googleusercontent.com/9JPAzQDCFOmov7CQyGogUgjjM024KZuhP_KuLmNIOK2rXRUxR4_wMQPQqhz_bOxtkWVlu24DmLX3LBzwrGw01FgxA93ktnAVWfPHvole9OFuzUD4gQHkq9PDRkVqQeKdjmgpHqh2 />
+                </div>
+                <p>
+                    <div><span style='padding-top: 5px; padding-bottom: 0px; margin: 0px; font-weight: bold;'>เรียน
+                            คุณ".get_instance()->user_model->getUser($data['detail'][0]->hospcode)."</span>
+                        ตามที่ท่านได้แจ้งความประสงค์ที่จะขอยืมครุภัณฑ์ ผ่านช่องทางระบบ e-Services Online
+                        โดยมีรายละเอียดรายการตามนี้
+                    </div>
+                    <div style='padding-top: 10px;'>
+                        <table width='100%' cellspacing='1' cellpadding='5' bgcolor='#CCCCCC'>
+                            <tbody>
+                                <tr>
+                                    <td style='font-weight: bold; background-color: #eeeeee; width: 99.3548%; text-align: left;'
+                                        colspan='2' align='center'>รายละเอียดการขอยืมครุภัณฑ์</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>เลขที่เอกสาร
+                                    </td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'>".$data['detail'][0]->order_doc."</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>
+                                        ชื่อผู้ขอใช้บริการ</td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'>
+                                        ".get_instance()->user_model->getUsername($data['detail'][0]->hospcode)."</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>วันที่ใช้งาน
+                                    </td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'>".$data['detail'][0]->start_date."-
+                                        ".$data['detail'][0]->end_date."</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>
+                                        เรื่อง/เหตุผล
+                                    </td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'>".$data['detail'][0]->description."</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>
+                                        รายละเอียดครุภัณฑ์</td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'>";
+                                        $no=1; foreach ($data['items'] as $item) {
+                                        $mailContent .= $no.'. '.$item->name.' จำนวน '.$item->quantity.' '.$item->unit.'<br>';
+                                        $no++;
+                                        }
+                                        $mailContent .= "</td>
+                                </tr>
+                                <tr>
+                                    <td style='font-weight: bold; width: 17.2904%;' align='right' bgcolor='#FFFFFF'>สถานะ</td>
+                                    <td style='width: 82.0644%;' bgcolor='#FFFFFF'><a
+                                            href='http://apps.anamai.moph.go.th/e-services/products/view/ '
+                                            target='_blank'>".get_instance()->product_model->checkStatus($data['detail'][0]->status).
+                                            "</a></td>
+                                </tr>
+                            </tbody>
+                        </table></br>
+                    </div>
+            </div>
+            <div style='padding-top: 10px;'>All Right Reserved. Powered By <strong>e-Services Online </strong>© ICT
+                ศูนย์อนามัยที่ 8 อุดรธานี</div>
+            </div>
+        </body>
+        </html>";
 
         $mail->Body=$mailContent;
 
@@ -294,7 +363,6 @@ class Email extends CI_Controller {
                 if($userHead->level == 3 and $userHead->hospcode == $data['user']->department_head) {
                     $this->user_model->setHospcode($userHead->hospcode);
                     $data['admin']=$this->user_model->getHospcode();
-                    //echo $data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname;
                     $mail->addCC($data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname);
                 }
             }
@@ -305,8 +373,7 @@ class Email extends CI_Controller {
                 if($userHead->level == 4) {
                     $this->user_model->setHospcode($userHead->hospcode);
                     $data['admin']=$this->user_model->getHospcode();
-                    echo $data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname;
-                    //$mail->addCC($data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname);
+                    $mail->addCC($data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname);
                 }
             }
         }
@@ -316,8 +383,17 @@ class Email extends CI_Controller {
                 if($userHead->level == 2) {
                     $this->user_model->setHospcode($userHead->hospcode);
                     $data['admin']=$this->user_model->getHospcode();
-                    echo $data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname;
-                    //$mail->addCC($data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname);
+                    $mail->addCC($data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname);
+                }
+            }
+        }
+        elseif($data['orderInfo'][0]->status==5) {
+            $data['userHead']=$this->user_model->adminDepStock();
+            foreach($data['userHead'] as $userHead) {
+                if($userHead->level == 2) {
+                    $this->user_model->setHospcode($userHead->hospcode);
+                    $data['admin']=$this->user_model->getHospcode();
+                    $mail->addCC($data['admin']->email, $data['admin']->titlename.$data['admin']->firstname.' '.$data['admin']->lastname);
                 }
             }
         }
@@ -453,16 +529,9 @@ class Email extends CI_Controller {
             redirect('stock/view/');
         }
 
-        elseif($sms==2||$sms==3||$sms==4||$sms==5||$sms==6) {
+        elseif($sms==2||$sms==3||$sms==4||$sms==5||$sms==6||$sms==7) {
             $popup=array('msg'=> 0,
                 'detail'=> 'ระบบทำการอัพเดทข้อมูลสำเร็จ พร้อมได้ส่งข้อความแจ้งเตือนไปที่ E-Mail '.get_instance()->user_model->getEmail($data['orderInfo'][0]->hospcode).' เรียบร้อยแล้ว',
-            );
-            $this->session->set_userdata($popup);
-        }
-
-        elseif($sms==7) {
-            $popup=array('msg'=> 0,
-                'detail'=> 'ระบบทำการแก้ไขข้อมูลสำเร็จ พร้อมได้ส่งข้อความแจ้งเตือนไปที่ E-Mail '.get_instance()->user_model->getEmail($data['orderInfo'][0]->hospcode).' ของท่านเรียบร้อยแล้ว',
             );
             $this->session->set_userdata($popup);
         }

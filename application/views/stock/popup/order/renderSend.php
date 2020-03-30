@@ -14,6 +14,8 @@
                         <div class="profile-info-name"> เลขที่เอกสาร </div>
                         <div class="profile-info-value">
                             <span class="editable" id="hospcode"><?php echo $data->order_doc;?></span>
+                            <input type="hidden" id="orderId" class="form-control"
+                                name="orderId" value="<?php echo $data->id;?>">
                         </div>
                     </div>
                     <div class="profile-info-row">
@@ -72,6 +74,21 @@
                             </span>
                         </div>
                     </div>
+                    <div class="profile-info-row">
+                        <div class="profile-info-name"> จัดการใบงาน </div>
+                        <div class="profile-info-value">
+                            <div class="radio radio-success radio-inline">
+                                <input type="radio" id="inlineRadio1" value="4" name="inputstatus" checked
+                                    <?php if($data->status == '4' ) { echo 'checked'; } ?>>
+                                <label for="inlineRadio1"> นำจ่าย </label>
+                            </div>
+                            <div class="radio radio-danger radio-inline">
+                                <input type="radio" id="inlineRadio2" value="8" name="inputstatus" 
+                                    <?php if($data->status == '8' ) { echo 'checked'; } ?>>
+                                <label for="inlineRadio2"> ยกเลิก </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,7 +120,7 @@
                             <td><?php echo $item->name; ?></td>
                             <td class="center"><?php echo $item->quantity; ?></td>
                             <td class="center"><?php echo $item->unit; ?></td>
-
+                            
                         </tr>
                         <?php $no++;} ?>
                     </tbody>
