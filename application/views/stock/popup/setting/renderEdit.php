@@ -1,4 +1,5 @@
-<input type="hidden" name="id" value="<?php print $stockInfo->id;?>">
+<input type="hidden" name="stock_id" class="form-control input-stock-id" id="stock-id" value="<?php print $stockInfo->id;?>">
+<input type="hidden" name="stock_image" class="form-control input-stock-image" id="stock-image" value="<?php print $stockInfo->image;?>">
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
@@ -7,6 +8,7 @@
                 <span class="input-group-addon">
                     <i class="ace-icon fa fa-tags"></i>
                 </span>
+
                 <input type="text" name="stock_name" class="form-control input-stock-name" id="stock-name"
                     autocomplete="off" value="<?php print $stockInfo->name;?>">
             </div>
@@ -97,7 +99,7 @@
             <label><strong>รูปภาพ </strong>
                 <font size="2" color="red">png, jpg, jpeg, ขนาดไม่เกิน 3MB</font>
             </label>
-            <input type="file" name="stock_uplfile" class="form-control input-stock-uplfile"id="edit-stock-uplfile">
+            <input type="file" name="stock_uplfile" class="form-control input-stock-uplfile" id="edit-stock-uplfile">
             <input type="hidden" name="stock_err" class="form-control input-stock-err" id="edit-stock-err">
         </div>
     </div>

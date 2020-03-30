@@ -297,6 +297,21 @@ class Stock_model extends CI_Model {
         return $this->db->insert_id();
     }
 
+    function updateStock() {
+        $data=array('name'=> $this->_name,
+            'quantity'=> $this->_qty,
+            'unit'=> $this->_unit,
+            'group'=> $this->_group,
+            'category'=> $this->_category,
+            'path'=> $this->_path,
+            'image'=> $this->_upload,
+            'modified'=> date("Y-m-d H:i:s"),
+            'edit_by'=> $this->_hospcode,
+        );
+        $this->db->where('id', $this->_StockId);
+        $this->db->update($this->stoTable, $data);
+    }
+
     function stockInfo() {
         $this->db->select('*');
         $this->db->from($this->stoTable);

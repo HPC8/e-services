@@ -425,6 +425,112 @@ class Stock extends CI_Controller {
 
     }
 
+    function update_photo() {
+        $path='/assets/uploads/source/stock/';
+
+        if( !empty($_FILES['stock_uplfile'])) {
+            $config['upload_path']='./assets/uploads/source/stock/';
+            $config['allowed_types']='jpg|jpeg|png';
+            $config['max_size']=1024*3;
+            $config['encrypt_name']=TRUE;
+
+            $this->upload->initialize($config);
+
+            if ( !$this->upload->do_upload('stock_uplfile')) {
+                $error=$this->upload->display_errors();
+                return $error;
+            }
+
+            else {
+                $data=$this->upload->data();
+                $this->stock_model->setPath($path);
+                $this->stock_model->setUpload($data['file_name']);
+            }
+        }
+
+        else {
+            $this->stock_model->setPath($path);
+        }
+
+    }
+
+    // update srock
+    public function updateStock() {
+        $data=array();
+        $json=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $id=$this->input->post('stock_id');
+            $image=$this->input->post('stock_image');
+            $name=$this->input->post('stock_name');
+            $qty=$this->input->post('stock_qty');
+            $unit=$this->input->post('stock_unit');
+            $group=$this->input->post('stock_group');
+            $category=$this->input->post('stock_category');
+
+            $this->stock_model->setHospcode($data['user']['hospcode']);
+
+            if(empty(trim($name))) {
+                $json['error']['name']='กรุณากรอกชื่อพัสดุ';
+            }
+
+            if(empty(trim($qty))) {
+                $json['error']['qty']='กรุณากรอกจำนวน';
+            }
+
+            if(empty(trim($unit))) {
+                $json['error']['unit']='กรุณากรอกหน่วยนับ';
+            }
+
+            if(empty(trim($group))) {
+                $json['error']['group']='กรุณาเลือกหมวด';
+            }
+
+            if(empty(trim($category))) {
+                $json['error']['category']='กรุณาเลือกประเภท';
+            }
+
+            if(empty($_FILES["stock_uplfile"]["type"])) {
+                $path='/assets/uploads/source/stock/';
+                $this->stock_model->setPath($path);
+                $this->stock_model->setUpload($image);
+            }
+            if(!empty($_FILES["stock_uplfile"]["type"])) {
+                $file=$this->update_photo();
+
+                if($file !=null) {
+                    $json['error']['err']=$file;
+                }
+            }
+
+            if(empty($json['error'])) {
+                $this->stock_model->setStockId($id);
+                $this->stock_model->setNmae($name);
+                $this->stock_model->setQty($qty);
+                $this->stock_model->setUnit($unit);
+                $this->stock_model->setGroup($group);
+                $this->stock_model->setCategory($category);
+
+                try {
+                    $last_id=$this->stock_model->updateStock();
+                }
+
+                catch (Exception $e) {
+                    var_dump($e->getMessage());
+                }
+            }
+
+
+            echo json_encode($json);
+
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+
     // view srock
     public function viewStock() {
         $data=array();
@@ -509,9 +615,11 @@ class Stock extends CI_Controller {
                 elseif($data['orderInfo'][0]->status==2 and $data['adminLevel'][0]->level==4) {
                     $this->load->view('stock/popup/order/renderSupplies', $data);
                 }
+
                 elseif($data['orderInfo'][0]->status==3 and $data['adminLevel'][0]->level==2) {
                     $this->load->view('stock/popup/order/renderSend', $data);
                 }
+
                 elseif($data['orderInfo'][0]->status==4 and $data['orderInfo'][0]->hospcode==$data['user']['hospcode']) {
                     $this->load->view('stock/popup/order/renderReceive', $data);
                 }
@@ -651,9 +759,9 @@ class Stock extends CI_Controller {
 
                 else {
                     $popup=array('msg'=> 1,
-                            'detail'=> 'ระบบไม่สามารถอัพเดทข้อมูลได้ กรุณาติดต่อผู้ดูแลระบบครับ!',
-                        );
-                        $this->session->set_userdata($popup);
+                        'detail'=> 'ระบบไม่สามารถอัพเดทข้อมูลได้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                    $this->session->set_userdata($popup);
                 }
             }
 
