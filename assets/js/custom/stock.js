@@ -113,6 +113,7 @@ jQuery(document).on('click', 'button#update-stock', function () {
     formData.append('stock_id', jQuery('form#update-stock-form').find('.input-stock-id').val());
     formData.append('stock_image', jQuery('form#update-stock-form').find('.input-stock-image').val());
     formData.append('stock_name', jQuery('form#update-stock-form').find('.input-stock-name').val());
+    formData.append('stock_qty_old', jQuery('form#update-stock-form').find('.input-stock-qty-old').val());
     formData.append('stock_qty', jQuery('form#update-stock-form').find('.input-stock-qty').val());
     formData.append('stock_unit', jQuery('form#update-stock-form').find('.input-stock-unit').val());
     formData.append('stock_group', jQuery('form#update-stock-form').find('.input-stock-group').val());

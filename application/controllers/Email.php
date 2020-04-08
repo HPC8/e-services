@@ -164,7 +164,7 @@ class Email extends CI_Controller {
                 }
             }
         }
-        elseif($data['detail'][0]->status==2) {
+        elseif($data['detail'][0]->status==2 or $data['detail'][0]->status==4) {
             $data['user']=$this->user_model->admin_prod();
             foreach($data['user'] as $user) {
                 if($user->level==1) {
@@ -174,6 +174,7 @@ class Email extends CI_Controller {
                 }
             }
         }
+        
         else {
             // Add cc or bcc 
             //$mail->addCC('ict.hpc8@gmail.com');

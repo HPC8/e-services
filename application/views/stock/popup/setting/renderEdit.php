@@ -1,5 +1,7 @@
-<input type="hidden" name="stock_id" class="form-control input-stock-id" id="stock-id" value="<?php print $stockInfo->id;?>">
-<input type="hidden" name="stock_image" class="form-control input-stock-image" id="stock-image" value="<?php print $stockInfo->image;?>">
+<input type="hidden" name="stock_id" class="form-control input-stock-id" id="stock-id"
+    value="<?php print $stockInfo->id;?>">
+<input type="hidden" name="stock_image" class="form-control input-stock-image" id="stock-image"
+    value="<?php print $stockInfo->image;?>">
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
@@ -16,15 +18,27 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="form-group">
-            <label><strong>จำนวน</strong></label>
+            <label><strong>จำนวนคงเหลือ</strong></label>
             <div class="input-group">
                 <span class="input-group-addon">
                     <i class="ace-icon fa fa-tags"></i>
                 </span>
-                <input type="number" name="stock_qty" class="form-control input-stock-qty" id="stock-qty" min="1"
-                    max="9999" value="<?php print $stockInfo->quantity;?>">
+                <input type="number" name="stock_qty_old" class="form-control input-stock-qty-old" id="stock-qty"
+                    value="<?php print $stockInfo->quantity;?>" disabled>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label><strong>จำนวนที่ต้องการเพิ่ม</strong></label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="ace-icon fa fa-tags"></i>
+                </span>
+                <input type="number" name="stock_qty" class="form-control input-stock-qty" id="stock-qty" min="0"
+                    max="9999" value="0">
             </div>
         </div>
     </div>

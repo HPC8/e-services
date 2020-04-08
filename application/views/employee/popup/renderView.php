@@ -18,6 +18,13 @@
                         ?>
                     </span>
                     <div class="space space-4"></div>
+                        <center>
+                            <img class="editable img-responsive" alt="signature" id="signature"
+                                src="<?php echo base_url()."assets/uploads/employee/signature/".$codeInfo->hospcode.".gif";?>"
+                                style="max-height:50px;height:100%" />
+                            ลายมือชื่อ
+                        </center>
+                    <div class="space space-4"></div>
                 </div>
 
                 <div class="col-xs-12 col-sm-9">

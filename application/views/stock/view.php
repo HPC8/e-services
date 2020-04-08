@@ -38,9 +38,13 @@
                 <td class="center"><?php echo get_instance()->stock_model->checkStatus($rs->status);?></td>
                 <td class="center">
                     <div class="hidden-xs btn-group">
+                        <a title="Print" href="<?php echo site_url('stock/paper/'.$rs->id);?>" target="_blank"
+                            class="view-stock-order btn btn-xs"><i class="fa fa-print"></i> </a>
+
                         <a title="View" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
                             data-toggle="modal" data-target="#view-stock-order"
                             class="view-stock-order btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
+
                         <a title="Edit" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
                             data-toggle="modal" data-target="#edit-stock-order"
                             class="edit-stock-order-details btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
@@ -58,6 +62,11 @@
                             <ul
                                 class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                 <li>
+                                    <a title="Print" href="<?php echo site_url('stock/paper/'.$rs->id);?>"
+                                        target="_blank" class="view-stock-order btn btn-xs"><i class="fa fa-print"></i>
+                                    </a>
+                                </li>
+                                <li>
                                     <a title="View" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
                                         data-toggle="modal" data-target="#view-stock-order"
                                         class="view-stock-order btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
@@ -65,10 +74,9 @@
 
                                 <li>
                                     <a title="Edit" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
-                                        data-toggle="modal" data-target="#update-stock-order"
-                                        class="update-stock-order-details btn btn-success btn-xs"><i
-                                            class="fa fa-edit"></i>
-                                    </a>
+                                        data-toggle="modal" data-target="#edit-stock-order"
+                                        class="edit-stock-order-details btn btn-success btn-xs"><i
+                                            class="fa fa-edit"></i> </a>
                                 </li>
 
                                 <li>

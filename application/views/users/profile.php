@@ -18,6 +18,28 @@
                             }
                         ?>
                         </span>
+
+                        <div class="space space-4"></div>
+                        <center>
+                            <img data-toggle="modal" data-target="#icon<?php echo $userInfo->hospcode;?>"
+                                class="editable img-responsive" alt="signature" id="signature"
+                                src="<?php echo base_url()."assets/uploads/employee/signature/".$userInfo->hospcode.".gif";?>"
+                                style="max-height:50px;height:100%" />
+                            ลายมือชื่อ
+                        </center>
+
+                        <div id="icon<?php echo $userInfo->hospcode;?>" class="modal fade" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <img id="icon" class="editable img-responsive" alt="icon"
+                                            src="<?php echo base_url()."assets/uploads/employee/signature/".$userInfo->hospcode.".gif";?>" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="space space-4"></div>
                         <a title="Edit" href="javascript:void(0);" data-getcode="<?php echo $userInfo->hospcode;?>"
                             data-toggle="modal" data-target="#update-user"

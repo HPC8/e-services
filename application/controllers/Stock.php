@@ -6,7 +6,7 @@ class Stock extends CI_Controller {
         parent::__construct();
         $this->load->database();
         // Load library
-        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart_stock', 'upload', 'Pdf'));
+        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart_stock', 'upload','ciqrcode'));
         // Load helper
         $this->load->helper(array('url', 'html', 'form'));
         // Load model
@@ -464,10 +464,12 @@ class Stock extends CI_Controller {
             $id=$this->input->post('stock_id');
             $image=$this->input->post('stock_image');
             $name=$this->input->post('stock_name');
+            $qty_old=$this->input->post('stock_qty_old');
             $qty=$this->input->post('stock_qty');
             $unit=$this->input->post('stock_unit');
             $group=$this->input->post('stock_group');
             $category=$this->input->post('stock_category');
+            $qty_sum = $qty_old+$qty;
 
             $this->stock_model->setHospcode($data['user']['hospcode']);
 
@@ -475,9 +477,9 @@ class Stock extends CI_Controller {
                 $json['error']['name']='กรุณากรอกชื่อพัสดุ';
             }
 
-            if(empty(trim($qty))) {
-                $json['error']['qty']='กรุณากรอกจำนวน';
-            }
+            // if(empty(trim($qty))) {
+            //     $json['error']['qty']='กรุณากรอกจำนวน';
+            // }
 
             if(empty(trim($unit))) {
                 $json['error']['unit']='กรุณากรอกหน่วยนับ';
@@ -508,7 +510,7 @@ class Stock extends CI_Controller {
             if(empty($json['error'])) {
                 $this->stock_model->setStockId($id);
                 $this->stock_model->setNmae($name);
-                $this->stock_model->setQty($qty);
+                $this->stock_model->setQty($qty_sum);
                 $this->stock_model->setUnit($unit);
                 $this->stock_model->setGroup($group);
                 $this->stock_model->setCategory($category);
@@ -802,66 +804,75 @@ class Stock extends CI_Controller {
         return true;
     }
 
+    function paper($id) {
+        $data=array();
+        // if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $data['page_title']='เบิกวัสดุ';
+            $breadcrumb=array("Home"=> "/e-services/",
+                "ระบบเบิกวัสดุ"=> "/e-services/stock/",
+                "เบิกวัสดุ"=> ""
+            );
+            $data['breadcrumb']=$breadcrumb;
+            $data['mylibrary']=$this->my_library;
+            $data['thaidate']=$this->thaidate;
+            $data['orderInfo']=$this->stock_model->orderInfo($id);
+            $data['orderItems']=$this->stock_model->orderItems($id);
+            $data['userOrder']=$this->user_model->getRowsUser($data['orderInfo'][0]->hospcode);
 
-    // create pdf file 
-    public function createPDF() {
-        $pdf=new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8');
+            $defaultFontConfig=(new Mpdf\Config\FontVariables())->getDefaults();
+            $fontData=$defaultFontConfig['fontdata'];
+            $mpdf=new \Mpdf\Mpdf(['tempDir'=> __DIR__ . '/tmp',
+                'mode'=> 'utf-8',
+                'format'=> 'A4',
+                'margin_top'=> 10,
+                'margin_left'=> 30,
+                'margin_right'=> 15,
+                'fontdata'=> $fontData + [ 'thsarabanit'=> [
+                'R'=> "THSarabunIT.ttf",
+                'B'=> "THSarabunITBold.ttf",
+                'I'=> "THSarabunITItalic.ttf",
+                'BI'=> "THSarabunITBoldItalic.ttf",
+                ]],
+            ]);
 
-        // กำหนดคุณสมบัติของไฟล์ PDF เช่น ผู้สร้างไฟล์ หัวข้อไฟล์ คำค้น 
-        $pdf->SetCreator('stock');
-        $pdf->SetAuthor('stock');
-        $pdf->SetTitle('หนังสือขอเบิกวัสดุ');
-        $pdf->SetSubject('stock');
-        $pdf->SetKeywords('stock');
+            $html=$this->load->view('stock/paper', $data, TRUE);
+            $mpdf->WriteHTML($html);
+            $mpdf->Output('Stock-Order-'.$id.'.pdf', 'I'); // opens in browser
+        // }
 
-        // กำหนดรายละเอียดของหัวกระดาษ สีข้อความและสีของเส้นใต้
-        // PDF_HEADER_LOGO = ไฟล์รูปภาพโลโก้
-        // PDF_HEADER_LOGO_WIDTH = ขนาดความกว้างของโลโก้
-        $pdf->SetHeaderData();
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-        // กำหนดรายละเอียดของท้ายกระดาษ สีข้อความและสีของเส้น
-        $pdf->setFooterData(array (0, 64, 0), array (0, 64, 128));
+        // else {
+        //     redirect('users/login');
+        // }
+    }
 
-        // กำหนดตัวอักษร รูปแบบและขนาดของตัวอักษร (ตัวอักษรดูได้จากโฟลเดอร์ fonts)
-        // PDF_FONT_NAME_MAIN = ชื่อตัวอักษร helvetica
-        // PDF_FONT_SIZE_MAIN = ขนาดตัวอักษร 10
-        $pdf->setHeaderFont(Array (PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(Array (PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+    public function QRcode($id){
+        $Url = site_url('stock/paper/').$id;
+        QRcode::png(
+            $Url,
+            $outfile = false,
+            $level = QR_ECLEVEL_H,
+            $size = 2,
+            $margin = 1
+        );
+    }
 
-        // กำหนดระยะขอบกระดาษ
-        // PDF_MARGIN_LEFT = ขอบกระดาษด้านซ้าย 15mm
-        // PDF_MARGIN_TOP = ขอบกระดาษด้านบน 27mm
-        // PDF_MARGIN_RIGHT = ขอบกระดาษด้านขวา 15mm
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+   
+    public function mergeImag($hospcode,$status) {
 
-        // กำหนดระยะห่างจากขอบกระดาษด้านบนมาที่ส่วนหัวกระดาษ
-        // PDF_MARGIN_HEADER = 5mm
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        // กำหนดระยะห่างจากขอบกระดาษด้านล่างมาที่ส่วนท้ายกระดาษ
-        // PDF_MARGIN_FOOTER = 10mm
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+    $dest = imagecreatefromjpeg(base_url()."assets/uploads/stock/paper/text-".$status.".jpg"); 
+    $src = imagecreatefromgif(base_url()."assets/uploads/employee/signature/".$hospcode.".gif"); 
+    imagealphablending($src, false);  
+    imagecopymerge($dest, $src, 310, 25, 0, 0, 521, 230, 100); 
+      
+    header('Content-Type: image/png'); 
+    
+    imagepng($dest); 
+      
+    imagedestroy($dest); 
+    imagedestroy($src); 
 
-        // กำหนดให้ขึ้นหน้าใหม่แบบอัตโนมัติ เมื่อเนื้อหาเกินระยะที่กำหนด
-        // PDF_MARGIN_BOTTOM = 25mm นับจากขอบล่าง
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-        // กำหนดตัวอักษรสำหรับส่วนเนื้อหา ชื่อตัวอักษร รูปแบบและขนาดตัวอักษร
-        $pdf->SetFont('thsarabunity', '', 16);
-
-        // กำหนดให้สร้างหน้าเอกสาร
-        $pdf->AddPage();
-
-        // ข้อมูลที่จะแสดงในเนื้อหา
-        $html="บันทึกข้อความ 2563</b>";
-
-        // กำหนดการแสดงข้อมูลแบบ HTML 
-        // สามารถกำหนดความกว้างความสูงของกรอบข้อความ 
-        // กำหนดตำแหน่งที่จะแสดงเป็นพิกัด x กับ y ซึ่ง x คือแนวนอนนับจากซ้าย ส่วน y คือแนวตั้งนับจากด้านล่าง
-        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-
-        // กำหนดการชื่อเอกสาร และรูปแบบการแสดงผล
-        $pdf->Output('stock-'.date("Y-m-d H:i:s").'.pdf', 'F');
     }
 
     // echo '<pre>';

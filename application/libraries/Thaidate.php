@@ -222,7 +222,8 @@ class Thaidate {
 		}
 
 	}
-
+	
+	// 2563
 	function thaiyear($date='') {
 		if($date) {
 			if($date=='0000-00-00'){
