@@ -1,20 +1,16 @@
 <?php
-    if (!defined('BASEPATH'))
-        exit('No direct script access allowed');
-    /*
-     *  ======================================= 
-     *  Author     : TechArise Team 
-     *  License    : Protected 
-     *  Email      : info@techarise.com 
-     *   
-     *  Dilarang merubah, mengganti dan mendistribusikan 
-     *  ulang tanpa sepengetahuan Author 
-     *  ======================================= 
-     */
-    require_once APPPATH . "libraries/thsplitlib/segment.php";
-    class Thsplitlib {
-        public function __construct() {
-            parent::__construct();
-        }
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Thsplitlib
+{
+    public function __construct(){
+        log_message('Debug', 'Thsplitlib class is loaded.');
     }
-    ?>
+
+    public function load(){
+        // Include Thsplitlib library files
+        require_once APPPATH.'third_party/Thsplitlib/segment.php';
+        $segment = new Segment();
+        return $segment;
+    }
+}

@@ -75,17 +75,23 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label><strong><U>วัตถุประสงค์ในการขอเบิกพัสดุ</U></strong>
+                                                <label><strong><U>มีความประสงค์จะขอเบิกสิ่งของต่าง ๆ เพื่อ</U></strong>
                                                     <font color="red">*</font>
                                                 </label>
                                                 <div>
-                                                    <textarea class="form-control" name="description"
-                                                        id="description" placeholder="อธิบายวัตถุประสงค์ในการขอเบิกพัสดุครั้งนี้"
+                                                    <textarea class="form-control" name="description" id="description"
+                                                        placeholder="อธิบายวัตถุประสงค์ในการขอเบิกพัสดุครั้งนี้"
                                                         rows="4" required></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <?php $no=0; if($this->cart_stock->total_items() > 0){ foreach($cartItems as $item){
+                                            $no++; } }else{ 
+                                     } ?>
+                                    <input type="hidden" name="item_count" class="form-control" id="item-count"
+                                        value="<?php echo $no; ?>">
+
                                     <div class="form-group">
                                         <div class="btn-group pull-left">
                                             <button class="btn btn-sm btn-danger btn-round" type="reset" value="Reset">

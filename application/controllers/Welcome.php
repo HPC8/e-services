@@ -4,7 +4,7 @@ class Welcome extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->database();
-        $this->load->library(array('form_validation', 'session', 'my_library', 'my_date'));
+        $this->load->library(array('form_validation', 'session', 'my_library', 'my_date','user_agent'));
         $this->load->helper(array('url', 'html', 'form'));
         $this->load->model(array('user_model', 'employee_model', 'meeting_model', 'posts_model', 'project_model'));
 
@@ -23,10 +23,9 @@ class Welcome extends CI_Controller {
             $data['postId']=$this->posts_model->maxId();
             $this->posts_model->setPostId($data['postId']->id);
             $data['infoPost']=$this->posts_model->getPost();
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-            // exit;
+
+    
+
             $year=$this->my_date->fiscal_year(date("Y-m-d H:i:s"));
             $data['activityInfo']=$this->project_model->getActivityList($year);
             $data['productInfo']=$this->project_model->getProductList($year);

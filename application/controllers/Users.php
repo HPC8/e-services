@@ -6,9 +6,10 @@ class Users extends CI_Controller {
         parent::__construct();
         //load database libray manually
         $this->load->database();
-        $this->load->library(array('form_validation', 'session', 'my_library', 'my_date', 'thaidate', 'upload'));
+        $this->load->library(array('form_validation', 'session', 'my_library', 'my_date', 'thaidate', 'upload', 'user_agent'));
         $this->load->helper(array('url', 'html', 'form', 'string'));
         $this->load->model(array('user_model', 'employee_model', 'meeting_model', 'location_model', ));
+        $this->logfile='tbl_logfile';
     }
 
     public function index() {
@@ -215,6 +216,7 @@ class Users extends CI_Controller {
     public function updatePasswd() {
         $data=array();
         $json=array();
+
         if($this->session->userdata('isUserLoggedIn')) {
             $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
             $emp_hospcode=$this->input->post('edit_hospcode');
@@ -222,28 +224,33 @@ class Users extends CI_Controller {
             $passwd_old=$this->input->post('passwd_old');
             $passwd=$this->input->post('passwd');
             $passwdconfirm=$this->input->post('passwdconfirm');
-            $temp = hash ( "sha256", $passwd_old );
+            $temp=hash ("sha256", $passwd_old);
 
-            
+
             if(empty(trim($passwd_old))) {
                 $json['error']['passwd-old']='รหัสผ่านต้องไม่ว่างเปล่า';
             }
-            if($passwd_query != $temp){
+
+            if($passwd_query !=$temp) {
                 $json['error']['passwd-old']='รหัสผ่านไม่ถูกต้อง';
             }
-        
+
             if(empty(trim($passwd))) {
                 $json['error']['passwd']='รหัสผ่านต้องไม่ว่างเปล่า';
             }
+
             if ($this->my_library->checkPasswd($passwd)==FALSE) {
                 $json['error']['passwd']='รูปแบบรหัสผ่านไม่ถูกต้อง';
             }
+
             if(empty(trim($passwdconfirm))) {
                 $json['error']['passwdconfirm']='รหัสผ่านต้องไม่ว่างเปล่า';
             }
-            if ($passwd!=$passwdconfirm) {
+
+            if ($passwd !=$passwdconfirm) {
                 $json['error']['passwdconfirm']='กรุณยืนยันรหัสผ่านของคุณอีกครั้ง';
             }
+
             $this->employee_model->empHospcode($emp_hospcode);
 
             if(empty($json['error'])) {
@@ -256,6 +263,7 @@ class Users extends CI_Controller {
                 catch (Exception $e) {
                     var_dump($e->getMessage());
                 }
+
                 if( !empty($query)) {
                     $popup=array('msg'=> 0,
                         'detail'=> 'ระบบทำการอัพเดทข้อมูลสำเร็จ',
@@ -331,6 +339,15 @@ class Users extends CI_Controller {
                 if($checkLogin) {
                     $this->session->set_userdata('isUserLoggedIn', TRUE);
                     $this->session->set_userdata('userId', $checkLogin['emp_id']);
+
+                    $logfile=array('date'=> date("Y-m-d H:i:s"),
+                        'subject'=> 'login',
+                        'by'=> $this->input->post('hospcode'),
+                        'ip'=> $this->input->ip_address(),
+                        'os'=> $this->agent->platform(),
+                        'browser'=>$this->agent->browser().' '.$this->agent->version());
+                    $this->db->insert($this->logfile, $logfile);
+                    
                     redirect('users/account/');
                 }
 
@@ -389,6 +406,16 @@ class Users extends CI_Controller {
      * User logout
      */
     public function logout() {
+        $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+        $logfile=array('date'=> date("Y-m-d H:i:s"),
+            'subject'=> 'logout',
+            'by'=> $data['user']['hospcode'],
+            'ip'=> $this->input->ip_address(),
+            'os'=> $this->agent->platform(),
+            'browser'=>$this->agent->browser().' '.$this->agent->version());
+
+        $this->db->insert($this->logfile, $logfile);
+
         $this->session->unset_userdata('isUserLoggedIn');
         $this->session->unset_userdata('userId');
         $this->session->sess_destroy();

@@ -6,7 +6,7 @@ class Stock extends CI_Controller {
         parent::__construct();
         $this->load->database();
         // Load library
-        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart_stock', 'upload','ciqrcode'));
+        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart_stock', 'upload', 'ciqrcode','thsplitlib'));
         // Load helper
         $this->load->helper(array('url', 'html', 'form'));
         // Load model
@@ -165,25 +165,35 @@ class Stock extends CI_Controller {
         if($this->session->userdata('isUserLoggedIn')) {
             $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
             // Prepare customer data
+            $item_count=$this->input->post('item_count');
 
-            // If order request is submitted
-            $submit=$this->input->post('placeStock');
+            if($item_count<=12) {
+                 // If order request is submitted
+                $submit=$this->input->post('placeStock');
 
-            if(isset($submit)) {
+                if(isset($submit)) {
 
-                // Insert order
-                $order=$this->placeStock($this->input->post('inputhospcode'));
+                    // Insert order
+                    $order=$this->placeStock($this->input->post('inputhospcode'));
 
-                // If the order submission is successful
-                if($order) {
-                    redirect('email/stock/'.$order.'/'.$sms=1);
-                }
+                    // If the order submission is successful
+                    if($order) {
+                        redirect('email/stock/'.$order.'/'.$sms=1);
+                    }
 
-                else {
-                    $data['error_msg']='Order submission failed, please try again.';
+                    else {
+                        $data['error_msg']='Order submission failed, please try again.';
+                    }
                 }
             }
 
+            else {
+                $popup=array('msg'=> 1,
+                    'detail'=> 'ท่านสามารถเบิกพัสดุได้ครั้งละไม่เกิน 12 รายการต่อ 1 ใบงาน กรุณาเช็ครายการพัสดุใหม่อีกครั้งครับ',
+                );
+                $this->session->set_userdata($popup);
+                redirect('stock/cart/');
+            }
         }
 
         else {
@@ -469,7 +479,7 @@ class Stock extends CI_Controller {
             $unit=$this->input->post('stock_unit');
             $group=$this->input->post('stock_group');
             $category=$this->input->post('stock_category');
-            $qty_sum = $qty_old+$qty;
+            $qty_sum=$qty_old+$qty;
 
             $this->stock_model->setHospcode($data['user']['hospcode']);
 
@@ -806,71 +816,80 @@ class Stock extends CI_Controller {
 
     function paper($id) {
         $data=array();
-        // if($this->session->userdata('isUserLoggedIn')) {
-            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
-            $data['page_title']='เบิกวัสดุ';
-            $breadcrumb=array("Home"=> "/e-services/",
-                "ระบบเบิกวัสดุ"=> "/e-services/stock/",
-                "เบิกวัสดุ"=> ""
-            );
-            $data['breadcrumb']=$breadcrumb;
-            $data['mylibrary']=$this->my_library;
-            $data['thaidate']=$this->thaidate;
-            $data['orderInfo']=$this->stock_model->orderInfo($id);
-            $data['orderItems']=$this->stock_model->orderItems($id);
-            $data['userOrder']=$this->user_model->getRowsUser($data['orderInfo'][0]->hospcode);
-
-            $defaultFontConfig=(new Mpdf\Config\FontVariables())->getDefaults();
-            $fontData=$defaultFontConfig['fontdata'];
-            $mpdf=new \Mpdf\Mpdf(['tempDir'=> __DIR__ . '/tmp',
-                'mode'=> 'utf-8',
-                'format'=> 'A4',
-                'margin_top'=> 10,
-                'margin_left'=> 30,
-                'margin_right'=> 15,
-                'fontdata'=> $fontData + [ 'thsarabanit'=> [
-                'R'=> "THSarabunIT.ttf",
-                'B'=> "THSarabunITBold.ttf",
-                'I'=> "THSarabunITItalic.ttf",
-                'BI'=> "THSarabunITBoldItalic.ttf",
-                ]],
-            ]);
-
-            $html=$this->load->view('stock/paper', $data, TRUE);
-            $mpdf->WriteHTML($html);
-            $mpdf->Output('Stock-Order-'.$id.'.pdf', 'I'); // opens in browser
-        // }
-
-        // else {
-        //     redirect('users/login');
-        // }
-    }
-
-    public function QRcode($id){
-        $Url = site_url('stock/paper/').$id;
-        QRcode::png(
-            $Url,
-            $outfile = false,
-            $level = QR_ECLEVEL_H,
-            $size = 2,
-            $margin = 1
+        $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+        $data['page_title']='เบิกวัสดุ';
+        $breadcrumb=array("Home"=> "/e-services/",
+            "ระบบเบิกวัสดุ"=> "/e-services/stock/",
+            "เบิกวัสดุ"=> ""
         );
+        $data['breadcrumb']=$breadcrumb;
+        $data['mylibrary']=$this->my_library;
+        $data['thaidate']=$this->thaidate;
+
+        $data['orderInfo']=$this->stock_model->orderInfo($id);
+        $data['orderItems']=$this->stock_model->orderItems($id);
+        $data['userOrder']=$this->user_model->getRowsUser($data['orderInfo'][0]->hospcode);
+
+
+
+        $this->load->view('stock/paper', $data);
+
+
+         
+        //  $dompdf = new Dompdf\Dompdf();
+        //  $html = $this->load->view('stock/paper2', $data, TRUE);
+        //  $dompdf->loadHtml($html);
+        //  $dompdf->setPaper('A4');
+        //  $dompdf->render();
+        //  $dompdf->stream("Stock-Paper-".$id.".pdf", array("Attachment"=>0));
+
+
+
+        // $defaultFontConfig=(new Mpdf\Config\FontVariables())->getDefaults();
+        // $fontData=$defaultFontConfig['fontdata'];
+        // $mpdf=new \Mpdf\Mpdf(['tempDir'=> __DIR__ . '/tmp',
+        //     'mode'=> 'utf-8',
+        //     'format'=> 'A4',
+        //     'margin_top'=> 10,
+        //     'margin_left'=> 30,
+        //     'margin_right'=> 15,
+        //     'fontdata'=> $fontData + [ 'thsarabanit'=> [ 'R'=> "THSarabunIT.ttf",
+        //     'B'=> "THSarabunITBold.ttf",
+        //     'I'=> "THSarabunITItalic.ttf",
+        //     'BI'=> "THSarabunITBoldItalic.ttf",
+        //     ]],
+        //     ]);
+        
+        // $html=$this->load->view('stock/paper', $data, TRUE);
+        // //$mpdf->useDictionaryLBR = false;
+        // $mpdf->WriteHTML($html);
+        // $mpdf->Output('Stock-Paper-'.$id.'.pdf', 'I'); // opens in browser
+
     }
 
-   
-    public function mergeImag($hospcode,$status) {
+    public function QRcode($id) {
+        $Url=site_url('stock/paper/').$id;
+        QRcode::png($Url,
+                $outfile=false,
+                $level=QR_ECLEVEL_H,
+                $size=2,
+                $margin=1);
+    }
 
-    $dest = imagecreatefromjpeg(base_url()."assets/uploads/stock/paper/text-".$status.".jpg"); 
-    $src = imagecreatefromgif(base_url()."assets/uploads/employee/signature/".$hospcode.".gif"); 
-    imagealphablending($src, false);  
-    imagecopymerge($dest, $src, 310, 25, 0, 0, 521, 230, 100); 
-      
-    header('Content-Type: image/png'); 
-    
-    imagepng($dest); 
-      
-    imagedestroy($dest); 
-    imagedestroy($src); 
+
+    public function mergeImag($hospcode, $status) {
+
+        $dest=imagecreatefromjpeg(base_url()."assets/uploads/stock/paper/text-".$status.".jpg");
+        $src=imagecreatefromgif(base_url()."assets/uploads/employee/signature/".$hospcode.".gif");
+        imagealphablending($src, false);
+        imagecopymerge($dest, $src, 310, 25, 0, 0, 521, 230, 100);
+
+        header('Content-Type: image/png');
+
+        imagepng($dest);
+
+        imagedestroy($dest);
+        imagedestroy($src);
 
 
     }

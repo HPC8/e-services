@@ -7960,6 +7960,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 					/////////////////////
 					// 3) Break at SPACE
 					/////////////////////
+
 					if ($prevchar == ' ') {
 						$breakfound = [$contentctr, $charctr, $cutcontentctr, $cutcharctr, 'discard'];
 					} /////////////////////

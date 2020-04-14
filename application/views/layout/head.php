@@ -9,6 +9,7 @@
 <!-- bootstrap & fontawesome -->
 <link rel="stylesheet" href="<?php echo base_url()?>assets/aceadmin/css/bootstrap.min.css" />
 <link rel="stylesheet" href="<?php echo base_url()?>assets/font-awesome-4-7/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<?php echo base_url()?>assets/thsarabunit/style.css" />
 
 <!-- page specific plugin styles -->
 <link rel="stylesheet" href="<?php echo base_url()?>assets/aceadmin/css/checkboxes-radios.min.css" />
