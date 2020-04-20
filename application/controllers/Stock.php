@@ -6,7 +6,7 @@ class Stock extends CI_Controller {
         parent::__construct();
         $this->load->database();
         // Load library
-        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart_stock', 'upload', 'ciqrcode','thsplitlib'));
+        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart_stock', 'upload', 'ciqrcode', 'thsplitlib'));
         // Load helper
         $this->load->helper(array('url', 'html', 'form'));
         // Load model
@@ -168,7 +168,7 @@ class Stock extends CI_Controller {
             $item_count=$this->input->post('item_count');
 
             if($item_count<=12) {
-                 // If order request is submitted
+                // If order request is submitted
                 $submit=$this->input->post('placeStock');
 
                 if(isset($submit)) {
@@ -648,7 +648,7 @@ class Stock extends CI_Controller {
 
             else {
                 $popup=array('msg'=> 1,
-                    'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!3',
+                    'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
                 );
                 $this->session->set_userdata($popup);
                 redirect('stock/view/');
@@ -784,11 +784,6 @@ class Stock extends CI_Controller {
                 );
                 $this->session->set_userdata($popup);
             }
-
-
-
-
-
         }
 
         else {
@@ -814,6 +809,53 @@ class Stock extends CI_Controller {
         return true;
     }
 
+    // stock order delete method
+    public function delStockOrder() {
+        $data=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $id=$this->input->post('id');
+            $data['orderInfo']=$this->stock_model->orderInfo($id);
+            $data['orderItems']=$this->stock_model->orderItems($id);
+
+            $data['del']=array('status'=> '8',
+                'modified'=> date("Y-m-d H:i:s"),
+            );
+
+            if($data['orderInfo'][0]->hospcode==$data['user']['hospcode'] and $data['orderInfo'][0]->status == 1) {
+                $stock=$this->update_stock($data['orderItems']);
+
+                if($stock) {
+                    $this->db->where('id', $id);
+                    $this->db->update('tbl_stock_orders', $data['del']);
+                    redirect('email/stock/'.$id.'/'.$sms=6);
+                }
+
+                else {
+                    $popup=array('msg'=> 1,
+                        'detail'=> 'ระบบไม่สามารถอัพเดทข้อมูลได้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                    $this->session->set_userdata($popup);
+                }
+            }
+
+            else {
+                $popup=array('msg'=> 1,
+                'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+            );
+            $this->session->set_userdata($popup);
+            }
+
+            $this->output->set_header('Content-Type: application/json');
+            echo json_encode($data);
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+
     function paper($id) {
         $data=array();
         $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
@@ -835,7 +877,7 @@ class Stock extends CI_Controller {
         $this->load->view('stock/paper', $data);
 
 
-         
+
         //  $dompdf = new Dompdf\Dompdf();
         //  $html = $this->load->view('stock/paper2', $data, TRUE);
         //  $dompdf->loadHtml($html);
@@ -859,7 +901,7 @@ class Stock extends CI_Controller {
         //     'BI'=> "THSarabunITBoldItalic.ttf",
         //     ]],
         //     ]);
-        
+
         // $html=$this->load->view('stock/paper', $data, TRUE);
         // //$mpdf->useDictionaryLBR = false;
         // $mpdf->WriteHTML($html);
@@ -882,7 +924,7 @@ class Stock extends CI_Controller {
         $dest=imagecreatefromjpeg(base_url()."assets/uploads/stock/paper/text-".$status.".jpg");
         $src=imagecreatefromgif(base_url()."assets/uploads/employee/signature/".$hospcode.".gif");
         imagealphablending($src, false);
-        imagecopymerge($dest, $src, 310, 25, 0, 0, 521, 230, 100);
+        imagecopymerge($dest, $src, 310, 17, 0, 0, 521, 230, 100);
 
         header('Content-Type: image/png');
 

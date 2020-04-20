@@ -153,6 +153,17 @@ class User_model extends CI_Model {
         return ($data[0]->email);
     }
 
+    public function getPosition($hospcode) {
+        if($hospcode !='') {
+            $query=$this->db->get_where($this->employee, array('hospcode'=> $hospcode));
+        $data=$query->result();
+        return ($data[0]->position_name.$data[0]->level_name);
+        }
+        else {
+            return "";
+        }
+       
+    }
     public function sex($id) {
         $query=$this->db->get_where($this->tbl_sex, array('sex_id'=> $id));
         $data=$query->result();

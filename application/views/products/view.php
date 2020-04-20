@@ -38,6 +38,9 @@
                 <td class="center"><?php echo get_instance()->product_model->checkStatus($rs->status);?></td>
                 <td class="center">
                     <div class="hidden-xs btn-group">
+                        <a title="Print" href="<?php echo site_url('products/paper/'.$rs->id);?>" target="_blank"
+                            class="view-products-order btn btn-xs"><i class="fa fa-print"></i> 
+                        </a>
                         <a title="View" href="javascript:void(0);" data-getcode="<?php echo $rs->id;?>"
                             data-toggle="modal" data-target="#view-products"
                             class="view-products btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>

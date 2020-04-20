@@ -196,7 +196,7 @@ class Stock_model extends CI_Model {
         }
 
         elseif($status==4) {
-            return $status='<span class="label label-sm label-info arrowed arrowed-right"><i class="fa fa-paper-plane-o"> จ่ายแล้ว</i></span>';
+            return $status='<span class="label label-sm label-info arrowed arrowed-right"><i class="fa fa-paper-plane-o"> นำจ่าย</i></span>';
         }
 
         elseif($status==5) {

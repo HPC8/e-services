@@ -6,7 +6,7 @@ class Products extends CI_Controller {
         parent::__construct();
         $this->load->database();
         // Load library
-        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart', ));
+        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart','ciqrcode', ));
         // Load helper
         $this->load->helper(array('url', 'html', 'form'));
         // Load model
@@ -376,6 +376,7 @@ class Products extends CI_Controller {
                     $this->session->set_userdata($popup);
                 }
             }
+
             if($data['detail'][0]->status=="2") {
                 $product=$this->update_product($data['items']);
 
@@ -403,6 +404,7 @@ class Products extends CI_Controller {
                 $this->session->set_userdata($popup);
             }
         }
+
         else {
             $popup=array('msg'=> 1,
                 'detail'=> 'คุณไม่สามารถยกเลิกใบงานได้ กรุณาติดต่อผู้ดูแลระบบครับ!',
@@ -622,7 +624,7 @@ class Products extends CI_Controller {
             );
 
             if($data['detailInfo'][0]->status=="1") {
-                if($inputstatus=="6" or $inputstatus=="7") {
+                if($inputstatus=="6"or $inputstatus=="7") {
                     $product=$this->update_product($data['items']);
 
                     if($product) {
@@ -753,6 +755,57 @@ class Products extends CI_Controller {
         $data=$this->thaidate->duration($start, $end);
         echo $data;
     }
+
+    function paper($id) {
+        $data=array();
+        $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+        $data['page_title']='ยืมครุภัณฑ์';
+        $breadcrumb=array("Home"=> "/e-services/",
+            "ระบบยืมคืนครุภัณฑ์"=> "/e-services/products/",
+            "ยืมครุภัณฑ์"=> ""
+        );
+        $data['breadcrumb']=$breadcrumb;
+        $data['mylibrary']=$this->my_library;
+        $data['thaidate']=$this->thaidate;
+
+        $data['detailInfo']=$this->product_model->getDetail($id);
+        $data['itemsInfo']=$this->product_model->getItems($id);
+        $data['userOrder']=$this->user_model->getRowsUser($data['detailInfo'][0]->hospcode);
+        // echo '<pre>';
+        // print_r($data);
+        // echo '</pre>';
+        // exit;
+
+
+        $this->load->view('products/paper', $data);
+
+    }
+
+    public function QRcode($id) {
+        $Url=site_url('products/paper/').$id;
+        QRcode::png($Url,
+                $outfile=false,
+                $level=QR_ECLEVEL_H,
+                $size=2,
+                $margin=1);
+    }
+    public function mergeImag($hospcode, $status) {
+
+        $dest=imagecreatefromjpeg(base_url()."assets/uploads/products/paper/text-".$status.".jpg");
+        $src=imagecreatefromgif(base_url()."assets/uploads/employee/signature/".$hospcode.".gif");
+        imagealphablending($src, false);
+        imagecopymerge($dest, $src, 310, 17, 0, 0, 521, 230, 100);
+
+        header('Content-Type: image/png');
+
+        imagepng($dest);
+
+        imagedestroy($dest);
+        imagedestroy($src);
+
+
+    }
+
 }
 
 // echo '<pre>';

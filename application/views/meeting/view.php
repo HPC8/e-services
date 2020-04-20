@@ -7,7 +7,7 @@
         ตารางรายการจองห้องประชุมทั้งหมด
     </div>
 <td>
-    <table id="tbl-layout-50" class="table table-striped table-bordered table-hover display nowrap" style="width:100%">
+    <table id="tbl-layout-10" class="table table-striped table-bordered table-hover display nowrap" style="width:100%">
         <thead>
             <tr>
                 <th width="5%" class="detail-col">No.</th>
@@ -19,7 +19,7 @@
                     วันที่ขอใช้บริการ
                 </th>
                 <th width="13%" class="center">สถานะ</th>
-                <th width="12%" class="center">Action</th>
+                <th width="12%" class="center">Option</th>
             </tr>
         </thead>
         <tbody>
@@ -29,22 +29,27 @@
                     <?php echo $no;?>
                 </td>
                 <td class="center">
-                    <a href="<?php echo site_url('meeting/detail/').$rs->id;?>"><?php echo $rs->meeting_doc;?></a>
+                    <a title="View" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>" data-toggle="modal"
+                        data-target="#view-meeting" class="view-meeting"><?php echo $rs->meeting_doc;?> </a>
                 </td>
                 <td class="hidden-1024"><?php echo get_instance()->user_model->getUsername($rs->hospcode);?></td>
-                <td class="hidden-768"><?php echo mb_substr($rs->detail,0,50, "UTF-8");?>&nbsp<a
-                        href="<?php echo site_url('meeting/detail/').$rs->id;?>">อ่านต่อ<i class="fa fa-paper-plane-o"
-                            aria-hidden="true"></i></a></td>
+                <td class="hidden-768"><?php echo $rs->detail;?></td>
                 <td class="hidden-480 center"><?= $mydate->ThaiLong($rs->meeting_date);?></td>
                 <td class="center"><?php echo get_instance()->meeting_model->checkStatus($rs->meeting_status);?></td>
                 <td class="center">
                     <div class="hidden-xs btn-group">
-                        <a title="View" href="<?php echo site_url('meeting/detail/').$rs->id;?>"
-                            class="view-plan btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
-                        <a title="Edit" href="<?php echo site_url('meeting/edit/').$rs->id;?>"
-                            class="view-plan btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
-                        <a title="Cancel" href="<?php echo site_url('meeting/cancel/').$rs->id.'/'.$status="0"?>"
-                            class="view-plan btn btn-danger btn-xs"><i class="fa fa-trash"></i> </a>
+
+                        <a title="View" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                            data-toggle="modal" data-target="#view-meeting"
+                            class="view-meeting btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
+
+                        <a title="Edit" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                            data-toggle="modal" data-target="#edit-meeting-book"
+                            class="edit-meeting-book-details btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
+
+                        <a title="Cancel" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                            data-toggle="modal" data-target="#delete-meeting"
+                            class="delete-meeting-details btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                     </div>
 
                     <div class="hidden-sm hidden-md hidden-lg">
@@ -56,17 +61,21 @@
                             <ul
                                 class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                 <li>
-                                    <a title="View" href="<?php echo site_url('meeting/detail/').$rs->id;?>"
-                                        class="view-plan btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
+                                    <a title="View" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                                        data-toggle="modal" data-target="#view-meeting"
+                                        class="view-meeting btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
                                 </li>
                                 <li>
-                                    <a title="Edit" href="<?php echo site_url('meeting/edit/').$rs->id;?>"
-                                        class="view-plan btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
+                                    <a title="Edit" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                                        data-toggle="modal" data-target="#edit-meeting-book"
+                                        class="edit-meeting-book-details btn btn-success btn-xs"><i
+                                            class="fa fa-edit"></i> </a>
                                 </li>
                                 <li>
-                                    <a title="Cancel"
-                                        href="<?php echo site_url('meeting/cancel/').$rs->id.'/'.$status="0"?>"
-                                        class="view-plan btn btn-danger btn-xs"><i class="fa fa-trash"></i> </a>
+                                    <a title="Cancel" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
+                                        data-toggle="modal" data-target="#delete-meeting"
+                                        class="delete-meeting-details btn btn-danger btn-xs"><i
+                                            class="fa fa-trash"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -93,4 +102,7 @@
 
 <?php
     $this->load->view('meeting/alerts');
+    $this->load->view('meeting/popup/view');
+    $this->load->view('meeting/popup/edit');
+    $this->load->view('meeting/popup/delete');
 ?>

@@ -4,7 +4,7 @@ class Meeting extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->database();
-        $this->load->library(array('form_validation', 'session', 'my_library', 'my_date','thaidate'));
+        $this->load->library(array('form_validation', 'session', 'my_library', 'my_date', 'thaidate'));
         $this->load->helper(array('url', 'html', 'form'));
         $this->load->model(array('user_model', 'employee_model', 'meeting_model'));
     }
@@ -101,6 +101,7 @@ class Meeting extends CI_Controller {
 
     public function post_validate() {
         $data=array();
+
         if($this->session->userdata('isUserLoggedIn')) {
             $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
             $data['mylibrary']=$this->my_library;
@@ -316,6 +317,87 @@ class Meeting extends CI_Controller {
         }
     }
 
+    // view meeting
+    public function viewMeeting() {
+        $data=array();
+        $id=$this->input->post('id');
+        $data['thaidate']=$this->thaidate;
+        $data['detail']=$this->meeting_model->getDetail($id);
+        $data['status']=$this->meeting_model->getStatus();
+        $this->output->set_header('Content-Type: application/json');
+        $this->load->view('meeting/popup/renderView', $data);
+
+    }
+
+    // view meeting
+    public function editMeeting() {
+        $data=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $data['admin_level']=$this->user_model->getUser_mtg($data['user']['hospcode']);
+            $id=$this->input->post('id');
+            $data['thaidate']=$this->thaidate;
+            $data['detail']=$this->meeting_model->getDetail($id);
+            $data['status']=$this->meeting_model->getStatus();
+            $data['meeting_room']=$this->meeting_model->getMeetingroom();
+            $data['userBook']=$this->user_model->getRowsUser($data['detail'][0]->hospcode);
+            $this->output->set_header('Content-Type: application/json');
+
+            if( !empty($data['admin_level'])) {
+                if($data['detail'][0]->meeting_status==1 and $data['admin_level'][0]->level==2) {
+                    $this->load->view('meeting/popup/renderApprove', $data);
+                }
+
+                else {
+                    $popup=array('msg'=> 1,
+                        'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                    );
+                    $this->session->set_userdata($popup);
+                }
+
+            }
+
+            else {
+                $popup=array('msg'=> 1,
+                    'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                );
+                $this->session->set_userdata($popup);
+            }
+
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+
+    // view srock order
+    public function updateMeeting() {
+        $data=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $id=$this->input->post('meetingId');
+            $inputstatus=$this->input->post('inputstatus');
+            $data['detail']=$this->meeting_model->getDetail($id);
+            $data['status']=$this->meeting_model->getStatus();
+
+            $data['approve']=array('meeting_status'=> $inputstatus,
+                'allower_code'=> $data['user']['hospcode'],
+                'allower_date'=> date("Y-m-d H:i:s"),
+            );
+
+            $this->db->where('id', $id);
+            $this->db->update('tbl_meeting_book', $data['approve']);
+            redirect('email/meeting/'.$id.'/'.$sms=3);
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+
     public function edit($id) {
         $data=array();
 
@@ -340,7 +422,7 @@ class Meeting extends CI_Controller {
 
             else {
                 $popup=array('msg'=> 1,
-                    'detail'=> 'คุณไม่สามารถแก้ไขใบงานได้ กรุณาติดต่อผู้ดูแลระบบ...',
+                    'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
                 );
                 $this->session->set_userdata($popup);
                 redirect('meeting/view/');
@@ -352,31 +434,64 @@ class Meeting extends CI_Controller {
         }
     }
 
-    public function update_document($id) {
-        $data=array();
+    // public function update_document($id) {
+    //     $data=array();
 
+    //     if($this->session->userdata('isUserLoggedIn')) {
+    //         $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+    //         $data['mylibrary']=$this->my_library;
+    //         $data['meeting_room']=$this->meeting_model->getMeetingroom();
+    //         $data['page_title']='จองห้องประชุม';
+    //         $breadcrumb=array("Home"=> "/e-services/",
+    //             "ระบบห้องประชุม"=> "/e-services/meeting/",
+    //             "จองห้องประชุม"=> ""
+    //         );
+    //         $data['breadcrumb']=$breadcrumb;
+    //         $data['mydate']=$this->my_date;
+
+    //         $data=array('meeting_status'=> $this->input->post('inputstatus'),
+    //             'update'=> date("Y-m-d H:i:s"),
+    //             'allower_code'=> $data['user']['hospcode'],
+    //             'allower_date'=> date("Y-m-d H:i:s"),
+    //         );
+    //         $this->db->where('id', $id);
+    //         $this->db->update('tbl_meeting_book', $data);
+    //         redirect('email/meeting/'.$id.'/'.$sms=3);
+    //     }
+
+    //     else {
+    //         redirect('users/login');
+    //     }
+    // }
+
+    public function delMeeting() {
+        $data=array();
+        $id=$this->input->post('id');
         if($this->session->userdata('isUserLoggedIn')) {
             $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
-            $data['mylibrary']=$this->my_library;
-            $data['meeting_room']=$this->meeting_model->getMeetingroom();
-            $data['page_title']='จองห้องประชุม';
-            $breadcrumb=array("Home"=> "/e-services/",
-                "ระบบห้องประชุม"=> "/e-services/meeting/",
-                "จองห้องประชุม"=> ""
-            );
-            $data['breadcrumb']=$breadcrumb;
-            $data['mydate']=$this->my_date;
+            $data['detail']=$this->meeting_model->getDetail($id);
 
-            $data=array('meeting_status'=> $this->input->post('inputstatus'),
+            $datastatus=array('id'=> $id,
+                'meeting_status'=> '0',
                 'update'=> date("Y-m-d H:i:s"),
-                'allower_code'=> $data['user']['hospcode'],
-                'allower_date'=> date("Y-m-d H:i:s"),
+                'edit_by'=>$data['user']['hospcode'],
             );
-            $this->db->where('id', $id);
-            $this->db->update('tbl_meeting_book', $data);
-            redirect('email/meeting/'.$id.'/'.$sms=3);
-        }
 
+            if($data['detail'][0]->hospcode==$data['user']['hospcode'] && $data['detail'][0]->meeting_status=="1") {
+                $this->db->where('id', $id);
+                $this->db->update('tbl_meeting_book', $datastatus);
+                $this->output->set_header('Content-Type: application/json');
+                echo json_encode($data);
+            }
+    
+            else {
+                $popup=array('msg'=> 1,
+                    'detail'=> 'คุณไม่สามารถยกเลิกใบงานได้ กรุณาติดต่อผู้ดูแลระบบ...',
+                );
+                $this->session->set_userdata($popup);
+            }
+           
+        }
         else {
             redirect('users/login');
         }
@@ -386,6 +501,7 @@ class Meeting extends CI_Controller {
         $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
         $data['admin_level']=$this->user_model->getUser_mtg($data['user']['hospcode']);
         $data['detail']=$this->meeting_model->getDetail($id);
+
         $datastatus=array('id'=> $id,
             'meeting_status'=> $status,
             'update'=> date("Y-m-d H:i:s"),
@@ -405,10 +521,11 @@ class Meeting extends CI_Controller {
             redirect('meeting/view/');
         }
     }
-    
-    public function popup(){
+
+    public function popup() {
         echo '<center><img src="https://apps.anamai.moph.go.th/e-services/assets/uploads/images/loading-crop.gif"
-                style="max-width:480px;width:100%"></center>';
+style="max-width:480px;width:100%"></center>';
+
     }
 }
 

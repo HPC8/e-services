@@ -326,3 +326,38 @@ jQuery(document).on('click', 'button#edit-stock-order', function () {
         }
     });
 });
+
+// set id stock order for delete 
+jQuery(document).on('click', 'a.delete-stock-order-details', function () {
+    var id = jQuery(this).data('getid');
+    jQuery('button#delete-stock-order-id').data('deleteid', id);
+
+});
+
+// delete stock
+jQuery(document).on('click', 'button#delete-stock-order-id', function () {
+    var id = jQuery(this).data('deleteid');
+    // window.alert(id);
+    // exit;
+    jQuery.ajax({
+        type: 'POST',
+        url: baseurl + 'stock/delStockOrder',
+        data: {
+            id: id
+        },
+        dataType: 'html',
+        complete: function () {
+            jQuery('#delete-stock-order').modal('hide');
+        },
+        success: function () {
+            jQuery('span#success-msg').html('<div class="alert alert-success">ลบข้อมูลสำเร็จ</div>');
+            setTimeout(function () {
+                window.location.reload(true);
+            }, 500);
+
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});

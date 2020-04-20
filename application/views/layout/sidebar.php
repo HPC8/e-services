@@ -302,18 +302,19 @@
                     </a>
                     <b class="arrow"></b>
                 </li>
-                <li class="<?php echo $page_title  == 'ปฏิทินจองห้องประชุม' ? 'active' : '' ?>">
-                    <a href="<?php echo site_url('meeting/calendar/');?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        ปฏิทินจองห้องประชุม
-                    </a>
 
-                    <b class="arrow"></b>
-                </li>
                 <li class="<?php echo $page_title  == 'รายการจองห้องประชุม' ? 'active' : '' ?>">
                     <a href="<?php echo site_url('meeting/view/');?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         รายการจองห้องประชุม
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="<?php echo $page_title  == 'ปฏิทินจองห้องประชุม' ? 'active' : '' ?>">
+                    <a href="<?php echo site_url('meeting/calendar/');?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        ปฏิทินจองห้องประชุม
                     </a>
 
                     <b class="arrow"></b>
@@ -443,7 +444,42 @@
                 </li>
             </ul>
         </li>
+        <li <?php 
+			if($page_title=='ระบบแจ้งซ่อม'|| $page_title=='แจ้งซ่อม'){
+			    echo "class='active open'";
+			}else{
+				echo "class=''" ; } 
+		    ?>>
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-wrench"></i>
+                <span class="menu-text">
+                ระบบแจ้งซ่อม
+                </span>
 
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="<?php echo $page_title  == 'ระบบแจ้งซ่อม' ? 'active' : '' ?>">
+                    <a href="<?php echo site_url('repairing/');?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        แจ้งซ่อม
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="<?php echo $page_title  == 'รายการแจ้งซ่อม' ? 'active' : '' ?>">
+                    <a href="<?php echo site_url('repairing/');?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        รายการแจ้งซ่อม
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+            </ul>
+        </li>
         <!-- <li <?php 
 			if($uriMethod=="random"||$uriMethod=="randomProgress"){
 			    echo "class='active open'";

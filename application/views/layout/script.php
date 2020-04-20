@@ -90,6 +90,8 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/plan/train.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/plan.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/stock.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/repairing.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/meeting.js"></script>
 <!-- google chart -->
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/charts/loader.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/custom/charts/chartEmp.js"></script>
