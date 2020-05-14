@@ -339,7 +339,7 @@ jQuery(function ($) {
         onchange: null,
         thumbnail: false, //| true | large
         whitelist: 'png|jpg|jpeg',
-        blacklist:'exe|php'
+        blacklist: 'exe|php'
         //onchange:''
         //
     });
@@ -823,13 +823,31 @@ function sum() {
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-        
+
         reader.onload = function (e) {
             $('#stock-uplfile-tag').attr('src', e.target.result);
         }
         reader.readAsDataURL(input.files[0]);
     }
 }
-$("#stock-uplfile").change(function(){
+$("#stock-uplfile").change(function () {
     readURL(this);
 });
+
+
+function manage(txt) {
+    var bt = document.getElementById('send_form');
+    if (txt.value != '') {
+        bt.disabled = false;
+    } else {
+        bt.disabled = true;
+    }
+}
+
+function accept_box(termsCheckBox) {
+    if (termsCheckBox.checked) {
+        document.getElementById("send_form").disabled = false;
+    } else {
+        document.getElementById("send_form").disabled = true;
+    }
+}

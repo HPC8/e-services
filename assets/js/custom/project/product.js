@@ -26,11 +26,11 @@ jQuery(document).on('click', 'button#add-product', function(){
         url:baseurl+'project/saveProduct',
         data:jQuery("form#add-product-form").serialize(),
         dataType:'json',    
-        beforeSend: function () {
-            jQuery('button#add-product').button('loading');
-        },
+        // beforeSend: function () {
+        //     jQuery('button#add-product').button('loading');
+        // },
         complete: function () {
-            jQuery('button#add-product').button('reset');
+            //jQuery('button#add-product').button('reset');
             setTimeout(function () {
                 jQuery('span#success-msg').html('');
             }, 1000);
@@ -96,11 +96,11 @@ jQuery(document).on('click', 'button#update-product', function(){
         url:baseurl+'project/updateProduct',
         data:jQuery("form#update-product-form").serialize(),
         dataType:'json',    
-        beforeSend: function () {
-            jQuery('button#update-product').button('loading');
-        },
+        // beforeSend: function () {
+        //     jQuery('button#update-product').button('loading');
+        // },
         complete: function () {
-            jQuery('button#update-product').button('reset');
+            //jQuery('button#update-product').button('reset');
             setTimeout(function () {
                 jQuery('span#success-msg').html('');
             }, 1000);

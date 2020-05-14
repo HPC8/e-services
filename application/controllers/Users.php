@@ -326,13 +326,22 @@ class Users extends CI_Controller {
             $this->form_validation->set_rules('hospcode', 'text', 'required');
             $this->form_validation->set_rules('password', 'password', 'required');
 
-
             if ($this->form_validation->run()==true) {
                 $con['returnType']='single';
-                $con['conditions']=array('hospcode'=>$this->input->post('hospcode'),
-                    'passwd'=> hash("sha256", $this->input->post('password')),
-                    'status'=> '1'
-                );
+                $account=$this->input->post('hospcode');
+                $code="10";
+                if(strpos($account, $code) !==false) {
+                    $con['conditions']=array('hospcode'=>$this->input->post('hospcode'),
+                        'passwd'=> hash("sha256", $this->input->post('password')),
+                        'status'=> '1'
+                    );
+                }
+                else {
+                    $con['conditions']=array('hospname'=>$this->input->post('hospcode'),
+                        'passwd'=> hash("sha256", $this->input->post('password')),
+                        'status'=> '1'
+                    );
+                }
 
                 $checkLogin=$this->user_model->getRows($con);
 
@@ -347,7 +356,7 @@ class Users extends CI_Controller {
                         'os'=> $this->agent->platform(),
                         'browser'=>$this->agent->browser().' '.$this->agent->version());
                     $this->db->insert($this->logfile, $logfile);
-                    
+
                     redirect('users/account/');
                 }
 

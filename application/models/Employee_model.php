@@ -29,6 +29,9 @@
     $_titlename,
     $_firstname,
     $_lastname,
+    $_firstnameEng,
+    $_lastnameEng,
+    $_hospname,
     $_sex,
     $_marital,
     $_blood,
@@ -78,6 +81,18 @@
 
     public function empFirstname($emp_firstname) {
         $this->_firstname=$emp_firstname;
+    }
+
+    public function empNameeng($emp_nameeng) {
+        $NAME=strtoupper($emp_nameeng);
+        $pieces=explode(" ", $NAME);
+
+        $this->_firstnameEng=$pieces[0];
+        $this->_lastnameEng=$pieces[1];
+
+        $NameSmall=strtolower($pieces[0]);
+        $last=substr($pieces[1], 0, 1);
+        $this->_hospname=$NameSmall.'.'.strtolower($last);
     }
 
     public function empLastname($emp_lastname) {
@@ -215,6 +230,7 @@
     public function empDiscardDoc($discardDoc) {
         $this->_discardDoc=$discardDoc;
     }
+
     public function empNote($emp_note) {
         $this->_note=$emp_note;
     }
@@ -225,6 +241,9 @@
             'titlename'=> $this->_titlename,
             'firstname'=> $this->_firstname,
             'lastname'=> $this->_lastname,
+            'lastname_eng'=> $this->_firstnameEng,
+            'firstname_eng'=> $this->_lastnameEng,
+            'hospname'=> $this->_hospname,
             'sex'=> $this->_sex,
             'marital'=> $this->_marital,
             'blood'=> $this->_blood,
@@ -275,6 +294,9 @@
         $data=array('titlename'=> $this->_titlename,
             'firstname'=> $this->_firstname,
             'lastname'=> $this->_lastname,
+            'lastname_eng'=> $this->_firstnameEng,
+            'firstname_eng'=> $this->_lastnameEng,
+            'hospname'=> $this->_hospname,
             'sex'=> $this->_sex,
             'marital'=> $this->_marital,
             'blood'=> $this->_blood,
@@ -511,6 +533,7 @@
             $query=$this->db->get();
             return $query->result();
         }
+
         else {
             return "";
         }

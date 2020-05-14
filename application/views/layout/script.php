@@ -103,23 +103,5 @@
 	$($('#view-alerts-auto').click());
 	$($('#view-success-auto').click());
 	$($('#alerts-tabel-auto').click());
-</script>
-<script>
-	function manage(txt) {
-		var bt = document.getElementById('send_form');
-		if (txt.value != '') {
-			bt.disabled = false;
-		} else {
-			bt.disabled = true;
-		}
-	}
 
-	function accept_box(termsCheckBox) {
-		if (termsCheckBox.checked) {
-			document.getElementById("send_form").disabled = false;
-		} else {
-			document.getElementById("send_form").disabled = true;
-		}
-	}
-	
 </script>

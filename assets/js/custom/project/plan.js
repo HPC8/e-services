@@ -77,11 +77,12 @@ jQuery(document).on('click', 'button#add-plan', function(){
         url:baseurl+'project/savePlan',
         data:jQuery("form#add-plan-form").serialize(),
         dataType:'json',    
-        beforeSend: function () {
-            jQuery('button#add-plan').button('loading');
-        },
+        // beforeSend: function () {
+        //     console.log('beforeSend');
+        //     jQuery('button#add-plan').button('loading');
+        // },
         complete: function () {
-            jQuery('button#add-plan').button('reset');
+            //jQuery('button#add-plan').button('reset');
             setTimeout(function () {
                 jQuery('span#success-msg').html('');
             }, 1000);
@@ -126,11 +127,11 @@ jQuery(document).on('click', 'button#update-plan', function(){
         url:baseurl+'project/updatePlan',
         data:jQuery("form#update-plan-form").serialize(),
         dataType:'json',    
-        beforeSend: function () {
-            jQuery('button#update-plan').button('loading');
-        },
+        // beforeSend: function () {
+        //     jQuery('button#update-plan').button('loading');
+        // },
         complete: function () {
-            jQuery('button#update-plan').button('reset');
+            //jQuery('button#update-plan').button('reset');
             setTimeout(function () {
                 jQuery('span#success-msg').html('');
             }, 1000);

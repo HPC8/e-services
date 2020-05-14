@@ -58,31 +58,31 @@ return $query->num_rows();
             }
 
             elseif($meeting_room==2) {
-                $nameMeeting="ห้องประชุม ธราดล";
+                $nameMeeting="ห้องประชุม VDO Conference";
                 $event_color="#00b33c";
                 return array('nameMeeting'=> $nameMeeting,
                     'event_color'=> $event_color,
                 );
             }
 
-            elseif($meeting_room==3) {
-                $nameMeeting="ห้องประชุม ชลธี";
-                $event_color="#ff9900";
-                return array('nameMeeting'=> $nameMeeting,
-                    'event_color'=> $event_color,
-                );
-            }
+            // elseif($meeting_room==3) {
+            //     $nameMeeting="ห้องประชุม ชลธี";
+            //     $event_color="#ff9900";
+            //     return array('nameMeeting'=> $nameMeeting,
+            //         'event_color'=> $event_color,
+            //     );
+            // }
 
-            elseif($meeting_room==4) {
-                $nameMeeting="ห้องประชุม VDO Conference";
-                $event_color="#ff8080";
-                return array('nameMeeting'=> $nameMeeting,
-                    'event_color'=> $event_color,
-                );
-            }
+            // elseif($meeting_room==4) {
+            //     $nameMeeting="ห้องประชุม VDO Conference";
+            //     $event_color="#ff8080";
+            //     return array('nameMeeting'=> $nameMeeting,
+            //         'event_color'=> $event_color,
+            //     );
+            // }
 
             else {
-                $nameMeeting="้องประชุมไม่ถูกต้อง";
+                $nameMeeting="้ห้องประชุมไม่ถูกต้อง";
                 $event_color="#FFF";
                 return array('nameMeeting'=> $nameMeeting,
                     'event_color'=> $event_color,

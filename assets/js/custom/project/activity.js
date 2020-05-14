@@ -26,11 +26,11 @@ jQuery(document).on('click', 'button#add-activity', function(){
         url:baseurl+'project/saveActivity',
         data:jQuery("form#add-activity-form").serialize(),
         dataType:'json',    
-        beforeSend: function () {
-            jQuery('button#add-activity').button('loading');
-        },
+        // beforeSend: function () {
+        //    jQuery('button#add-activity').button('reset');
+        // },
         complete: function () {
-            jQuery('button#add-activity').button('reset');
+            //jQuery('button#add-activity').button('reset');
             setTimeout(function () {
                 jQuery('span#success-msg').html('');
             }, 1000);
@@ -96,11 +96,11 @@ jQuery(document).on('click', 'button#update-activity', function(){
         url:baseurl+'project/updateActivity',
         data:jQuery("form#update-activity-form").serialize(),
         dataType:'json',    
-        beforeSend: function () {
-            jQuery('button#update-activity').button('loading');
-        },
+        // beforeSend: function () {
+        //     jQuery('button#update-activity').button('loading');
+        // },
         complete: function () {
-            jQuery('button#update-activity').button('reset');
+            //jQuery('button#update-activity').button('reset');
             setTimeout(function () {
                 jQuery('span#success-msg').html('');
             }, 1000);

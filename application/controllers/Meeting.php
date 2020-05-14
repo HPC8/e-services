@@ -472,7 +472,7 @@ class Meeting extends CI_Controller {
             $data['detail']=$this->meeting_model->getDetail($id);
 
             $datastatus=array('id'=> $id,
-                'meeting_status'=> '0',
+                'meeting_status'=> '9',
                 'update'=> date("Y-m-d H:i:s"),
                 'edit_by'=>$data['user']['hospcode'],
             );

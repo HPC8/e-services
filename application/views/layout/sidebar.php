@@ -365,8 +365,8 @@
                     <b class="arrow"></b>
                 </li>
                 <li class="<?php echo $page_title  == 'คู่มือการใช้งานระบบครุภัณฑ์' ? 'active' : '' ?>">
-                    <a href="<?php echo site_url('assets/uploads/source/file.pdf');?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
+                    <a href="<?php echo site_url('assets/uploads/doc/Flowchart-products.pdf');?>" target="_blank">
+                        <i class="fa fa-book" aria-hidden="true"></i>
                         คู่มือการใช้งาน
                     </a>
 
@@ -416,6 +416,15 @@
 
                     <b class="arrow"></b>
                 </li>
+                <li class="<?php echo $page_title  == 'คู่มือการใช้งานระบบเบิกวัสดุ' ? 'active' : '' ?>">
+
+                    <a href="<?php echo site_url('assets/uploads/doc/Flowchart-stock.pdf');?>" target="_blank">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                        คู่มือการใช้งาน
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
                 <li <?php 
 			        if($page_title=='ตั้งค่ารายการวัสดุ'){
 			            echo "class='active open'";
@@ -445,7 +454,7 @@
             </ul>
         </li>
         <li <?php 
-			if($page_title=='ระบบแจ้งซ่อม'|| $page_title=='แจ้งซ่อม'){
+			if($page_title=='ระบบแจ้งซ่อม'|| $page_title=='แจ้งซ่อม' || $page_title=='รายการแจ้งซ่อม'){
 			    echo "class='active open'";
 			}else{
 				echo "class=''" ; } 
@@ -453,7 +462,7 @@
             <a href="#" class="dropdown-toggle">
                 <i class="menu-icon fa fa-wrench"></i>
                 <span class="menu-text">
-                ระบบแจ้งซ่อม
+                    ระบบแจ้งซ่อม
                 </span>
 
                 <b class="arrow fa fa-angle-down"></b>
@@ -470,7 +479,7 @@
                     <b class="arrow"></b>
                 </li>
                 <li class="<?php echo $page_title  == 'รายการแจ้งซ่อม' ? 'active' : '' ?>">
-                    <a href="<?php echo site_url('repairing/');?>">
+                    <a href="<?php echo site_url('repairing/view/');?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         รายการแจ้งซ่อม
                     </a>

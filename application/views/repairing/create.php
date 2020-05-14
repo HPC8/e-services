@@ -9,9 +9,7 @@
                     <div class="widget-body">
                         <div class="widget-main padding-8">
                             <div class="widget-main">
-                                <!-- <form action="<?php echo site_url('meeting/post_validate/') ?>" method="post"
-                                    accept-charset="utf-8"> -->
-                                <form action="" method="post" accept-charset="utf-8">
+                                <form id="add-repairing-form" method="post">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
@@ -73,7 +71,7 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label><strong>ประเภทปัญหา</strong></label>
+                                                <label><strong>ประเภทของปัญหา</strong></label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
                                                         <i class="ace-icon fa fa-tags"></i>
@@ -93,7 +91,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label><strong><U>เลขครุภัณฑ์</U></strong></label>
+                                                <label><strong><U>เลขครุภัณฑ์/เลขทะเบียน</U></strong></label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
                                                         <i class="ace-icon fa fa-sitemap"></i>
@@ -110,12 +108,12 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label><strong><U>รายละเอียด</U></strong>
+                                                <label><strong><U>รายละเอียดการส่งซ่อม</U></strong>
                                                     <font color="red">*</font>
                                                 </label>
                                                 <div>
-                                                    <textarea class="form-control" name="detail" id="detail"
-                                                        onkeyup="manage(this)" rows="6" required></textarea>
+                                                    <textarea class="form-control input-repairing-detail" name="repairing_detail" id="repairing-detail"
+                                                     rows="6" required></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -127,14 +125,10 @@
                                                 ยกเลิก
                                             </button>
                                         </div>
-
                                         <div class="form-group btn-group pull-right">
-                                            <button class="btn btn-sm btn-primary btn-round" type="submit"
-                                                id="send_form" data-toggle="modal" data-target="#load-processing"
-                                                disabled>
-                                                <i class="ace-icon fa fa-floppy-o bigger-125"></i>
-                                                บันทึก
-                                            </button>
+                                            <button type="button" class="btn btn-sm btn-primary btn-round" data-addid=""
+                                                id="add-repairing"><i
+                                                    class="ace-icon fa fa-floppy-o bigger-125"></i>บันทึก</button>
                                         </div>
                                     </div>
                                 </form>

@@ -68,6 +68,7 @@
 
                                 <div class="profile-info-value">
                                     <span><?php echo get_instance()->user_model->getUsername($userInfo->hospcode);?></span>
+                                    <?php echo '<br>'.$userInfo->lastname_eng.' '.$userInfo->firstname_eng;?>
                                 </div>
                             </div>
                             <div class="profile-info-row">

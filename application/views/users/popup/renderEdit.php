@@ -116,6 +116,22 @@
             </div>
         </div>
     </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label><strong><U>ชื่อ-นามสกุล</U> (ภาษาอังกฤษ)</strong></label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="ace-icon fa fa-user"></i>
+                </span>
+                <input type="text" name="edit_nameeng" class="form-control input-edit-nameeng" id="edit-nameeng" 
+                value="<?php echo $codeInfo->lastname_eng.' '.$codeInfo->firstname_eng;?>" disabled>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="row">
     <div class="col-sm-2">
         <div class="form-group">
             <label><strong><U>กรุ๊ปเลือด</U></strong></label>
@@ -135,20 +151,6 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-2">
-        <div class="form-group">
-            <label><strong><U>เลขที่ตำแหน่ง</U></strong></label>
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <i class="ace-icon fa fa-shield"></i>
-                </span>
-                <input type="text" name="edit_positionno" class="form-control input-edit-positionno"
-                    id="edit-positionno" value="<?php echo $codeInfo->position_number;?>" disabled>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
     <div class="col-sm-2">
         <div class="form-group">
             <label><strong><U>วันเกิด</U></strong></label>
@@ -173,7 +175,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="form-group">
             <label><strong><U>อีเมล์</U></strong></label>
             <div class="input-group">
@@ -185,7 +187,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
         <div class="form-group">
             <label><strong><U>เบอร์โทรศัพท์</U></strong></label>
             <div class="input-group">
@@ -284,7 +286,19 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
+        <div class="form-group">
+            <label><strong><U>เลขที่ตำแหน่ง</U></strong></label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="ace-icon fa fa-shield"></i>
+                </span>
+                <input type="text" name="edit_positionno" class="form-control input-edit-positionno"
+                    id="edit-positionno" value="<?php echo $codeInfo->position_number;?>" disabled>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2">
         <div class="form-group">
             <label><strong><U>วันเริ่มสัญญา</U></strong></label>
             <div class="input-group">
@@ -296,7 +310,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
         <div class="form-group">
             <label><strong><U>วันสิ้นสุดสัญญา</U></strong></label>
             <div class="input-group">

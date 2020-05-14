@@ -71,6 +71,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="col-sm-2">
@@ -116,6 +117,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label><strong><U>ชื่อ-นามสกุล</U> (ภาษาอังกฤษ)</strong></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="ace-icon fa fa-user"></i>
+                                    </span>
+                                    <input type="text" name="emp_nameeng"
+                                        class="form-control input-emp-nameeng" id="emp-nameeng">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label><strong><U>กรุ๊ปเลือด</U></strong></label>
@@ -137,20 +152,6 @@
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label><strong><U>เลขที่ตำแหน่ง</U></strong></label>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="ace-icon fa fa-shield"></i>
-                                    </span>
-                                    <input type="text" name="emp_positionno" class="form-control input-emp-positionno"
-                                        id="emp-positionno">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <div class="form-group">
                                 <label><strong><U>วันเกิด</U></strong></label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
@@ -161,18 +162,19 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label><strong><U>เลขบัตรประชาชน</U></strong></label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="fa fa-shield bigger-110"></i>
+                                        <i class="fa fa-credit-card"></i>
                                     </span>
                                     <input type="text" id="emp-cid" name="emp_cid" class="form-control input-emp-cid" />
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="form-group">
                                 <label><strong><U>อีเมล์</U></strong></label>
                                 <div class="input-group">
@@ -184,7 +186,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <div class="form-group">
                                 <label><strong><U>เบอร์โทรศัพท์</U></strong></label>
                                 <div class="input-group">
@@ -282,7 +284,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label><strong><U>เลขที่ตำแหน่ง</U></strong></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="ace-icon fa fa-shield"></i>
+                                    </span>
+                                    <input type="text" name="emp_positionno" class="form-control input-emp-positionno"
+                                        id="emp-positionno">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
                             <div class="form-group">
                                 <label><strong><U>วันเริ่มสัญญา</U></strong></label>
                                 <div class="input-group">
@@ -294,7 +308,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <div class="form-group">
                                 <label><strong><U>วันสิ้นสุดสัญญา</U></strong></label>
                                 <div class="input-group">
@@ -477,7 +491,7 @@
                                 </label>
                                 <input type="file" name="emp_uplfile" class="form-control input-emp-uplfile"
                                     id="input-emp-uplfile">
-                                    <input type="hidden" name="emp_err" class="form-control input-emp-err" id="emp-err">
+                                <input type="hidden" name="emp_err" class="form-control input-emp-err" id="emp-err">
                             </div>
                         </div>
                     </div>

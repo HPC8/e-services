@@ -148,7 +148,7 @@
                                             <div class="form-group">
                                                 <label><strong><U>วัตถุประสงค์ในการจองห้องประชุม</U></strong><font color="red">*</font></label>
                                                 <div>
-                                                    <textarea class="form-control limited" name="detail" id="detail" maxlength="200" onkeyup="manage(this)"
+                                                    <textarea class="form-control" name="detail" id="detail" onkeyup="manage(this)"
                                                         placeholder="อธิบายวัตถุประสงค์ในการจองห้องประชุมในครั้งนี้"
                                                         rows="6" required></textarea>
                                                 </div>

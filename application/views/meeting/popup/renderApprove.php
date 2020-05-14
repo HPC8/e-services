@@ -100,7 +100,7 @@
                                 <label for="inlineRadio1"> อนุมัติ </label>
                             </div>
                             <div class="radio radio-danger radio-inline">
-                                <input type="radio" id="inlineRadio2" value="0" name="inputstatus" >
+                                <input type="radio" id="inlineRadio2" value="3" name="inputstatus" >
                                 <label for="inlineRadio2"> ไม่อนุมัติ </label>
                             </div>
                         </div>

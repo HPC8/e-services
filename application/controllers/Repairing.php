@@ -36,8 +36,101 @@ class Repairing extends CI_Controller {
         }
     }
 
+    // Repairing save method
+    public function saveRepairing() {
+        $data=array();
+        $json=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $type=$this->input->post('repairing_type');
+            $serial=$this->input->post('repairing_serial');
+            $detail=$this->input->post('repairing_detail');
+
+            $year=$this->thaidate->thaiyear(date("Y-m-d"));
+            $count=$this->repairing_model->count_all_year($year);
+            $doc = $year."/".($count+1);
+            $this->repairing_model->setRepairDoc($doc);
+            $this->repairing_model->setHospcode($data['user']['hospcode']);
+
+            if($type<=2){
+
+            }
+            if(empty(trim($type))) {
+                $json['error']['type']='กรุณาเลือกประเภทของปัญหา';
+            }
+            if($type == 1 or $type == 2){
+                $json['error']['serial']='กรุณากรอกเลขครุภัณฑ์';
+            }
+            if($type == 4 ){
+                $json['error']['serial']='กรุณากรอกเลขทะเบียน';
+            }
+            // if(empty(trim($serial))) {
+            //     $json['error']['serial']='กรุณากรอกเลขครุภัณฑ์';
+            // }
+
+            if(empty(trim($detail))) {
+                $json['error']['detail']='กรุณากรอกรายละเอียดการส่งซ่อม';
+            }
+
+            if(empty($json['error'])) {
+                $this->repairing_model->setRepairType($type);
+                $this->repairing_model->setRepairSerial($serial);
+                $this->repairing_model->setRepairDetail($detail);
+
+                try {
+                    $last_id=$this->repairing_model->createRepair();
+                }
+
+                catch (Exception $e) {
+                    var_dump($e->getMessage());
+                }
+            }
+
+            echo json_encode($json);
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+
+    public function view() {
+        $data=array();
+
+        if($this->session->userdata('isUserLoggedIn')) {
+            $data['user']=$this->user_model->getRows(array('emp_id'=>$this->session->userdata('userId')));
+            $data['mylibrary']=$this->my_library;
+            $data['page_title']='รายการแจ้งซ่อม';
+            $breadcrumb=array("Home"=> "/e-services/",
+                "ระบบแจ้งซ่อม"=> "/e-services/repairing/",
+                "รายการแจ้งซ่อม"=> ""
+            );
+            $data['breadcrumb']=$breadcrumb;
+            $data['thaidate']=$this->thaidate;
+            $data['query']=$this->repairing_model->getOrders();
+
+            $this->template->load('layout/template', 'repairing/view', $data);
+        }
+
+        else {
+            redirect('users/login');
+        }
+    }
+    
+    // view Repairing
+    public function viewRepair() {
+        $data=array();
+        $id=$this->input->post('id');
+        $data['thaidate']=$this->thaidate;
+        $data['dataInfo']=$this->repairing_model->dataInfo($id);
+        $this->output->set_header('Content-Type: application/json');
+        $this->load->view('repairing/popup/renderView', $data);
+
+    }
     
 }
+
 
 // echo '<pre>';
 // print_r($data);

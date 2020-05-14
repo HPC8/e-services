@@ -111,8 +111,8 @@
                                                     <font color="red">*</font>
                                                 </label>
                                                 <div>
-                                                    <textarea class="form-control limited" name="description"
-                                                        id="description" maxlength="200"
+                                                    <textarea class="form-control" name="description"
+                                                        id="description"
                                                         placeholder="อธิบายวัตถุประสงค์ในการขอยืมครุภัณฑ์ครั้งนี้"
                                                         rows="4" required></textarea>
                                                 </div>

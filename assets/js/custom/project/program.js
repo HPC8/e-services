@@ -77,11 +77,11 @@ jQuery(document).on('click', 'button#add-program', function(){
         url:baseurl+'project/saveProgram',
         data:jQuery("form#add-program-form").serialize(),
         dataType:'json',    
-        beforeSend: function () {
-            jQuery('button#add-program').button('loading');
-        },
+        // beforeSend: function () {
+        //     jQuery('button#add-program').button('loading');
+        // },
         complete: function () {
-            jQuery('button#add-program').button('reset');
+            //jQuery('button#add-program').button('reset');
             setTimeout(function () {
                 jQuery('span#success-msg').html('');
             }, 1000);
@@ -126,11 +126,11 @@ jQuery(document).on('click', 'button#update-program', function(){
         url:baseurl+'project/updateProgram',
         data:jQuery("form#update-program-form").serialize(),
         dataType:'json',    
-        beforeSend: function () {
-            jQuery('button#update-program').button('loading');
-        },
+        // beforeSend: function () {
+        //     jQuery('button#update-program').button('loading');
+        // },
         complete: function () {
-            jQuery('button#update-program').button('reset');
+            //jQuery('button#update-program').button('reset');
             setTimeout(function () {
                 jQuery('span#success-msg').html('');
             }, 1000);

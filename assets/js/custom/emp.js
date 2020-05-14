@@ -31,6 +31,7 @@ jQuery(document).on('click', 'button#add-emp', function () {
     formData.append('emp_titlename', jQuery('form#add-emp-form').find('.input-emp-titlename').val());
     formData.append('emp_firstname', jQuery('form#add-emp-form').find('.input-emp-firstname').val());
     formData.append('emp_lastname', jQuery('form#add-emp-form').find('.input-emp-lastname').val());
+    formData.append('emp_nameeng', jQuery('form#add-emp-form').find('.input-emp-nameeng').val());
     formData.append('emp_blood', jQuery('form#add-emp-form').find('.input-emp-blood').val());
     formData.append('emp_positionno', jQuery('form#add-emp-form').find('.input-emp-positionno').val());
     formData.append('emp_birthday', jQuery('form#add-emp-form').find('.input-emp-birthday').val());
@@ -288,6 +289,7 @@ jQuery(document).on('click', 'button#update-emp', function () {
     formData.append('edit_titlename', jQuery('form#update-emp-form').find('.input-edit-titlename').val());
     formData.append('edit_firstname', jQuery('form#update-emp-form').find('.input-edit-firstname').val());
     formData.append('edit_lastname', jQuery('form#update-emp-form').find('.input-edit-lastname').val());
+    formData.append('edit_nameeng', jQuery('form#update-emp-form').find('.input-edit-nameeng').val());
     formData.append('edit_blood', jQuery('form#update-emp-form').find('.input-edit-blood').val());
     formData.append('edit_positionno', jQuery('form#update-emp-form').find('.input-edit-positionno').val());
     formData.append('edit_birthday', jQuery('form#update-emp-form').find('.input-edit-birthday').val());

@@ -18,12 +18,12 @@
                         ?>
                     </span>
                     <div class="space space-4"></div>
-                        <center>
-                            <img class="editable img-responsive" alt="signature" id="signature"
-                                src="<?php echo base_url()."assets/uploads/employee/signature/".$codeInfo->hospcode.".gif";?>"
-                                style="max-height:50px;height:100%" />
-                            ลายมือชื่อ
-                        </center>
+                    <center>
+                        <img class="editable img-responsive" alt="signature" id="signature"
+                            src="<?php echo base_url()."assets/uploads/employee/signature/".$codeInfo->hospcode.".gif";?>"
+                            style="max-height:50px;height:100%" />
+                        ลายมือชื่อ
+                    </center>
                     <div class="space space-4"></div>
                 </div>
 
@@ -41,6 +41,7 @@
 
                             <div class="profile-info-value">
                                 <span><?php echo get_instance()->user_model->getUsername($codeInfo->hospcode);?></span>
+                                <?php echo '<br>'.$codeInfo->lastname_eng.' '.$codeInfo->firstname_eng;?>
                             </div>
                         </div>
                         <div class="profile-info-row">
@@ -217,9 +218,10 @@
                                 <span>
                                     <?php 
                                         foreach($discardFile as $row){ ?>
-                                        <a href="<?php echo base_url()?>assets/uploads/employee/discard/<?php echo $codeInfo->hospcode.'/'.$row->file_name?>" target="_blank"><img
-                                                src="<?php echo base_url()?>assets/uploads/icon/pdf.png" style="max-width:20px;width:100%" /></a>
-                                        <?php
+                                    <a href="<?php echo base_url()?>assets/uploads/employee/discard/<?php echo $codeInfo->hospcode.'/'.$row->file_name?>"
+                                        target="_blank"><img src="<?php echo base_url()?>assets/uploads/icon/pdf.png"
+                                            style="max-width:20px;width:100%" /></a>
+                                    <?php
                                         }
             			            ?>
                             </div>

@@ -296,6 +296,7 @@
                     $emp_titlename=$this->input->post('emp_titlename');
                     $emp_firstname=$this->input->post('emp_firstname');
                     $emp_lastname=$this->input->post('emp_lastname');
+                    $emp_nameeng=$this->input->post('emp_nameeng');
                     $emp_blood=$this->input->post('emp_blood');
                     $emp_positionno=$this->input->post('emp_positionno');
                     $emp_birthday=$this->input->post('emp_birthday');
@@ -331,6 +332,9 @@
 
                     if(empty(trim($emp_lastname))) {
                         $json['error']['lastname']='นามสกุลต้องไม่ว่างเปล่า';
+                    }
+                    if(empty(trim($emp_nameeng))) {
+                        $json['error']['nameeng']='ชื่อ-นามสกุล(ภาษาอังกฤษ) ต้องไม่ว่างเปล่า';
                     }
 
                     if(empty(trim($emp_blood))) {
@@ -415,6 +419,7 @@
                         $this->employee_model->empTitlename($emp_titlename);
                         $this->employee_model->empFirstname($emp_firstname);
                         $this->employee_model->empLastname($emp_lastname);
+                        $this->employee_model->empNameeng($emp_nameeng);
                         $this->employee_model->empSex($emp_sex);
                         $this->employee_model->empMarital($emp_marital);
                         $this->employee_model->empBlood($emp_blood);
@@ -547,6 +552,7 @@
                     $emp_titlename=$this->input->post('edit_titlename');
                     $emp_firstname=$this->input->post('edit_firstname');
                     $emp_lastname=$this->input->post('edit_lastname');
+                    $emp_nameeng=$this->input->post('edit_nameeng');
                     $emp_blood=$this->input->post('edit_blood');
                     $emp_positionno=$this->input->post('edit_positionno');
                     $emp_birthday=$this->input->post('edit_birthday');
@@ -582,6 +588,9 @@
 
                     if(empty(trim($emp_lastname))) {
                         $json['error']['lastname']='นามสกุลต้องไม่ว่างเปล่า';
+                    }
+                    if(empty(trim($emp_nameeng))) {
+                        $json['error']['nameeng']='ชื่อ-นามสกุล(ภาษาอังกฤษ) ต้องไม่ว่างเปล่า';
                     }
 
                     if(empty(trim($emp_blood))) {
@@ -667,6 +676,7 @@
                         $this->employee_model->empTitlename($emp_titlename);
                         $this->employee_model->empFirstname($emp_firstname);
                         $this->employee_model->empLastname($emp_lastname);
+                        $this->employee_model->empNameeng($emp_nameeng);
                         $this->employee_model->empSex($emp_sex);
                         $this->employee_model->empMarital($emp_marital);
                         $this->employee_model->empBlood($emp_blood);
