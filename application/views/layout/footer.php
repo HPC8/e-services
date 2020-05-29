@@ -19,7 +19,7 @@
                     <i class="ace-icon fa fa-rss-square orange bigger-120"></i>
                 </a>
             </span>
-            <!-- Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?> -->
+            Page rendered in <strong>{elapsed_time}</strong> seconds.
         </div>
     </div>
 </div>
