@@ -6,7 +6,7 @@ class Products extends CI_Controller {
         parent::__construct();
         $this->load->database();
         // Load library
-        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart','ciqrcode', ));
+        $this->load->library(array('form_validation', 'session', 'my_library', 'thaidate', 'cart', 'ciqrcode', ));
         // Load helper
         $this->load->helper(array('url', 'html', 'form'));
         // Load model
@@ -510,50 +510,76 @@ class Products extends CI_Controller {
             $data['status']=$this->product_model->getStatus();
             $data['serial_no']=$this->product_model->getSerial();
 
+// echo '<pre>';
+// print_r($data['admin_level']);
+// echo '</pre>';
+// exit;        
 
             if ( !empty($data['admin_level'])) {
-            if($data['detailInfo'][0]->status=="1") {
-                if($data['admin_level'][0]->level==2) {
-                    $this->output->set_header('Content-Type: application/json');
-                    $this->load->view('products/popup/renderApprovers', $data);
+                if($data['detailInfo'][0]->status=="1") {
+                    if($data['admin_level'][0]->level==2) {
+                        $this->output->set_header('Content-Type: application/json');
+                        $this->load->view('products/popup/renderApprovers', $data);
+                    }
+
+                    else {
+                        $popup=array('msg'=> 1,
+                            'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        );
+                        $this->session->set_userdata($popup);
+                    }
+                }
+
+                elseif($data['detailInfo'][0]->status=="2") {
+                    if($data['admin_level'][0]->level==1) {
+                        $this->output->set_header('Content-Type: application/json');
+                        $this->load->view('products/popup/renderSending', $data);
+                    }
+
+                    else {
+                        $popup=array('msg'=> 1,
+                            'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        );
+                        $this->session->set_userdata($popup);
+                    }
+                }
+
+                elseif($data['detailInfo'][0]->status=="4") {
+                    if($data['admin_level'][0]->level==1) {
+                        $this->output->set_header('Content-Type: application/json');
+                        $this->load->view('products/popup/renderReceiving', $data);
+                    }
+
+                    else {
+                        $popup=array('msg'=> 1,
+                            'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        );
+                        $this->session->set_userdata($popup);
+                    }
+                }
+
+                elseif($data['detailInfo'][0]->status=="3") {
+                    if($data['detailInfo'][0]->hospcode==$data['user']['hospcode']) {
+                        $this->output->set_header('Content-Type: application/json');
+                        $this->load->view('products/popup/renderReturning', $data);
+                    }
+
+                    else {
+                        $popup=array('msg'=> 1,
+                            'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        );
+                        $this->session->set_userdata($popup);
+                    }
                 }
 
                 else {
                     $popup=array('msg'=> 1,
-                        'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                        'detail'=> 'ใบงานนี้อยู่ระหว่างดำเนินการ กรุณาติดต่อผู้ดูแลระบบครับ!',
                     );
                     $this->session->set_userdata($popup);
                 }
+
             }
-
-            elseif($data['detailInfo'][0]->status=="2") {
-                if($data['admin_level'][0]->level==1) {
-                    $this->output->set_header('Content-Type: application/json');
-                    $this->load->view('products/popup/renderSending', $data);
-                }
-
-                else {
-                    $popup=array('msg'=> 1,
-                        'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
-                    );
-                    $this->session->set_userdata($popup);
-                }
-            }
-
-            elseif($data['detailInfo'][0]->status=="4") {
-                if($data['admin_level'][0]->level==1) {
-                    $this->output->set_header('Content-Type: application/json');
-                    $this->load->view('products/popup/renderReceiving', $data);
-                }
-
-                else {
-                    $popup=array('msg'=> 1,
-                        'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
-                    );
-                    $this->session->set_userdata($popup);
-                }
-            }
-
             elseif($data['detailInfo'][0]->status=="3") {
                 if($data['detailInfo'][0]->hospcode==$data['user']['hospcode']) {
                     $this->output->set_header('Content-Type: application/json');
@@ -566,15 +592,6 @@ class Products extends CI_Controller {
                     );
                     $this->session->set_userdata($popup);
                 }
-            }
-
-            else {
-                $popup=array('msg'=> 1,
-                    'detail'=> 'ใบงานนี้อยู่ระหว่างดำเนินการ กรุณาติดต่อผู้ดูแลระบบครับ!',
-                );
-                $this->session->set_userdata($popup);
-            }
-
             }
 
             else {
@@ -789,6 +806,7 @@ class Products extends CI_Controller {
                 $size=2,
                 $margin=1);
     }
+
     public function mergeImag($hospcode, $status) {
 
         $dest=imagecreatefromjpeg(base_url()."assets/uploads/products/paper/text-".$status.".jpg");
