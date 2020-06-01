@@ -91,7 +91,7 @@ class Meeting extends CI_Controller {
                 'title'=> $time1." ถึง ".$time2." ".$val->name_meeting,
                 'start'=> $val->book_start,
                 'end'=> $val->book_end,
-                'description'=> $val->meeting_doc." #".$val->detail." @".$val->section_name,
+                'description'=> $val->meeting_doc." #".$val->detail." @".$val->section_name.$val->customer_company,
                 'color'=> $val->event_color,
             );
         }
@@ -528,6 +528,8 @@ style="max-width:480px;width:100%"></center>';
 
     }
 }
+
+
 
 // echo '<pre>';
 // print_r($data);

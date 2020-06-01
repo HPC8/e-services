@@ -5,6 +5,7 @@ class Meeting_model extends CI_Model {
         parent::__construct();
         $this->status_mtg='tbl_status_mtg';
         $this->meetingฺBook='tbl_meeting_book';
+        $this->customer_mtg='tbl_customer_meeting';
     }
 
     public function getCalender() {
@@ -28,6 +29,10 @@ class Meeting_model extends CI_Model {
 
     public function insert_meeting($data) {
         $this->db->insert('tbl_meeting_book', $data);
+        return TRUE;
+    }
+    public function insert_CustomerMeeting($customer) {
+        $this->db->insert('tbl_customer_meeting', $customer);
         return TRUE;
     }
 
@@ -104,6 +109,10 @@ return $query->num_rows();
 
             public function getDetail($id) {
                 $query=$this->db->get_where('tbl_meeting_book', array('id'=> $id));
+                return $query->result();
+            }
+            public function getCustomer($id) {
+                $query=$this->db->get_where('tbl_customer_meeting', array('bookId'=> $id));
                 return $query->result();
             }
 

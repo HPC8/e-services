@@ -32,14 +32,7 @@
                     <a title="View" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>" data-toggle="modal"
                         data-target="#view-meeting" class="view-meeting"><?php echo $rs->meeting_doc;?> </a>
                 </td>
-               
-                <td class="hidden-1024"> <?php
-                    if($rs->hospcode !=''){
-                        echo get_instance()->user_model->getUsername($rs->hospcode);
-                    }else{
-                        echo get_instance()->user_model->getCustomerName($rs->id);
-                    }
-                ?></td>
+                <td class="hidden-1024"><?php echo get_instance()->user_model->getUsername($rs->hospcode);?></td>
                 <td class="hidden-768"><?php echo $rs->detail;?></td>
                 <td class="hidden-480 center"><?= $mydate->ThaiLong($rs->book_start);?></td>
                 <td class="center"><?php echo get_instance()->meeting_model->checkStatus($rs->meeting_status);?></td>

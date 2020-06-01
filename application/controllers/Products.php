@@ -511,7 +511,7 @@ class Products extends CI_Controller {
             $data['serial_no']=$this->product_model->getSerial();
 
 
-            // if ( !empty($data['admin_level'])) {
+            if ( !empty($data['admin_level'])) {
             if($data['detailInfo'][0]->status=="1") {
                 if($data['admin_level'][0]->level==2) {
                     $this->output->set_header('Content-Type: application/json');
@@ -575,14 +575,14 @@ class Products extends CI_Controller {
                 $this->session->set_userdata($popup);
             }
 
-            //}
+            }
 
-            // else {
-            //     $popup=array('msg'=> 1,
-            //         'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
-            //     );
-            //     $this->session->set_userdata($popup);
-            // }
+            else {
+                $popup=array('msg'=> 1,
+                    'detail'=> 'คุณไม่ได้รับมีสิทธิ์ให้เข้าใช้งานฟังก์ชันนี้ กรุณาติดต่อผู้ดูแลระบบครับ!',
+                );
+                $this->session->set_userdata($popup);
+            }
         }
 
         else {

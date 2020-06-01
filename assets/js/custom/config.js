@@ -219,8 +219,10 @@ jQuery(function ($) {
     $('.input-mask-date').mask('99/99/9999');
     $('.input-mask-phone').mask('(999) 999-9999');
     $('.input-emp-mobile').mask('99-9999-9999');
+    $('.input-customer-phone').mask('99-9999-9999');
     $('.input-emp-accountno').mask('999-9-99999-9');
     $('.input-emp-cid').mask('9-9999-99999-99-9');
+    $('.input-customer-cid').mask('9-9999-99999-99-9');
     $('.input-mask-eyescript').mask('~9.99 ~9.99 999');
     $(".input-mask-product").mask("a*-999-a999", {
         placeholder: " ",

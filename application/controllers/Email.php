@@ -32,7 +32,12 @@ class Email extends CI_Controller {
         $mail->addReplyTo('ict.hpc8@gmail.com', 'e-Services Online');
 
         // Add a recipient getEmail
-        $mail->addAddress(get_instance()->user_model->getEmail($data['detail'][0]->hospcode));
+        if($data['detail'][0]->hospcode !=''){
+            $mail->addAddress(get_instance()->user_model->getEmail($data['detail'][0]->hospcode));
+        }else{
+            $mail->addAddress(get_instance()->user_model->getCustomerEmail($id));
+        }
+        
 
         // Add cc or bcc 
         if($data['detail'][0]->meeting_status==1) {
@@ -82,10 +87,18 @@ class Email extends CI_Controller {
         $mail->isHTML(true);
 
         // Email body content
-        $mailContent="<div style='border: 1px dashed #cccccc; background-color: #ffffff; padding: 20px; font-size: 12px; color: #666666; font-family: tahoma; line-height: 20px;'>
-<div style='border-bottom: dashed #eeeeee 1px; text-align: left;'><img src=https://lh6.googleusercontent.com/9JPAzQDCFOmov7CQyGogUgjjM024KZuhP_KuLmNIOK2rXRUxR4_wMQPQqhz_bOxtkWVlu24DmLX3LBzwrGw01FgxA93ktnAVWfPHvole9OFuzUD4gQHkq9PDRkVqQeKdjmgpHqh2 /></div><p>
-        <div><span style='padding-top: 5px; padding-bottom: 0px; margin: 0px; font-weight: bold;'>เรียน คุณ".get_instance()->user_model->getUser($data['detail'][0]->hospcode)."</span> ตามที่ท่านได้แจ้งความประสงค์ที่จะขอจอง <strong>".get_instance()->meeting_model->getRoom($data['detail'][0]->meeting_room)."</strong>ผ่านช่องทางระบบ e-Services Online โดยมีรายละเอียดรายการตามนี้</div><div style='padding-top: 10px;'><table width='99%'cellspacing='1'cellpadding='5'bgcolor='#CCCCCC'><tbody><tr><td style='font-weight: bold; background-color: #eeeeee; width: 99.3548%; text-align: left;'colspan='2'align='center'>รายละเอียดการจองห้องประชุม</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>เลขที่เอกสาร</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->meeting_doc."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>ชื่อผู้ขอใช้บริการ</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".get_instance()->user_model->getUsername($data['detail'][0]->hospcode)."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>ชื่อห้องประชุม</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".get_instance()->meeting_model->getRoom($data['detail'][0]->meeting_room)."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>วันที่ใช้งาน</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->book_start."- ".$data['detail'][0]->book_end."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>เรื่อง/เหตุผล</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->detail."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>สถานะ</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'><a href='http://apps.anamai.moph.go.th/e-services/meeting/detail/".$id."'target='_blank'>".get_instance()->meeting_model->checkStatus($data['detail'][0]->meeting_status). "</a></td></tr></tbody></table></div></div><div style='padding-top: 10px;'>All Right Reserved. Powered By <strong>e-Services Online </strong>© ICT ศูนย์อนามัยที่ 8 อุดรธานี</div></div>";
-
+        if($data['detail'][0]->hospcode !=''){
+            $mailContent="<div style='border: 1px dashed #cccccc; background-color: #ffffff; padding: 20px; font-size: 12px; color: #666666; font-family: tahoma; line-height: 20px;'>
+            <div style='border-bottom: dashed #eeeeee 1px; text-align: left;'><img src=https://lh6.googleusercontent.com/9JPAzQDCFOmov7CQyGogUgjjM024KZuhP_KuLmNIOK2rXRUxR4_wMQPQqhz_bOxtkWVlu24DmLX3LBzwrGw01FgxA93ktnAVWfPHvole9OFuzUD4gQHkq9PDRkVqQeKdjmgpHqh2 /></div><p>
+                    <div><span style='padding-top: 5px; padding-bottom: 0px; margin: 0px; font-weight: bold;'>เรียน คุณ".get_instance()->user_model->getUser($data['detail'][0]->hospcode)."</span> ตามที่ท่านได้แจ้งความประสงค์ที่จะขอจอง <strong>".get_instance()->meeting_model->getRoom($data['detail'][0]->meeting_room)."</strong> ผ่านช่องทางระบบ e-Services Online โดยมีรายละเอียดรายการตามนี้</div><div style='padding-top: 10px;'><table width='99%'cellspacing='1'cellpadding='5'bgcolor='#CCCCCC'><tbody><tr><td style='font-weight: bold; background-color: #eeeeee; width: 99.3548%; text-align: left;'colspan='2'align='center'>รายละเอียดการจองห้องประชุม</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>เลขที่เอกสาร</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->meeting_doc."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>ชื่อผู้ขอใช้บริการ</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".get_instance()->user_model->getUsername($data['detail'][0]->hospcode)."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>ชื่อห้องประชุม</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".get_instance()->meeting_model->getRoom($data['detail'][0]->meeting_room)."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>วันที่ใช้งาน</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->book_start."- ".$data['detail'][0]->book_end."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>เรื่อง/เหตุผล</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->detail."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>สถานะ</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'><a href='http://apps.anamai.moph.go.th/e-services/meeting/detail/".$id."'target='_blank'>".get_instance()->meeting_model->checkStatus($data['detail'][0]->meeting_status). "</a></td></tr></tbody></table></div></div><div style='padding-top: 10px;'>All Right Reserved. Powered By <strong>e-Services Online </strong>© ICT ศูนย์อนามัยที่ 8 อุดรธานี</div></div>";
+            
+        }else{
+            $mailContent="<div style='border: 1px dashed #cccccc; background-color: #ffffff; padding: 20px; font-size: 12px; color: #666666; font-family: tahoma; line-height: 20px;'>
+            <div style='border-bottom: dashed #eeeeee 1px; text-align: left;'><img src=https://lh6.googleusercontent.com/9JPAzQDCFOmov7CQyGogUgjjM024KZuhP_KuLmNIOK2rXRUxR4_wMQPQqhz_bOxtkWVlu24DmLX3LBzwrGw01FgxA93ktnAVWfPHvole9OFuzUD4gQHkq9PDRkVqQeKdjmgpHqh2 /></div><p>
+                    <div><span style='padding-top: 5px; padding-bottom: 0px; margin: 0px; font-weight: bold;'>เรียน คุณ".get_instance()->user_model->getUsername($id)."</span> ตามที่ท่านได้แจ้งความประสงค์ที่จะขอจอง <strong>".get_instance()->meeting_model->getRoom($data['detail'][0]->meeting_room)."</strong> ผ่านช่องทางระบบ e-Services Online โดยมีรายละเอียดรายการตามนี้</div><div style='padding-top: 10px;'><table width='99%'cellspacing='1'cellpadding='5'bgcolor='#CCCCCC'><tbody><tr><td style='font-weight: bold; background-color: #eeeeee; width: 99.3548%; text-align: left;'colspan='2'align='center'>รายละเอียดการจองห้องประชุม</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>เลขที่เอกสาร</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->meeting_doc."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>ชื่อผู้ขอใช้บริการ</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".get_instance()->user_model->getCustomerNameFull($id)."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>ชื่อห้องประชุม</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".get_instance()->meeting_model->getRoom($data['detail'][0]->meeting_room)."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>วันที่ใช้งาน</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->book_start."- ".$data['detail'][0]->book_end."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>เรื่อง/เหตุผล</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'>".$data['detail'][0]->detail."</td></tr><tr><td style='font-weight: bold; width: 17.2904%;'align='right'bgcolor='#FFFFFF'>สถานะ</td><td style='width: 82.0644%;'bgcolor='#FFFFFF'><a href='#'>".get_instance()->meeting_model->checkStatus($data['detail'][0]->meeting_status). "</a></td></tr></tbody></table></div></div><div style='padding-top: 10px;'>All Right Reserved. Powered By <strong>e-Services Online </strong>© ICT ศูนย์อนามัยที่ 8 อุดรธานี</div></div>";
+            
+        }
+       
         $mail->Body=$mailContent;
 
         // Send email
@@ -118,9 +131,16 @@ class Email extends CI_Controller {
             }
 
             elseif($sms==3) {
-                $popup=array('msg'=> 0,
+                if($data['detail'][0]->hospcode !=''){
+                    $popup=array('msg'=> 0,
                     'detail'=> 'ระบบทำการอัพเดทข้อมูลสำเร็จ พร้อมได้ส่งข้อความแจ้งเตือนไปที่ E-Mail '.get_instance()->user_model->getEmail($data['detail'][0]->hospcode).' เรียบร้อยแล้ว',
                 );
+                }else{
+                    $popup=array('msg'=> 0,
+                    'detail'=> 'ระบบทำการอัพเดทข้อมูลสำเร็จ พร้อมได้ส่งข้อความแจ้งเตือนไปที่ E-Mail '.get_instance()->user_model->getCustomerEmail($id).' เรียบร้อยแล้ว',
+                );
+                }
+               
                 $this->session->set_userdata($popup);
             }
 

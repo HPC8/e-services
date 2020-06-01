@@ -11,6 +11,7 @@ class User_model extends CI_Model {
         $this->userPlan='tbl_user_plan';
         $this->userPlanTrain='tbl_user_plan_train';
         $this->userSto='tbl_user_stock';
+        $this->customerMtg='tbl_customer_meeting';
     }
 
     private $_hospcode;
@@ -133,6 +134,43 @@ class User_model extends CI_Model {
             $query=$this->db->get_where($this->employee, array('hospcode'=> $hospcode));
             $data=$query->result();
             return ($data[0]->titlename.$data[0]->firstname.' '.$data[0]->lastname);
+        }
+
+        else {
+            return "";
+        }
+
+    }
+    public function getCustomerName($id) {
+        if($id !='') {
+            $query=$this->db->get_where($this->customerMtg, array('bookId'=> $id));
+            $data=$query->result();
+            return ($data[0]->name.', '.$data[0]->company);
+        }
+
+        else {
+            return "";
+        }
+
+    }
+
+    public function getCustomerNameFull($id) {
+        if($id !='') {
+            $query=$this->db->get_where($this->customerMtg, array('bookId'=> $id));
+            $data=$query->result();
+            return ($data[0]->name.', '.$data[0]->company.', โทรศัพท์ : '.$data[0]->phone.', e-mail : '.$data[0]->email);
+        }
+
+        else {
+            return "";
+        }
+
+    }
+    public function getCustomerEmail($id) {
+        if($id !='') {
+            $query=$this->db->get_where($this->customerMtg, array('bookId'=> $id));
+            $data=$query->result();
+            return ($data[0]->email);
         }
 
         else {

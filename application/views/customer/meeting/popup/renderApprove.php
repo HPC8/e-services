@@ -14,18 +14,15 @@
                         <div class="profile-info-name"> เลขที่เอกสาร </div>
                         <div class="profile-info-value">
                             <span class="editable" id="hospcode"><?php echo $data->meeting_doc;?></span>
+                            <input type="hidden" id="meetingId" class="form-control"
+                                name="meetingId" value="<?php echo $data->id;?>">
                         </div>
                     </div>
                     <div class="profile-info-row">
                         <div class="profile-info-name"> ชื่อผู้ขอใช้บริการ </div>
                         <div class="profile-info-value">
-                            <span class="editable" id="username"><?php
-                    if($data->hospcode !=''){
-                        echo get_instance()->user_model->getUsername($data->hospcode);
-                    }else{
-                        echo get_instance()->user_model->getCustomerNameFull($data->id);
-                    }
-                ?></span>
+                            <span class="editable"
+                                id="username"><?php echo get_instance()->user_model->getUsername($data->hospcode);?></span>
                         </div>
                     </div>
                     <div class="profile-info-row">
@@ -98,11 +95,14 @@
                     <div class="profile-info-row">
                         <div class="profile-info-name"> จัดการใบงาน </div>
                         <div class="profile-info-value">
-                            <a href="<?php echo site_url('meeting/edit/').$data->id;?>"><span
-                                    class="label label-warning label-white middle">
-                                    <i class="fa fa-edit bigger-120"></i>
-                                    แก้ไข
-                                </span></a>
+                            <div class="radio radio-success radio-inline">
+                                <input type="radio" id="inlineRadio1" value="2" name="inputstatus" checked >
+                                <label for="inlineRadio1"> อนุมัติ </label>
+                            </div>
+                            <div class="radio radio-danger radio-inline">
+                                <input type="radio" id="inlineRadio2" value="3" name="inputstatus" >
+                                <label for="inlineRadio2"> ไม่อนุมัติ </label>
+                            </div>
                         </div>
                     </div>
                 </div>
