@@ -1,5 +1,5 @@
 <div class="row">
-<div class="col-lg-12"><span id="success-msg"></span></div>
+    <div class="col-lg-12"><span id="success-msg"></span></div>
     <div class="col-xs-12">
         <div class="row">
             <div class="col-sm-8">
@@ -12,7 +12,7 @@
                             <div class="widget-main">
                                 <form id="add-cusmeeting-form" enctype="multipart/form-data" method="post"
                                     accept-charset="utf-8">
-                                    
+
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
@@ -21,8 +21,8 @@
                                                     <span class="input-group-addon">
                                                         <i class="ace-icon fa fa-user"></i>
                                                     </span>
-                                                    <input type="text" name="customer_name" class="form-control input-customer-name"
-                                                        id="customer-name">
+                                                    <input type="text" name="customer_name"
+                                                        class="form-control input-customer-name" id="customer-name">
                                                 </div>
                                             </div>
                                         </div>
@@ -47,8 +47,8 @@
                                                     <span class="input-group-addon">
                                                         <i class="ace-icon fa fa-phone"></i>
                                                     </span>
-                                                    <input type="text" name="customer_phone" class="form-control input-customer-phone"
-                                                        id="customer-phone">
+                                                    <input type="text" name="customer_phone"
+                                                        class="form-control input-customer-phone" id="customer-phone">
                                                 </div>
                                             </div>
                                         </div>
@@ -59,8 +59,8 @@
                                                     <span class="input-group-addon">
                                                         <i class="ace-icon fa fa-envelope"></i>
                                                     </span>
-                                                    <input type="text" name="customer_mail" class="form-control input-customer-mail"
-                                                        id="customer-mail">
+                                                    <input type="text" name="customer_mail"
+                                                        class="form-control input-customer-mail" id="customer-mail">
                                                 </div>
                                             </div>
                                         </div>
@@ -74,7 +74,8 @@
                                                     <span class="input-group-addon">
                                                         <i class="ace-icon fa fa-building"></i>
                                                     </span>
-                                                    <input type="text" name="customer_company" class="form-control input-customer-company"
+                                                    <input type="text" name="customer_company"
+                                                        class="form-control input-customer-company"
                                                         id="customer-company">
                                                 </div>
                                             </div>
@@ -90,8 +91,8 @@
                                                     <span class="input-group-addon">
                                                         <i class="ace-icon fa fa-tags"></i>
                                                     </span>
-                                                    <select class="form-control input-customer-room" name="customer_room" id="customer-room"
-                                                        required>
+                                                    <select class="form-control input-customer-room"
+                                                        name="customer_room" id="customer-room" required>
                                                         <?php 
             												foreach($meeting_room as $row){ 
               														echo '<option value="'.$row->id.'">'.$row->id.' - '.$row->name.'</option>';
@@ -112,9 +113,9 @@
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-calendar bigger-110"></i>
                                                     </span>
-                                                    <input class="form-control input-customer-bookstart" id="date-mtg-start" name="book_start"
-                                                        required type="text" value="<?php echo date("Y-m-d"); ?>"
-                                                        autocomplete="off" />
+                                                    <input class="form-control input-customer-bookstart"
+                                                        id="date-mtg-start" name="book_start" required type="text"
+                                                        value="<?php echo date("Y-m-d"); ?>" autocomplete="off" />
                                                 </div>
                                             </div>
                                         </div>
@@ -127,8 +128,9 @@
                                                     <span class="input-group-addon">
                                                         <i class="ace-icon fa fa-clock-o"></i>
                                                     </span>
-                                                    <input type="text" name="time_start" class="form-control input-customer-timestart"
-                                                        id="time_start" autocomplete="off" required value="08:30">
+                                                    <input type="text" name="time_start"
+                                                        class="form-control input-customer-timestart" id="time_start"
+                                                        autocomplete="off" required value="08:30">
                                                 </div>
                                             </div>
                                         </div>
@@ -141,9 +143,9 @@
                                                     <span class="input-group-addon">
                                                         <i class="ace-icon fa fa-calendar"></i>
                                                     </span>
-                                                    <input class="form-control input-customer-bookend" required id="date-mtg-end"
-                                                        name="book_end" type="text" value="<?php echo date("Y-m-d"); ?>"
-                                                        autocomplete="off" />
+                                                    <input class="form-control input-customer-bookend" required
+                                                        id="date-mtg-end" name="book_end" type="text"
+                                                        value="<?php echo date("Y-m-d"); ?>" autocomplete="off" />
                                                 </div>
                                             </div>
                                         </div>
@@ -156,15 +158,79 @@
                                                     <span class="input-group-addon">
                                                         <i class="ace-icon fa fa-clock-o"></i>
                                                     </span>
-                                                    <input type="text" name="time_end" class="form-control input-customer-timeend"
-                                                        id="time_end" autocomplete="off" required value="16:30">
+                                                    <input type="text" name="time_end"
+                                                        class="form-control input-customer-timeend" id="time_end"
+                                                        autocomplete="off" required value="16:30">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <input type="hidden" name="timeerror" class="form-control input-customer-timeerror"  >
+                                            <input type="hidden" name="timeerror"
+                                                class="form-control input-customer-timeerror">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label><strong><U>รูปแบบการจัดห้องประชุม</U></strong>
+                                                    <font color="red">*</font>
+                                                </label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="ace-icon fa fa-tags"></i>
+                                                    </span>
+                                                    <select class="form-control input-customer-pattern"
+                                                        name="customer_pattern" id="customer-pattern" required>
+                                                        <?php 
+            												foreach($pattern as $row){ 
+              														echo '<option value="'.$row->id.'">'.$row->id.' - '.$row->name.'</option>';
+            												}
+            											?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label><strong><U>จำนวนผู้เข้าประชุม</U></strong>
+                                                    <font color="red">*</font>
+                                                </label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="ace-icon fa fa-tags"></i>
+                                                    </span>
+                                                    <input type="number" name="people"
+                                                        class="form-control input-customer-people" id="people"
+                                                        autocomplete="off" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label><strong><U>เครื่องมือโสตทัศนูปกรณ์</U></strong></label>
+                                                <div>
+                                                    <div class="checkbox checkbox-primary checkbox-inline">
+                                                        <input type="checkbox" id="notebook" value="1"
+                                                            name="notebook" >
+                                                        <label for="notebook"> เครื่องคอมพิวเตอร์โน้ตบุ้ค </label>
+                                                    </div>
+                                                    <div class="checkbox checkbox-primary checkbox-inline">
+                                                        <input type="checkbox" id="projector" value="2"
+                                                            name="projector">
+                                                        <label for="projector"> เครื่องฉายโปรเจคเตอร์ </label>
+                                                    </div>
+                                                    <div class="checkbox checkbox-primary checkbox-inline">
+                                                        <input type="checkbox" id="camera" value="3"
+                                                            name="camera">
+                                                        <label for="camera"> กล้องบันทึกภาพ (พร้อมเจ้าหน้าที่)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -174,7 +240,8 @@
                                                     <font color="red">*</font>
                                                 </label>
                                                 <div>
-                                                    <textarea class="form-control input-customer-detail" name="detail" id="detail"
+                                                    <textarea class="form-control input-customer-detail" name="detail"
+                                                        id="detail"
                                                         placeholder="อธิบายวัตถุประสงค์ในการจองห้องประชุมในครั้งนี้"
                                                         rows="6" required></textarea>
                                                 </div>
@@ -254,6 +321,33 @@
                             <?php
                             }
                         ?>
+                        </div>
+                    </div>
+
+                    <div class="widget-body">
+                        <div class="widget-main padding-8">
+                            <div class="alert alert-info">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <U>รูปแบบการจัดห้องประชุม</U>
+                                        <img data-toggle="modal" data-target="#room-pattern"
+                                            src="<?php echo base_url()?>assets/uploads/meeting/pattern.jpg"
+                                            style="width:100%;height:100%;" />
+                                    </div>
+                                    <div id="room-pattern" class="modal fade" tabindex="-1" role="dialog"
+                                        aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <img id="room" class="editable img-responsive" alt="room"
+                                                        src="<?php echo base_url()?>assets/uploads/meeting/pattern.jpg" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

@@ -121,8 +121,8 @@
                                 <label for="inlineRadio1"> อนุมัติ </label>
                             </div>
                             <div class="radio radio-danger radio-inline">
-                                <input type="radio" id="inlineRadio2" value="5" name="inputstatus" 
-                                    <?php if($data->status == '5' ) { echo 'checked'; } ?>>
+                                <input type="radio" id="inlineRadio2" value="6" name="inputstatus" 
+                                    <?php if($data->status == '6' ) { echo 'checked'; } ?>>
                                 <label for="inlineRadio2"> ไม่อนุมัติ </label>
                             </div>
                         </div>

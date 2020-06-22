@@ -21,6 +21,10 @@ class Meeting_model extends CI_Model {
         $query=$this->db->get_where('tbl_meeting_room', array('status'=> '1'));
         return $query->result();
     }
+    public function getMeetingPattern() {
+        $query=$this->db->get_where('tbl_meeting_pattern', array('status'=> '1'));
+        return $query->result();
+    }
 
     public function getStatus() {
         $query=$this->db->get_where($this->status_mtg, array('status'=> '1'));
@@ -76,6 +80,13 @@ return $query->num_rows();
                         'event_color'=> $event_color,
                     );
                 }
+                elseif($meeting_room==3) {
+                    $nameMeeting="ห้องประชุมกลาง (ชั้น 1)";
+                    $event_color="#FFA500";
+                    return array('nameMeeting'=> $nameMeeting,
+                        'event_color'=> $event_color,
+                    );
+                }
 
                 // elseif($meeting_room==3) {
                 //     $nameMeeting="ห้องประชุม ชลธี";
@@ -95,7 +106,7 @@ return $query->num_rows();
 
                 else {
                     $nameMeeting="้ห้องประชุมไม่ถูกต้อง";
-                    $event_color="#FFF";
+                    $event_color="000";
                     return array('nameMeeting'=> $nameMeeting,
                         'event_color'=> $event_color,
                     );

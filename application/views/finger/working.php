@@ -201,6 +201,7 @@
             }).catch(err => console.error(err));
         }
         liff.init({
+            // liffId ของระบบงาน
             liffId: "1654261952-8j694jWE"
         }, () => {
             if (liff.isLoggedIn()) {
@@ -331,7 +332,7 @@
 
             distance = findDistance(checkIn, gpsClient).toFixed(2);
 
-            if (distance <= 50) {
+            if (distance <= 80) {
                 document.getElementById("radio-1").disabled = false;
                 document.getElementById("radio-2").disabled = false;
                 message ='<center><p style="color:green"><i class="fa fa-check-circle" aria-hidden="true"> สามารถลงเวลาปฏิบัติงานได้</i></p></center>'

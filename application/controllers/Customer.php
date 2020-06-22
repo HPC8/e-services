@@ -25,6 +25,7 @@ class Customer extends CI_Controller {
         $data=array();
         $data['mylibrary']=$this->my_library;
         $data['meeting_room']=$this->meeting_model->getMeetingroom();
+        $data['pattern']=$this->meeting_model->getMeetingPattern();
         $data['page_title']='จองห้องประชุม';
         $breadcrumb=array("Home"=> "/e-services/",
             "ระบบห้องประชุม"=> "/e-services/meeting/",

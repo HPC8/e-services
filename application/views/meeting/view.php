@@ -34,7 +34,7 @@
                 </td>
                
                 <td class="hidden-1024"> <?php
-                    if($rs->hospcode !=''){
+                    if($rs->hospcode !=""){
                         echo get_instance()->user_model->getUsername($rs->hospcode);
                     }else{
                         echo get_instance()->user_model->getCustomerName($rs->id);

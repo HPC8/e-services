@@ -38,16 +38,16 @@
                 <td class="center"><?php echo get_instance()->repairing_model->checkStatus($rs->status);?></td>
                 <td class="center">
                     <div class="hidden-xs btn-group">
-                        <a title="Print" href="<?php echo site_url('repairing/paper/'.$rs->id);?>" target="_blank"
-                            class="view-repairing btn btn-xs"><i class="fa fa-print"></i> </a>
+                        <!-- <a title="Print" href="<?php echo site_url('repairing/paper/'.$rs->id);?>" target="_blank"
+                            class="view-repairing btn btn-xs"><i class="fa fa-print"></i> </a> -->
 
                         <a title="View" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
                             data-toggle="modal" data-target="#view-repairing"
                             class="view-repairing btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
 
                         <a title="Edit" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
-                            data-toggle="modal" data-target="#edit-repairing"
-                            class="edit-repairing-details btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
+                            data-toggle="modal" data-target="#update-repairing"
+                            class="update-repairing-details btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
 
                         <a title="Cancel" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
                             data-toggle="modal" data-target="#delete-repairing"
@@ -112,6 +112,6 @@
 <?php
     $this->load->view('repairing/alerts');
     $this->load->view('repairing/popup/view');
-    // $this->load->view('repairing/popup/edit');
+    $this->load->view('repairing/popup/edit');
     // $this->load->view('repairing/popup/delete');
 ?>

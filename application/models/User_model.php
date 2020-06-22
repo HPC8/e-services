@@ -12,6 +12,7 @@ class User_model extends CI_Model {
         $this->userPlanTrain='tbl_user_plan_train';
         $this->userSto='tbl_user_stock';
         $this->customerMtg='tbl_customer_meeting';
+        $this->userRepair='tbl_user_repair';
     }
 
     private $_hospcode;
@@ -102,7 +103,10 @@ class User_model extends CI_Model {
         $query=$this->db->get_where($this->userProd, array('hospcode'=> $data));
         return $query->result();
     }
-
+    public function userRepair($data) {
+        $query=$this->db->get_where($this->userRepair, array('hospcode'=> $data));
+        return $query->result();
+    }
     public function getUser_hr($hospcode) {
         $query=$this->db->get_where($this->userHR, array('hospcode'=> $hospcode));
         return $query->result();
