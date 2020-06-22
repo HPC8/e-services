@@ -28,7 +28,7 @@
         ตารางรายการขอยืมครุภัณฑ์ของฉัน
     </div>
 <td>
-    <table id="tbl-layout-10" class="table table-striped table-bordered table-hover display nowrap" style="width:100%">
+    <table id="tbl-layout-25" class="table table-striped table-bordered table-hover display nowrap" style="width:100%">
         <thead>
             <tr>
                 <th width="5%" class="detail-col">No.</th>
@@ -67,7 +67,7 @@
                             class="view-products btn btn-primary btn-xs"><i class="fa fa-eye"></i> </a>
                         <a title="Edit" href="javascript:void(0);" data-getcode="<?php echo $rs->id;?>"
                             data-toggle="modal" data-target="#update-products"
-                            class="update-products-details btn btn-success btn-xs"><i class="fa fa-edit"></i> </a>
+                            class="update-products-details btn btn-success btn-xs"><i class="fa fa-cog"></i> </a>
                         <a title="Cancel" href="javascript:void(0);" data-getid="<?php echo $rs->id;?>"
                             data-toggle="modal" data-target="#delete-products"
                             class="delete-products-details btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
@@ -77,7 +77,7 @@
                         <div class="inline pos-rel">
                             <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"
                                 data-position="auto">
-                                <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+                                <i class="fa fa-folder-open" aria-hidden="true"></i>
                             </button>
                             <ul
                                 class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
@@ -97,7 +97,7 @@
                                     <a title="Edit" href="javascript:void(0);" data-getcode="<?php echo $rs->id;?>"
                                         data-toggle="modal" data-target="#update-products"
                                         class="update-products-details btn btn-success btn-xs"><i
-                                            class="fa fa-edit"></i> </a>
+                                            class="fa fa-cog"></i> </a>
                                 </li>
 
                                 <li>
