@@ -477,7 +477,7 @@ class Meeting extends CI_Controller {
                 'edit_by'=>$data['user']['hospcode'],
             );
 
-            if($data['detail'][0]->hospcode==$data['user']['hospcode'] && $data['detail'][0]->meeting_status=="1") {
+            if($data['detail'][0]->hospcode==$data['user']['hospcode'] && $data['detail'][0]->meeting_status<="2") {
                 $this->db->where('id', $id);
                 $this->db->update('tbl_meeting_book', $datastatus);
                 $this->output->set_header('Content-Type: application/json');

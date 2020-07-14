@@ -31,9 +31,10 @@ class My_library {
         //return preg_match('/^[0-9]{10}+$/', $mobile)?TRUE: FALSE;
     }
 
-    // cid validation
+    // password validation
     public function checkPasswd($passwd) {
-        return preg_match('/^(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%_])[0-9A-Za-z!@#$%_]{6,20}$/', $passwd)?TRUE: FALSE;
+        //return preg_match('/^(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%_])[0-9A-Za-z!@#$%_]{6,32}$/', $passwd)?TRUE: FALSE;
+        return preg_match('/^(?=.*\d)[0-9A-Za-z!@#$%_]{6,32}$/', $passwd)?TRUE: FALSE;
     }
 
     public function validateCID($cid) {

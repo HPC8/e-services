@@ -26,7 +26,7 @@
                     <i class="ace-icon fa fa-lock"></i>
                 </span>
                 <input type="password" name="passwd" class="form-control input-edit-passwd" id="edit-passwd" value=""
-                    placeholder="กรุณใส่ 6-20 ที่มีทั้งตัวอักษรพิมพ์เล็กพิมพ์ใหญ่และตัวเลข">
+                    placeholder="กรุณใส่ 6-32 ตัวอักษรที่มีทั้งตัวพิมพ์เล็กพิมพ์ใหญ่และตัวเลข">
             </div>
         </div>
     </div>
